@@ -110,6 +110,31 @@ public class LocalCacheMapComputeTest extends TestCase {
     assertThat(cache.size()).isEqualTo(0);
   }
 
+  public void testComputeIfAbsentPreservesWriteQueueOrder() {
+    // https://github.com/google/guava/issues/3700
+    FakeTicker ticker = new FakeTicker();
+    Cache<String, String> cache =
+        CacheBuilder.newBuilder()
+            .concurrencyLevel(1)
+            .expireAfterWrite(10, MINUTES)
+            .ticker(ticker)
+            .build();
+    cache.put("A", "a");
+    ticker.advance(5, MINUTES);
+    cache.put("B", "b");
+    ticker.advance(1, MINUTES);
+    assertThat(cache.asMap().computeIfAbsent("A", k -> "new a")).isEqualTo("a");
+    // 11 minutes after A was written, but only 6 minutes after B was written: A is
+    // expired and cleanUp must evict it. If computeIfAbsent had moved A to the tail of
+    // the write queue, cleanUp would see the unexpired B at the head, stop, and leave
+    // the expired A counted in size().
+    ticker.advance(5, MINUTES);
+    cache.cleanUp();
+    assertThat(cache.size()).isEqualTo(1);
+    assertThat(cache.getIfPresent("A")).isNull();
+    assertThat(cache.getIfPresent("B")).isEqualTo("b");
+  }
+
   public void testComputeIfAbsentEviction() {
     // b/80241237
 
