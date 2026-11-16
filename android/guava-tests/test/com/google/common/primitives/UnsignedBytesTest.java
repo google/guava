@@ -207,6 +207,10 @@ public class UnsignedBytesTest extends TestCase {
     return UnsafeComparator.INSTANCE.isFunctional();
   }
 
+  // testFastComparatorAvailableOnGoogleProductionSystems is omitted in the Android (java7) flavor,
+  // which omits ArraysCompareUnsignedComparator and is not used on Google production JVM servers
+  // (where -XX:+UseCompactObjectHeaders makes byte[] unaligned for UnsafeComparator).
+
   public void testLexicographicalComparatorChoice() {
     Comparator<byte[]> defaultComparator = UnsignedBytes.lexicographicalComparator();
     assertThat(defaultComparator).isNotNull();
