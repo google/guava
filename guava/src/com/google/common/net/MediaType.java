@@ -433,7 +433,7 @@ public final class MediaType {
 
   /**
    * Flash video. For more information, see <a href=
-   * "http://help.adobe.com/en_US/ActionScript/3.0_ProgrammingAS3/WS5b3ccc516d4fbf351e63e3d118a9b90204-7d48.html"
+   * "https://web.archive.org/web/20170526134814/http://help.adobe.com/en_US/ActionScript/3.0_ProgrammingAS3/WS5b3ccc516d4fbf351e63e3d118a9b90204-7d48.html"
    * >this link</a>.
    *
    * @since 20.0
@@ -475,7 +475,8 @@ public final class MediaType {
   public static final MediaType BZIP2 = createConstant(APPLICATION_TYPE, "x-bzip2");
 
   /**
-   * Files in the <a href="https://www.dartlang.org/articles/embedding-in-html/">dart</a>
+   * Files in the <a
+   * href="https://web.archive.org/web/20160702203530/https://www.dartlang.org/articles/embedding-in-html/">dart</a>
    * programming language.
    *
    * @since 19.0
@@ -527,7 +528,8 @@ public final class MediaType {
 
   /**
    * This is a non-standard media type, but is commonly used in serving hosted binary files as it is
-   * <a href="http://code.google.com/p/browsersec/wiki/Part2#Survey_of_content_sniffing_behaviors">
+   * <a
+   * href="https://web.archive.org/web/20160819013248/https://code.google.com/p/browsersec/wiki/Part2#Survey_of_content_sniffing_behaviors">
    * known not to trigger content sniffing in current browsers</a>. It <i>should not</i> be used in
    * other situations as it is not specified by any RFC and does not appear in the <a
    * href="http://www.iana.org/assignments/media-types">/IANA MIME Media Types</a> list. Consider
@@ -705,7 +707,7 @@ public final class MediaType {
 
   /**
    * NaCl applications. For more information see <a
-   * href="https://developer.chrome.com/native-client/devguide/coding/application-structure">the
+   * href="https://web.archive.org/web/20201118040838/https://developer.chrome.com/native-client/devguide/coding/application-structure">the
    * Developer Guide for Native Client Application Structure</a>.
    *
    * @since 20.0
@@ -722,7 +724,7 @@ public final class MediaType {
 
   /**
    * NaCl portable applications. For more information see <a
-   * href="https://developer.chrome.com/native-client/devguide/coding/application-structure">the
+   * href="https://web.archive.org/web/20201118040838/https://developer.chrome.com/native-client/devguide/coding/application-structure">the
    * Developer Guide for Native Client Application Structure</a>.
    *
    * @since 20.0
