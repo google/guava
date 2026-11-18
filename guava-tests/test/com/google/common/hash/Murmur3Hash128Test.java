@@ -84,4 +84,14 @@ public class Murmur3Hash128Test extends TestCase {
   public void testInvariants() {
     HashTestUtils.assertInvariants(murmur3_128());
   }
+
+  public void testNegativeSeed() {
+    String fox = "The quick brown fox jumps over the lazy dog";
+    // TODO(b/134667902): Should zero-extend seed like C++ MurmurHash3_x64_128 (uint32_t seed):
+    // empty -> ecc93b9d4ddff16a6b44e61e12217485, fox -> 8aa100a8731d1c6912b4406409677d64.
+    assertThat(murmur3_128(-1).hashString("", UTF_8).toString())
+        .isEqualTo("edd65bc6388fc1e4af0d6220e98afd8e");
+    assertThat(murmur3_128(-1).hashString(fox, UTF_8).toString())
+        .isEqualTo("ce61803cae2cdc7d00cf75b7ab26aab3");
+  }
 }
