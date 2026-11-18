@@ -54,7 +54,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Ben Yu
  */
-abstract class TypeVisitor {
+public abstract class TypeVisitor {
 
   private final Set<Type> visited = new HashSet<>();
 
@@ -92,13 +92,13 @@ abstract class TypeVisitor {
     }
   }
 
-  void visitClass(Class<?> t) {}
+  protected void visitClass(Class<?> t) {}
 
-  void visitGenericArrayType(GenericArrayType t) {}
+  protected void visitGenericArrayType(GenericArrayType t) {}
 
-  void visitParameterizedType(ParameterizedType t) {}
+  protected void visitParameterizedType(ParameterizedType t) {}
 
-  void visitTypeVariable(TypeVariable<?> t) {}
+  protected void visitTypeVariable(TypeVariable<?> t) {}
 
-  void visitWildcardType(WildcardType t) {}
+  protected void visitWildcardType(WildcardType t) {}
 }
