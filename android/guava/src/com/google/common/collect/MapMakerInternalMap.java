@@ -45,6 +45,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -2682,6 +2684,12 @@ final class MapMakerInternalMap<
     }
 
     @Override
+    public Spliterator<K> spliterator() {
+      return Spliterators.spliterator(
+          this, Spliterator.DISTINCT | Spliterator.NONNULL | Spliterator.CONCURRENT);
+    }
+
+    @Override
     public int size() {
       return MapMakerInternalMap.this.size();
     }
@@ -2715,6 +2723,11 @@ final class MapMakerInternalMap<
     }
 
     @Override
+    public Spliterator<V> spliterator() {
+      return Spliterators.spliterator(this, Spliterator.NONNULL | Spliterator.CONCURRENT);
+    }
+
+    @Override
     public int size() {
       return MapMakerInternalMap.this.size();
     }
@@ -2740,6 +2753,12 @@ final class MapMakerInternalMap<
     @Override
     public Iterator<Entry<K, V>> iterator() {
       return new EntryIterator();
+    }
+
+    @Override
+    public Spliterator<Entry<K, V>> spliterator() {
+      return Spliterators.spliterator(
+          this, Spliterator.DISTINCT | Spliterator.NONNULL | Spliterator.CONCURRENT);
     }
 
     @Override
