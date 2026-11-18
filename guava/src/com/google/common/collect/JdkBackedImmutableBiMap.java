@@ -15,6 +15,7 @@
  */
 package com.google.common.collect;
 
+import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.ImmutableList.asImmutableList;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
@@ -47,6 +48,35 @@ final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
       K oldKey = backwardDelegate.putIfAbsent(e.getValue(), e.getKey());
       if (oldKey != null) {
         throw conflictException("value", oldKey + "=" + e.getValue(), entryArray[i]);
+      }
+    }
+    ImmutableList<Entry<K, V>> entryList = asImmutableList(entryArray, n);
+    return new JdkBackedImmutableBiMap<>(
+        entryList, forwardDelegate, backwardDelegate, /* inverse= */ null);
+  }
+
+  static <K, V> ImmutableBiMap<K, V> createFromAlternatingKeysAndValues(
+      int n, @Nullable Object[] alternatingKeysAndValues) {
+    Map<K, V> forwardDelegate = newHashMapWithExpectedSize(n);
+    Map<V, K> backwardDelegate = newHashMapWithExpectedSize(n);
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @Nullable Entry<K, V>[] entryArray = new @Nullable Entry[n];
+    for (int i = 0; i < n; i++) {
+      // requireNonNull is safe because the first `2 * n` elements have been filled in.
+      @SuppressWarnings("unchecked")
+      K key = (K) requireNonNull(alternatingKeysAndValues[2 * i]);
+      @SuppressWarnings("unchecked")
+      V value = (V) requireNonNull(alternatingKeysAndValues[2 * i + 1]);
+      checkEntryNotNull(key, value);
+      Entry<K, V> e = immutableEntry(key, value);
+      entryArray[i] = e;
+      V oldValue = forwardDelegate.putIfAbsent(key, value);
+      if (oldValue != null) {
+        throw conflictException("key", key + "=" + oldValue, e);
+      }
+      K oldKey = backwardDelegate.putIfAbsent(value, key);
+      if (oldKey != null) {
+        throw conflictException("value", oldKey + "=" + value, e);
       }
     }
     ImmutableList<Entry<K, V>> entryList = asImmutableList(entryArray, n);
