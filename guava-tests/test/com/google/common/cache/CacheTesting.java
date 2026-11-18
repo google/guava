@@ -304,6 +304,9 @@ final class CacheTesting {
       }
     } else {
       for (Segment<?, ?> segment : map.segments) {
+        if (map.usesAccessQueue()) {
+          drainRecencyQueue(segment);
+        }
         assertThat(segment.recencyQueue).isEmpty();
       }
     }

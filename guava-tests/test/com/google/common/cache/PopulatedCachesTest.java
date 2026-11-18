@@ -21,9 +21,9 @@ import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Iterators.size;
 import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.DAYS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -72,10 +72,11 @@ public class PopulatedCachesTest extends TestCase {
   public void testSize_populated() {
     for (LoadingCache<Object, Object> cache : caches()) {
       // don't let the entries get GCed
-      List<Entry<Object, Object>> unused = warmUp(cache);
+      List<Entry<Object, Object>> warmed = warmUp(cache);
       assertThat(cache.size()).isEqualTo(WARMUP_SIZE);
       assertMapSize(cache.asMap(), WARMUP_SIZE);
       checkValidState(cache);
+      assertThat(warmed).isNotEmpty();
     }
   }
 
@@ -92,6 +93,7 @@ public class PopulatedCachesTest extends TestCase {
       }
       assertThat(cache.stats().missCount()).isEqualTo(WARMUP_SIZE);
       checkValidState(cache);
+      assertThat(warmed).isNotEmpty();
     }
   }
 
@@ -115,6 +117,7 @@ public class PopulatedCachesTest extends TestCase {
       }
       assertThat(cache.stats().missCount()).isEqualTo(WARMUP_SIZE);
       checkValidState(cache);
+      assertThat(warmed).isNotEmpty();
     }
   }
 
@@ -137,20 +140,23 @@ public class PopulatedCachesTest extends TestCase {
       }
       assertThat(cache.stats().missCount()).isEqualTo(WARMUP_SIZE);
       checkValidState(cache);
+      assertThat(warmed).isNotEmpty();
     }
   }
 
   public void testPutAll_populated() {
     for (LoadingCache<Object, Object> cache : caches()) {
       // don't let the entries get GCed
-      List<Entry<Object, Object>> unused = warmUp(cache);
+      List<Entry<Object, Object>> warmed = warmUp(cache);
       Object newKey = new Object();
       Object newValue = new Object();
+      warmed.add(entryOf(newKey, newValue));
       cache.asMap().putAll(ImmutableMap.of(newKey, newValue));
       // this getUnchecked() call shouldn't be a cache miss; verified below
       assertThat(cache.getUnchecked(newKey)).isEqualTo(newValue);
       assertThat(cache.stats().missCount()).isEqualTo(WARMUP_SIZE);
       checkValidState(cache);
+      assertThat(warmed).isNotEmpty();
     }
   }
 
@@ -173,6 +179,7 @@ public class PopulatedCachesTest extends TestCase {
       }
       assertThat(cache.stats().missCount()).isEqualTo(WARMUP_SIZE);
       checkValidState(cache);
+      assertThat(warmed).isNotEmpty();
     }
   }
 
@@ -306,6 +313,8 @@ public class PopulatedCachesTest extends TestCase {
 
       assertThrows(NullPointerException.class, () -> entry.setValue(null));
       checkValidState(cache);
+      assertThat(key).isNotNull();
+      assertThat(newValue).isNotNull();
     }
   }
 
@@ -320,30 +329,21 @@ public class PopulatedCachesTest extends TestCase {
   }
 
   private static CacheBuilderFactory cacheFactory() {
-    // This is trickier than expected. We plan to put 15 values in each of these (WARMUP_MIN to
-    // WARMUP_MAX), but the tests assume no values get evicted. Even with a maximumSize of 100, one
-    // of the values gets evicted. With weak keys, we use identity equality, which means using
-    // System.identityHashCode, which means the assignment of keys to segments is nondeterministic,
-    // so more than (maximumSize / #segments) keys could get assigned to the same segment, which
-    // would cause one to be evicted.
+    // This is trickier than expected. Warmup puts 15 values in each cache (WARMUP_MIN to
+    // WARMUP_MAX), and some tests (like testPut_populated and testPutIfAbsent_populated) add 15
+    // more, for a total of 30 entries, while assuming that no values get evicted. Assignment of
+    // keys to segments is nondeterministic (and under -XX:hashCode=2 all keys hash to the same
+    // segment), so all 30 keys can be assigned to a single segment. With up to 64 segments,
+    // maximumSize must be at least 64 * 30 = 1920 so that maximumSize / #segments >= 30.
     return new CacheBuilderFactory()
         .withKeyStrengths(ImmutableSet.of(Strength.STRONG, Strength.WEAK))
         .withValueStrengths(ImmutableSet.copyOf(Strength.values()))
         .withConcurrencyLevels(ImmutableSet.of(1, 4, 16, 64))
-        .withMaximumSizes(ImmutableSet.of(400, 1000))
+        .withMaximumSizes(newHashSet(null, 2000))
         .withInitialCapacities(ImmutableSet.of(0, 1, 10, 100, 1000))
-        .withExpireAfterWrites(
-            ImmutableSet.of(
-                // DurationSpec.of(500, MILLISECONDS),
-                DurationSpec.of(1, SECONDS), DurationSpec.of(1, DAYS)))
-        .withExpireAfterAccesses(
-            ImmutableSet.of(
-                // DurationSpec.of(500, MILLISECONDS),
-                DurationSpec.of(1, SECONDS), DurationSpec.of(1, DAYS)))
-        .withRefreshes(
-            ImmutableSet.of(
-                // DurationSpec.of(500, MILLISECONDS),
-                DurationSpec.of(1, SECONDS), DurationSpec.of(1, DAYS)));
+        .withExpireAfterWrites(newHashSet(null, DurationSpec.of(1, DAYS)))
+        .withExpireAfterAccesses(newHashSet(null, DurationSpec.of(1, DAYS)))
+        .withRefreshes(newHashSet(null, DurationSpec.of(1, DAYS)));
   }
 
   private static List<Entry<Object, Object>> warmUp(LoadingCache<Object, Object> cache) {
