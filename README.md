@@ -28,6 +28,9 @@ Guava comes in two flavors:
 Guava's Maven group ID is `com.google.guava`, and its artifact ID is `guava`.
 Guava provides two different "flavors": one for use on a (Java 8+) JRE and one
 for use on Android or by any library that wants to be compatible with Android.
+(While the Android version works on the JRE, we recommend the JRE version there
+for better performance and
+[protection against hash flooding](https://github.com/google/guava/security/advisories/GHSA-v5x9-67m3-7m56).)
 These flavors are specified in the Maven version field as either `33.8.0-jre` or
 `33.8.0-android`. For more about depending on Guava, see
 [using Guava in your build].
