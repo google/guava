@@ -295,8 +295,8 @@ result in an <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.ba
 <section class="detail" id="unmodifiableMultiset(com.google.common.collect.ImmutableMultiset)">
 <h3>unmodifiableMultiset</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@InlineMe(replacement="checkNotNull(multiset)",
-          staticImports="com.google.common.base.Preconditions.checkNotNull")
+<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="annotation in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" class="external-link">replacement</a>="checkNotNull(multiset)",
+          <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#staticImports()" class="external-link">staticImports</a>="com.google.common.base.Preconditions.checkNotNull")
 <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Deprecated.html" title="annotation in java.lang" class="external-link">@Deprecated</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E&gt;</span>&nbsp;<span class="return-type"><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</span>&nbsp;<span class="element-name">unmodifiableMultiset</span><wbr><span class="parameters">(<a href="ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;multiset)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
@@ -480,7 +480,7 @@ equivalence relations (as <code>HashMultiset</code> and <code>TreeMultiset</code
 <section class="detail" id="containsOccurrences(com.google.common.collect.Multiset,com.google.common.collect.Multiset)">
 <h3>containsOccurrences</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
+<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="annotation in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">containsOccurrences</span><wbr><span class="parameters">(<a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;superMultiset,
  <a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;subMultiset)</span></div>
 <div class="block">Returns <code>true</code> if <code>subMultiset.count(o) &lt;= superMultiset.count(o)</code> for all <code>
@@ -496,7 +496,7 @@ o</code>.</div>
 <section class="detail" id="retainOccurrences(com.google.common.collect.Multiset,com.google.common.collect.Multiset)">
 <h3>retainOccurrences</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
+<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="annotation in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">retainOccurrences</span><wbr><span class="parameters">(<a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;multisetToModify,
  <a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;multisetToRetain)</span></div>
 <div class="block">Modifies <code>multisetToModify</code> so that its count for an element <code>e</code> is at most <code>
@@ -522,7 +522,7 @@ other elements.</div>
 <section class="detail" id="removeOccurrences(com.google.common.collect.Multiset,java.lang.Iterable)">
 <h3>removeOccurrences</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
+<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="annotation in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">removeOccurrences</span><wbr><span class="parameters">(<a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;multisetToModify,
  <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Iterable.html" title="interface in java.lang" class="external-link">Iterable</a>&lt;?&gt;&nbsp;occurrencesToRemove)</span></div>
 <div class="block">For each occurrence of an element <code>e</code> in <code>occurrencesToRemove</code>, removes one
@@ -557,7 +557,7 @@ sometimes more efficient than, the following:
 <section class="detail" id="removeOccurrences(com.google.common.collect.Multiset,com.google.common.collect.Multiset)">
 <h3>removeOccurrences</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
+<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="annotation in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">removeOccurrences</span><wbr><span class="parameters">(<a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;multisetToModify,
  <a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;occurrencesToRemove)</span></div>
 <div class="block">For each occurrence of an element <code>e</code> in <code>occurrencesToRemove</code>, removes one
