@@ -118,6 +118,8 @@
     <otherVariant.version>999.0.0-HEAD-jre-SNAPSHOT</otherVariant.version>
     <otherVariant.jvmEnvironment>standard-jvm</otherVariant.jvmEnvironment>
     <otherVariant.jvmEnvironmentVariantName>jre</otherVariant.jvmEnvironmentVariantName>
+    <!-- Evaluated in child modules (one level below this parent POM), so this points to the repository root. -->
+    <repo.root>${project.basedir}/../..</repo.root>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -149,7 +151,7 @@
     <testSourceDirectory>test</testSourceDirectory>
     <resources>
       <resource>
-        <directory>../..</directory>
+        <directory>${repo.root}</directory>
         <includes>
           <include>LICENSE</include>
         </includes>
