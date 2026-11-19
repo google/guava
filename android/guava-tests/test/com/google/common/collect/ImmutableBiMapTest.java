@@ -18,8 +18,10 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Sets.newHashSet;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonMap;
 import static org.junit.Assert.assertThrows;
 
@@ -36,8 +38,10 @@ import com.google.common.collect.testing.google.BiMapGenerators.ImmutableBiMapGe
 import com.google.common.collect.testing.google.BiMapInverseTester;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -141,11 +145,11 @@ public class ImmutableBiMapTest extends TestCase {
   @GwtIncompatible
   public void testBuilderExactlySizedReusesArray() {
     ImmutableBiMap.Builder<Integer, Integer> builder = ImmutableBiMap.builderWithExpectedSize(10);
-    Object[] builderArray = builder.alternatingKeysAndValues;
+    @Nullable Object[] builderArray = builder.alternatingKeysAndValues;
     for (int i = 0; i < 10; i++) {
       builder.put(i, i);
     }
-    Object[] builderArrayAfterPuts = builder.alternatingKeysAndValues;
+    @Nullable Object[] builderArrayAfterPuts = builder.alternatingKeysAndValues;
     RegularImmutableBiMap<Integer, Integer> map =
         (RegularImmutableBiMap<Integer, Integer>) builder.build();
     Object[] mapInternalArray = map.alternatingKeysAndValues;
@@ -498,6 +502,91 @@ public class ImmutableBiMapTest extends TestCase {
     ImmutableBiMap<String, Integer> copy = ImmutableBiMap.copyOf(original);
     assertMapEquals(copy, "one", 1, "two", 2, "three", 3);
     assertThat(ImmutableBiMap.copyOf(copy)).isSameInstanceAs(copy);
+  }
+
+  public void testHostileToArrayCannotPoisonImmutability() {
+    Map<String, Integer> backing = new LinkedHashMap<>();
+    backing.put("one", 1);
+    backing.put("two", 2);
+    backing.put("three", 3);
+
+    List<@Nullable Object[]> leakedObjectArrays = new ArrayList<>();
+    Set<Entry<String, Integer>> hostileEntries =
+        new ForwardingSet<Entry<String, Integer>>() {
+          @Override
+          protected Set<Entry<String, Integer>> delegate() {
+            return backing.entrySet();
+          }
+
+          @Override
+          public @Nullable Object[] toArray() {
+            @Nullable Object[] array = super.toArray();
+            leakedObjectArrays.add(array);
+            if (array.length > 0) {
+              array[0] = mapEntry("poison", 99);
+            }
+            return array;
+          }
+
+          @Override
+          @SuppressWarnings({
+            "nullness",
+            "unchecked"
+          }) // b/192354773 in our checker affects toArray declarations
+          public <T extends @Nullable Object> T[] toArray(T[] array) {
+            T[] result = super.toArray(array);
+            leakedObjectArrays.add(result);
+            if (result.length > 0) {
+              result[0] = (T) mapEntry("poison", 99);
+            }
+            return result;
+          }
+        };
+    Map<String, Integer> hostileMap =
+        new ForwardingMap<String, Integer>() {
+          @Override
+          protected Map<String, Integer> delegate() {
+            return backing;
+          }
+
+          @Override
+          public Set<Entry<String, Integer>> entrySet() {
+            return hostileEntries;
+          }
+        };
+
+    ImmutableBiMap<String, Integer> fromEntries = ImmutableBiMap.copyOf(hostileEntries);
+    ImmutableBiMap<String, Integer> fromMap = ImmutableBiMap.copyOf(hostileMap);
+    ImmutableBiMap<String, Integer> fromBuilderEntries =
+        ImmutableBiMap.<String, Integer>builder().putAll(hostileEntries).buildOrThrow();
+    ImmutableBiMap<String, Integer> fromBuilderMap =
+        ImmutableBiMap.<String, Integer>builder().putAll(hostileMap).buildOrThrow();
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    Entry<String, Integer>[] varargsEntries =
+        new Entry[] {
+          new AbstractMap.SimpleEntry<>("one", 1),
+          new AbstractMap.SimpleEntry<>("two", 2),
+          new AbstractMap.SimpleEntry<>("three", 3),
+        };
+    ImmutableBiMap<String, Integer> fromOfEntries = ImmutableBiMap.ofEntries(varargsEntries);
+
+    // Mutate every leaked/input array and mutable Entry after construction.
+    for (@Nullable Object[] leaked : leakedObjectArrays) {
+      for (int i = 0; i < leaked.length; i++) {
+        leaked[i] = null;
+      }
+    }
+    varargsEntries[0].setValue(99);
+    varargsEntries[0] = mapEntry("poison", 99);
+
+    for (ImmutableBiMap<String, Integer> bimap :
+        asList(fromEntries, fromMap, fromBuilderEntries, fromBuilderMap, fromOfEntries)) {
+      assertMapEquals(bimap, "one", 1, "two", 2, "three", 3);
+      assertMapEquals(bimap.inverse(), 1, "one", 2, "two", 3, "three");
+      assertThat(bimap.get("poison")).isNull();
+      assertThat(bimap.inverse().get(99)).isNull();
+    }
   }
 
   public void testEmpty() {

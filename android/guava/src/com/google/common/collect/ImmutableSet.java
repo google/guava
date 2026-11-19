@@ -19,11 +19,13 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
-import static com.google.common.collect.ImmutableList.asImmutableList;
-import static com.google.common.collect.ObjectArrays.checkElementNotNull;
 import static com.google.common.collect.Sets.equalsImpl;
 import static com.google.common.collect.Sets.hashCodeImpl;
+import static com.google.common.collect.Sets.newHashSetWithExpectedSize;
+import static com.google.common.math.IntMath.sqrt;
 import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static java.lang.System.arraycopy;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -37,13 +39,14 @@ import com.google.j2objc.annotations.RetainedWith;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedSet;
-import java.util.stream.Collector;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -55,21 +58,6 @@ import org.jspecify.annotations.Nullable;
 @GwtCompatible
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements Set<E> {
-  // @IgnoreJRERequirement is not necessary because this compiles down to a constant.
-  // (which is fortunate because Animal Sniffer doesn't look for @IgnoreJRERequirement on fields)
-
-  /**
-   * Returns a {@code Collector} that accumulates the input elements into a new {@code
-   * ImmutableSet}. Elements appear in the resulting set in the encounter order of the stream; if
-   * the stream contains duplicates (according to {@link Object#equals(Object)}), only the first
-   * duplicate in encounter order will appear in the result.
-   *
-   * @since 33.2.0 (available since 21.0 in guava-jre)
-   */
-  @IgnoreJRERequirement // Users will use this only if they're already using streams.
-  public static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
-    return CollectCollectors.toImmutableSet();
-  }
 
   /**
    * Returns the empty immutable set. Preferred over {@link Collections#emptySet} for code
@@ -91,13 +79,20 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     return new SingletonImmutableSet<>(e1);
   }
 
+  /*
+   * TODO(b/315526394): Skip the Builder entirely for the of(...) methods, since we don't need to
+   * worry that we might trigger the fallback to the JDK-backed implementation? (The varargs one
+   * _could_, so we could keep it as it is. Or we could convince ourselves that hash flooding is
+   * unlikely in practice there, too.)
+   */
+
   /**
    * Returns an immutable set containing the given elements, minus duplicates, in the order each was
    * first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except
    * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2) {
-    return construct(2, e1, e2);
+    return new Builder<E>(2).add(e1).add(e2).build();
   }
 
   /**
@@ -106,7 +101,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3) {
-    return construct(3, e1, e2, e3);
+    return new Builder<E>(3).add(e1).add(e2).add(e3).build();
   }
 
   /**
@@ -115,7 +110,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4) {
-    return construct(4, e1, e2, e3, e4);
+    return new Builder<E>(4).add(e1).add(e2).add(e3).add(e4).build();
   }
 
   /**
@@ -124,7 +119,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5) {
-    return construct(5, e1, e2, e3, e4, e5);
+    return new Builder<E>(5).add(e1).add(e2).add(e3).add(e4).add(e5).build();
   }
 
   /**
@@ -140,116 +135,12 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
     checkArgument(
         others.length <= Integer.MAX_VALUE - 6, "the total number of elements must fit in an int");
-    final int paramCount = 6;
-    Object[] elements = new Object[paramCount + others.length];
-    elements[0] = e1;
-    elements[1] = e2;
-    elements[2] = e3;
-    elements[3] = e4;
-    elements[4] = e5;
-    elements[5] = e6;
-    System.arraycopy(others, 0, elements, paramCount, others.length);
-    return construct(elements.length, elements);
-  }
-
-  /**
-   * Constructs an {@code ImmutableSet} from the first {@code n} elements of the specified array. If
-   * {@code k} is the size of the returned {@code ImmutableSet}, then the unique elements of {@code
-   * elements} will be in the first {@code k} positions, and {@code elements[i] == null} for {@code
-   * k <= i < n}.
-   *
-   * <p>After this method returns, {@code elements} will contain no duplicates, but {@code elements}
-   * may be the real array backing the returned set, so do not modify it further.
-   *
-   * <p>{@code elements} may contain only values of type {@code E}.
-   *
-   * @throws NullPointerException if any of the first {@code n} elements of {@code elements} is null
-   */
-  private static <E> ImmutableSet<E> construct(int n, @Nullable Object... elements) {
-    switch (n) {
-      case 0:
-        return of();
-      case 1:
-        @SuppressWarnings("unchecked") // safe; elements contains only E's
-        // requireNonNull is safe because the first `n` elements are non-null.
-        E elem = (E) requireNonNull(elements[0]);
-        return of(elem);
-      default:
-        // continue below to handle the general case
+    Builder<E> builder = new Builder<>(6 + others.length);
+    builder.add(e1).add(e2).add(e3).add(e4).add(e5).add(e6);
+    for (int i = 0; i < others.length; i++) {
+      builder.add(others[i]);
     }
-    int tableSize = chooseTableSize(n);
-    Object[] table = new Object[tableSize];
-    int mask = tableSize - 1;
-    int hashCode = 0;
-    int uniques = 0;
-    for (int i = 0; i < n; i++) {
-      Object element = checkElementNotNull(elements[i], i);
-      int hash = element.hashCode();
-      for (int j = Hashing.smear(hash); ; j++) {
-        int index = j & mask;
-        Object value = table[index];
-        if (value == null) {
-          // Came to an empty slot. Put the element here.
-          elements[uniques++] = element;
-          table[index] = element;
-          hashCode += hash;
-          break;
-        } else if (value.equals(element)) {
-          break;
-        }
-      }
-    }
-    Arrays.fill(elements, uniques, n, null);
-    if (uniques == 1) {
-      // There is only one element or elements are all duplicates
-      @SuppressWarnings("unchecked") // we are careful to only pass in E
-      // requireNonNull is safe because the first `uniques` elements are non-null.
-      E element = (E) requireNonNull(elements[0]);
-      return new SingletonImmutableSet<E>(element);
-    } else if (chooseTableSize(uniques) < tableSize / 2) {
-      // Resize the table when the array includes too many duplicates.
-      return construct(uniques, elements);
-    } else {
-      @Nullable Object[] uniqueElements =
-          shouldTrim(uniques, elements.length) ? Arrays.copyOf(elements, uniques) : elements;
-      return new RegularImmutableSet<E>(uniqueElements, hashCode, table, mask, uniques);
-    }
-  }
-
-  private static boolean shouldTrim(int actualUnique, int expectedUnique) {
-    return actualUnique < (expectedUnique >> 1) + (expectedUnique >> 2);
-  }
-
-  // We use power-of-2 tables, and this is the highest int that's a power of 2
-  static final int MAX_TABLE_SIZE = Ints.MAX_POWER_OF_TWO;
-
-  // Represents how tightly we can pack things, as a maximum.
-  private static final double DESIRED_LOAD_FACTOR = 0.7;
-
-  // If the set has this many elements, it will "max out" the table size
-  private static final int CUTOFF = (int) (MAX_TABLE_SIZE * DESIRED_LOAD_FACTOR);
-
-  /**
-   * Returns an array size suitable for the backing array of a hash table that uses open addressing
-   * with linear probing in its implementation. The returned size is the smallest power of two that
-   * can hold setSize elements with the desired load factor. Always returns at least setSize + 2.
-   */
-  @VisibleForTesting
-  static int chooseTableSize(int setSize) {
-    setSize = max(setSize, 2);
-    // Correct the size for open addressing to match desired load factor.
-    if (setSize < CUTOFF) {
-      // Round up to the next highest power of 2.
-      int tableSize = Integer.highestOneBit(setSize - 1) << 1;
-      while (tableSize * DESIRED_LOAD_FACTOR < setSize) {
-        tableSize <<= 1;
-      }
-      return tableSize;
-    }
-
-    // The table can't be completely full or we'll get infinite reprobes
-    checkArgument(setSize < MAX_TABLE_SIZE, "collection too large");
-    return MAX_TABLE_SIZE;
+    return builder.build();
   }
 
   /**
@@ -266,7 +157,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    */
   public static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
     /*
-     * TODO(lowasser): consider checking for ImmutableAsList here
      * TODO(lowasser): consider checking for Multiset here
      */
     // Don't refer to ImmutableSortedSet by name so it won't pull in all that code
@@ -276,9 +166,43 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       if (!set.isPartialView()) {
         return set;
       }
+    } else if (elements instanceof ImmutableAsList) {
+      ImmutableCollection<? extends E> delegate =
+          ((ImmutableAsList<? extends E>) elements).delegateCollection();
+      if (delegate instanceof ImmutableSet && !(delegate instanceof SortedSet)) {
+        @SuppressWarnings("unchecked") // all supported methods are covariant
+        ImmutableSet<E> set = (ImmutableSet<E>) delegate;
+        if (!set.isPartialView()) {
+          return set;
+        }
+      }
+    } else if (elements instanceof EnumSet) {
+      EnumSet<?> clone = ((EnumSet<?>) elements).clone();
+      ImmutableSet<?> untypedResult = ImmutableEnumSet.asImmutable(clone);
+      /*
+       * The result has the same type argument we started with. We just couldn't express EnumSet<E>
+       * or ImmutableEnumSet<E> along the way because our own <E> isn't <E extends Enum<E>>.
+       *
+       * We are also performing a safe covariant cast to change <? extends E> to <E>.
+       */
+      @SuppressWarnings("unchecked")
+      ImmutableSet<E> result = (ImmutableSet<E>) untypedResult;
+      return result;
     }
-    Object[] array = elements.toArray();
-    return construct(array.length, array);
+
+    if (elements.isEmpty()) {
+      // We avoid allocating anything.
+      return of();
+    }
+    @Nullable Object[] array = elements.toArray();
+    /*
+     * For a Set, we guess that it contains no duplicates. That's just a guess for purpose of
+     * sizing; if the Set uses different equality semantics, it might contain duplicates according
+     * to equals(), and we will deduplicate those properly, albeit at some cost in allocations.
+     */
+    int expectedSize =
+        elements instanceof Set ? array.length : estimatedSizeForUnknownDuplication(array.length);
+    return fromUntrustedArray(array, expectedSize);
   }
 
   /**
@@ -332,7 +256,46 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       case 1:
         return of(elements[0]);
       default:
-        return construct(elements.length, elements.clone());
+        Builder<E> builder = new Builder<>(estimatedSizeForUnknownDuplication(elements.length));
+        for (int i = 0; i < elements.length; i++) {
+          builder.add(elements[i]);
+        }
+        return builder.build();
+    }
+  }
+
+  /**
+   * Builds an {@code ImmutableSet} from a {@code Collection.toArray()} result, copying into a fresh
+   * exact {@code Object[]} for length {@code >= 2} so neither in-place deduplication nor the
+   * returned set shares an array with a buggy or hostile collection, while avoiding intermediate
+   * array resizes.
+   */
+  private static <E> ImmutableSet<E> fromUntrustedArray(
+      @Nullable Object[] array, int expectedSize) {
+    switch (array.length) {
+      case 0:
+        return of();
+      case 1:
+        @SuppressWarnings("unchecked") // elements came from Collection<? extends E>.toArray()
+        E onlyElement = (E) checkNotNull(array[0]);
+        return of(onlyElement);
+      default:
+        // Copy defensively before hashing or retaining the buffer: a buggy or hostile toArray() may
+        // alias a retained or internal array (enabling in-flight or post-return mutation) or return
+        // a subtype array such as String[].
+        @Nullable Object[] copy = new Object[array.length];
+        arraycopy(array, 0, copy, 0, array.length);
+        // Safe to pass as the owned buffer: `copy` is an unaliased exact Object[], and each
+        // copy[i] is checked non-null before it can be written to dedupedElements[distinct <= i].
+        @SuppressWarnings("nullness")
+        Object[] nonNullBuffer = copy;
+        Builder<E> builder = new Builder<>(nonNullBuffer, expectedSize);
+        for (int i = 0; i < copy.length; i++) {
+          @SuppressWarnings("unchecked") // elements came from Collection<? extends E>.toArray()
+          E elem = (E) checkNotNull(copy[i]);
+          builder.add(elem);
+        }
+        return builder.build();
     }
   }
 
@@ -367,6 +330,32 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   @Override
   public abstract UnmodifiableIterator<E> iterator();
 
+  abstract static class CachingAsList<E> extends ImmutableSet<E> {
+    @LazyInit @RetainedWith private transient @Nullable ImmutableList<E> asList;
+
+    @Override
+    public ImmutableList<E> asList() {
+      ImmutableList<E> result = asList;
+      if (result == null) {
+        result = asList = createAsList();
+      }
+      return result;
+    }
+
+    ImmutableList<E> createAsList() {
+      return new RegularImmutableAsList<>(this, toArray());
+    }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible
+    @GwtIncompatible
+        Object writeReplace() {
+      return super.writeReplace();
+    }
+  }
+
   @LazyInit @RetainedWith private transient @Nullable ImmutableList<E> asList;
 
   @Override
@@ -379,7 +368,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   ImmutableList<E> createAsList() {
-    return asImmutableList(toArray());
+    return ImmutableList.asImmutableList(toArray());
   }
 
   /*
@@ -437,7 +426,39 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    */
   public static <E> Builder<E> builderWithExpectedSize(int expectedSize) {
     checkNonnegative(expectedSize, "expectedSize");
-    return new Builder<>(expectedSize, true);
+    return new Builder<>(expectedSize);
+  }
+
+  // We use power-of-2 tables, and this is the highest int that's a power of 2
+  static final int MAX_TABLE_SIZE = Ints.MAX_POWER_OF_TWO;
+
+  // Represents how tightly we can pack things, as a maximum.
+  private static final double DESIRED_LOAD_FACTOR = 0.7;
+
+  // If the set has this many elements, it will "max out" the table size
+  private static final int CUTOFF = (int) (MAX_TABLE_SIZE * DESIRED_LOAD_FACTOR);
+
+  /**
+   * Returns an array size suitable for the backing array of a hash table that uses open addressing
+   * with linear probing in its implementation. The returned size is the smallest power of two that
+   * can hold setSize elements with the desired load factor. Always returns at least setSize + 2.
+   */
+  // TODO(cpovirk): Move to Hashing or something, since it's used elsewhere in the Android version.
+  static int chooseTableSize(int setSize) {
+    setSize = max(setSize, 2);
+    // Correct the size for open addressing to match desired load factor.
+    if (setSize < CUTOFF) {
+      // Round up to the next highest power of 2.
+      int tableSize = Integer.highestOneBit(setSize - 1) << 1;
+      while (tableSize * DESIRED_LOAD_FACTOR < setSize) {
+        tableSize <<= 1;
+      }
+      return tableSize;
+    }
+
+    // The table can't be completely full or we'll get infinite reprobes
+    checkArgument(setSize < MAX_TABLE_SIZE, "collection too large");
+    return MAX_TABLE_SIZE;
   }
 
   /**
@@ -458,46 +479,175 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *
    * @since 2.0
    */
-  public static class Builder<E> extends ImmutableCollection.ArrayBasedBuilder<E> {
-    @VisibleForTesting @Nullable Object @Nullable [] hashTable;
+  public static class Builder<E> extends ImmutableCollection.Builder<E> {
+    /*
+     * State progression (stored directly in Builder to avoid wrapper-object allocations and
+     * virtual dispatch on every add()):
+     *   1. Empty / Singleton (distinct <= 1, dedupedElements == null, jdkDelegate == null):
+     *      `firstElement` holds the sole element when distinct == 1 (allocating zero Object[]
+     *      arrays for empty or 1-element builders), and `expandTableThreshold` remembers the
+     *      initial capacity hint.
+     *   2. Inline SWAR (2 <= distinct <= 8, table == null, jdkDelegate == null):
+     *      `dedupedElements` holds distinct elements in insertion order, `inlineCtrl` packs up to 8
+     *      occupied h2 control bytes, and `expandTableThreshold` retains the initial capacity hint.
+     *   3. Tiered Swiss table (distinct >= 9, table != null, jdkDelegate == null):
+     *      `table` stores 8-slot groups (strides 2..5 for Tiers 1..4), and `expandTableThreshold`
+     *      equals min(numGroups * 7, TIER_MAX_SIZE).
+     *   4. Hash-flooding fallback (jdkDelegate != null):
+     *      `jdkDelegate` deduplicates via j.u.HashSet while `dedupedElements` preserves order.
+     *
+     * Note: ImmutableSortedSet.Builder subclasses this class via `Builder(boolean)` and overrides
+     * all public/package-private methods, leaving these fields unused.
+     */
+    private static final int MAX_NUM_GROUPS = 1 << 28;
+    private static final int MAX_SWISS_CAPACITY = 7 * MAX_NUM_GROUPS;
+    private static final int MAX_GROUP_PROBES_MULTIPLIER = 4;
+
+    private @Nullable E firstElement;
+    private Object @Nullable [] dedupedElements;
+    private int distinct;
+    private long @Nullable [] table;
+    private long inlineCtrl;
+    private int expandTableThreshold;
     private int hashCode;
+    private @Nullable Set<Object> jdkDelegate;
+    boolean forceCopy;
+    @Nullable Object @Nullable [] contents;
+    int size;
+    private boolean isArrayBased;
 
     /**
      * Creates a new builder. The returned builder is equivalent to the builder generated by {@link
      * ImmutableSet#builder}.
      */
     public Builder() {
-      super(DEFAULT_INITIAL_CAPACITY);
+      this(DEFAULT_INITIAL_CAPACITY);
     }
 
-    Builder(int capacity, boolean makeHashTable) {
-      super(capacity);
-      if (makeHashTable) {
-        this.hashTable = new @Nullable Object[chooseTableSize(capacity)];
+    Builder(int capacity) {
+      this.expandTableThreshold = (capacity == 0) ? DEFAULT_INITIAL_CAPACITY : capacity;
+    }
+
+    Builder(int capacity, boolean isArrayBased) {
+      this.isArrayBased = isArrayBased;
+      this.contents = new @Nullable Object[capacity];
+      this.size = 0;
+    }
+
+    /** Takes ownership of {@code ownedBuffer} for in-place deduplication in {@code copyOf}. */
+    Builder(Object[] ownedBuffer, int expectedCapacity) {
+      this.dedupedElements = ownedBuffer;
+      this.expandTableThreshold = max(DEFAULT_INITIAL_CAPACITY, expectedCapacity);
+    }
+
+    Builder(@SuppressWarnings("unused") boolean subclass) {}
+
+    @SuppressWarnings("nullness") // only indices < distinct are ever read, after being populated
+    private static Object[] newElementBuffer(int capacity) {
+      return new Object[capacity];
+    }
+
+    @VisibleForTesting
+    void forceJdk() {
+      if (jdkDelegate != null) {
+        return;
+      }
+      copyIfNecessary();
+      switchToJdk();
+    }
+
+    private void switchToJdk() {
+      Set<Object> delegate = newHashSetWithExpectedSize(distinct);
+      if (distinct == 1 && dedupedElements == null) {
+        Object e0 = requireNonNull(firstElement);
+        delegate.add(e0);
+        dedupedElements = new Object[] {e0};
+        firstElement = null;
+      } else if (dedupedElements != null) {
+        for (int i = 0; i < distinct; i++) {
+          delegate.add(dedupedElements[i]);
+        }
+      } else {
+        dedupedElements = newElementBuffer(max(DEFAULT_INITIAL_CAPACITY, expandTableThreshold));
+      }
+      this.jdkDelegate = delegate;
+      this.table = null;
+      this.inlineCtrl = 0L;
+      this.expandTableThreshold = 0;
+    }
+
+    final void copyIfNecessary() {
+      if (forceCopy) {
+        copy();
+        forceCopy = false;
       }
     }
 
-    /**
-     * Adds {@code element} to the {@code ImmutableSet}. If the {@code ImmutableSet} already
-     * contains {@code element}, then {@code add} has no effect (only the previously added element
-     * is retained).
-     *
-     * @param element the element to add
-     * @return this {@code Builder} object
-     * @throws NullPointerException if {@code element} is null
-     */
+    void copy() {
+      if (dedupedElements != null) {
+        dedupedElements = Arrays.copyOf(dedupedElements, dedupedElements.length);
+      }
+      if (table != null) {
+        table = table.clone();
+      }
+      if (jdkDelegate != null) {
+        Set<Object> copy = newHashSetWithExpectedSize(distinct);
+        copy.addAll(jdkDelegate);
+        jdkDelegate = copy;
+      }
+    }
+
+    private void ensureCapacity(int minCapacity) {
+      Object[] elements = requireNonNull(dedupedElements);
+      if (minCapacity > elements.length) {
+        dedupedElements = Arrays.copyOf(elements, expandedCapacity(elements.length, minCapacity));
+      }
+    }
+
+    private void addDedupedElement(E e) {
+      ensureCapacity(distinct + 1);
+      requireNonNull(dedupedElements)[distinct++] = e;
+    }
+
     @Override
     @CanIgnoreReturnValue
     public Builder<E> add(E element) {
       checkNotNull(element);
-      if (hashTable != null && chooseTableSize(size) <= hashTable.length) {
-        addDeduping(element);
-        return this;
-      } else {
-        hashTable = null;
-        super.add(element);
+      if (isArrayBased) {
+        Object[] contents = requireNonNull(this.contents);
+        if (contents.length < size + 1) {
+          this.contents =
+              contents = Arrays.copyOf(contents, expandedCapacity(contents.length, size + 1));
+        } else if (forceCopy) {
+          this.contents = contents = contents.clone();
+          forceCopy = false;
+        }
+        contents[size++] = element;
         return this;
       }
+      copyIfNecessary();
+      if (jdkDelegate != null) {
+        if (jdkDelegate.add(element)) {
+          addDedupedElement(element);
+        }
+        return this;
+      }
+      long[] table = this.table;
+      if (table == null) {
+        addInline(element);
+      } else if (expandTableThreshold <= SwarTables.TIER1_MAX_SIZE) {
+        insertTier1(element, table);
+      } else {
+        insertLargeTable(element, table);
+      }
+      return this;
+    }
+
+    @Override
+    @CanIgnoreReturnValue
+    public Builder<E> add(E... elements) {
+      super.add(elements);
+      return this;
     }
 
     /**
@@ -510,124 +660,383 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
      */
     @Override
     @CanIgnoreReturnValue
-    public Builder<E> add(E... elements) {
-      if (hashTable != null) {
-        for (E e : elements) {
-          add(e);
-        }
-      } else {
-        super.add(elements);
-      }
-      return this;
-    }
-
-    private void addDeduping(E element) {
-      requireNonNull(hashTable); // safe because we check for null before calling this method
-      int mask = hashTable.length - 1;
-      int hash = element.hashCode();
-      for (int i = Hashing.smear(hash); ; i++) {
-        i &= mask;
-        Object previous = hashTable[i];
-        if (previous == null) {
-          hashTable[i] = element;
-          hashCode += hash;
-          super.add(element);
-          return;
-        } else if (previous.equals(element)) {
-          return;
-        }
-      }
-    }
-
-    /**
-     * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate
-     * elements (only the first duplicate element is added).
-     *
-     * @param elements the {@code Iterable} to add to the {@code ImmutableSet}
-     * @return this {@code Builder} object
-     * @throws NullPointerException if {@code elements} is null or contains a null element
-     */
-    @CanIgnoreReturnValue
-    @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
-      checkNotNull(elements);
-      if (hashTable != null) {
-        for (E e : elements) {
-          add(e);
-        }
-      } else {
-        super.addAll(elements);
-      }
+      super.addAll(elements);
       return this;
     }
 
-    /**
-     * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate
-     * elements (only the first duplicate element is added).
-     *
-     * @param elements the elements to add to the {@code ImmutableSet}
-     * @return this {@code Builder} object
-     * @throws NullPointerException if {@code elements} is null or contains a null element
-     */
-    @CanIgnoreReturnValue
     @Override
+    @CanIgnoreReturnValue
     public Builder<E> addAll(Iterator<? extends E> elements) {
-      checkNotNull(elements);
-      while (elements.hasNext()) {
-        add(elements.next());
-      }
+      super.addAll(elements);
       return this;
     }
 
     @CanIgnoreReturnValue
-    @SuppressWarnings("unchecked") // ArrayBasedBuilder stores its elements as Object.
     Builder<E> combine(Builder<E> other) {
-      if (hashTable != null) {
-        for (int i = 0; i < other.size; ++i) {
-          // requireNonNull is safe because the first `size` elements are non-null.
-          add((E) requireNonNull(other.contents[i]));
-        }
-      } else {
-        addAll(other.contents, other.size);
+      copyIfNecessary();
+      int otherDistinct = other.distinct;
+      if (otherDistinct == 0) {
+        return this;
+      }
+      if (otherDistinct == 1 && other.dedupedElements == null) {
+        add(requireNonNull(other.firstElement));
+        return this;
+      }
+      Object[] otherElements = requireNonNull(other.dedupedElements);
+      for (int i = 0; i < otherDistinct; i++) {
+        @SuppressWarnings("unchecked") // only E instances were added to other
+        E elem = (E) otherElements[i];
+        add(elem);
       }
       return this;
     }
 
     /**
-     * Returns a newly-created {@code ImmutableSet} based on the contents of the {@code Builder}.
+     * Inserts {@code e} while {@code distinct <= 8}, deferring {@code Object[]} allocation until a
+     * 2nd distinct element arrives and deferring Swiss-table allocation until a 9th arrives.
      */
-    @SuppressWarnings("unchecked")
+    private void addInline(E e) {
+      int n = distinct;
+      if (n == 0) {
+        if (dedupedElements == null) {
+          firstElement = e;
+        } else {
+          dedupedElements[0] = e;
+        }
+        distinct = 1;
+        return;
+      }
+      if (n == 1) {
+        Object e0 = (firstElement != null) ? firstElement : requireNonNull(dedupedElements)[0];
+        if (e0.equals(e)) {
+          return;
+        }
+        Object[] elements = dedupedElements;
+        if (elements == null) {
+          elements = newElementBuffer(max(2, expandTableThreshold));
+          elements[0] = e0;
+          dedupedElements = elements;
+          firstElement = null;
+        }
+        elements[1] = e;
+        distinct = 2;
+        int h0 = e0.hashCode();
+        int h1 = e.hashCode();
+        hashCode = h0 + h1;
+        inlineCtrl =
+            ((long) SwarTables.h2Top7(Hashing.smear(h0)))
+                | (((long) SwarTables.h2Top7(Hashing.smear(h1))) << 8);
+        return;
+      }
+      int eHash = e.hashCode();
+      int h2 = SwarTables.h2Top7(Hashing.smear(eHash));
+      long ctrl = this.inlineCtrl;
+      long matches = SwarTables.matchTags(ctrl, SwarTables.broadcastTag(h2));
+      Object[] elements = requireNonNull(this.dedupedElements);
+      while (matches != 0L) {
+        if (elements[SwarTables.firstLane(matches)].equals(e)) {
+          return;
+        }
+        matches &= matches - 1;
+      }
+      if (n < 8) {
+        this.inlineCtrl = ctrl | (((long) h2) << (n << 3));
+        this.hashCode += eHash;
+        addDedupedElement(e);
+        return;
+      }
+      promoteToTable(e, eHash);
+    }
+
+    /**
+     * Transitions from inline mode ({@code distinct == 8}) to a tiered Swiss table on the 9th item.
+     */
+    private void promoteToTable(E e, int eHash) {
+      addDedupedElement(e);
+      hashCode += eHash;
+      int targetCap = min(max(9, expandTableThreshold), MAX_SWISS_CAPACITY);
+      int numGroups = chooseNumGroups(targetCap);
+      int tier = SwarTables.tierForSize(targetCap);
+      long[] newTable =
+          rebuildSwissTable(numGroups, tier, requireNonNull(dedupedElements), distinct);
+      if (newTable == null) {
+        switchToJdk();
+        return;
+      }
+      this.table = newTable;
+      this.inlineCtrl = 0L;
+      this.expandTableThreshold = computeExpandThreshold(numGroups, tier);
+    }
+
+    private void insertTier1(E e, long[] table) {
+      int eHash = e.hashCode();
+      int h = Hashing.smear(eHash);
+      int h2 = SwarTables.h2Top7(h);
+      long h2Mask = SwarTables.broadcastTag(h2);
+      int groupMask = (table.length >>> 1) - 1;
+      int g = h & groupMask;
+      Object[] elements = requireNonNull(this.dedupedElements);
+      int step = 0;
+      while (true) {
+        int base = g << 1;
+        long ctrl = table[base];
+        long matches = SwarTables.matchTags(ctrl, h2Mask);
+        if (matches != 0L) {
+          long indices = table[base + 1];
+          do {
+            if (elements[SwarTables.read8BitIndex(indices, SwarTables.firstLane(matches))].equals(
+                e)) {
+              return;
+            }
+            matches &= matches - 1;
+          } while (matches != 0L);
+        }
+        long emptyMask = SwarTables.emptyLanes(ctrl);
+        if (emptyMask != 0L) {
+          if (distinct == expandTableThreshold) {
+            expandAndInsert(e, eHash);
+            return;
+          }
+          int elemIdx = distinct;
+          addDedupedElement(e);
+          hashCode += eHash;
+          int shift = SwarTables.firstLane(emptyMask) << 3;
+          table[base] = ctrl | (((long) h2) << shift);
+          table[base + 1] |= ((long) elemIdx) << shift;
+          return;
+        }
+        step++;
+        if (exceededProbeLimit(step, groupMask)) {
+          fallbackToJdk(e);
+          return;
+        }
+        g = (g + step) & groupMask;
+      }
+    }
+
+    private void insertLargeTable(E e, long[] table) {
+      int stride = SwarTables.strideForSize(expandTableThreshold);
+      int groupMask = SwarTables.groupMaskForStride(table.length, stride);
+      int eHash = e.hashCode();
+      int h = Hashing.smear(eHash);
+      int h2 = SwarTables.h2Top7(h);
+      long h2Mask = SwarTables.broadcastTag(h2);
+      int g = h & groupMask;
+      Object[] elements = requireNonNull(this.dedupedElements);
+      int step = 0;
+      while (true) {
+        int base = g * stride;
+        long ctrl = table[base];
+        long matches = SwarTables.matchTags(ctrl, h2Mask);
+        while (matches != 0L) {
+          int idx =
+              SwarTables.readIndexForStride(table, base, stride, SwarTables.firstLane(matches));
+          if (elements[idx].equals(e)) {
+            return;
+          }
+          matches &= matches - 1;
+        }
+        long emptyMask = SwarTables.emptyLanes(ctrl);
+        if (emptyMask != 0L) {
+          if (distinct == expandTableThreshold) {
+            expandAndInsert(e, eHash);
+            return;
+          }
+          int elemIdx = distinct;
+          addDedupedElement(e);
+          hashCode += eHash;
+          SwarTables.writeSlot(
+              table, base, stride, ctrl, h2, SwarTables.firstLane(emptyMask), elemIdx);
+          return;
+        }
+        step++;
+        if (exceededProbeLimit(step, groupMask)) {
+          fallbackToJdk(e);
+          return;
+        }
+        g = (g + step) & groupMask;
+      }
+    }
+
+    private void fallbackToJdk(E e) {
+      switchToJdk();
+      if (requireNonNull(jdkDelegate).add(e)) {
+        addDedupedElement(e);
+      }
+    }
+
+    /**
+     * Grows the table (or promotes to the next index width) when {@code distinct ==
+     * expandTableThreshold}.
+     */
+    private void expandAndInsert(E e, int eHash) {
+      int numGroups = chooseNumGroups(distinct + 1);
+      int tier = SwarTables.tierForSize(distinct + 1);
+      addDedupedElement(e);
+      hashCode += eHash;
+      long[] newTable =
+          rebuildSwissTable(numGroups, tier, requireNonNull(dedupedElements), distinct);
+      if (newTable == null) {
+        switchToJdk();
+        return;
+      }
+      this.table = newTable;
+      this.expandTableThreshold = computeExpandThreshold(numGroups, tier);
+    }
+
+    /**
+     * Shrinks oversized Swiss tables (for example, when duplicates collapse or {@code
+     * expectedCapacity} was an overestimate) and checks for adversarial full-group probe chains.
+     */
+    private void review() {
+      long[] table = this.table;
+      if (table == null) {
+        return;
+      }
+      int curTier = SwarTables.tierForSize(expandTableThreshold);
+      int curGroups = SwarTables.groupMaskForStride(table.length, curTier + 1) + 1;
+      int targetGroups = chooseNumGroups(distinct);
+      int targetTier = SwarTables.tierForSize(distinct);
+      if (targetGroups < curGroups || targetTier < curTier) {
+        long[] rebuilt =
+            rebuildSwissTable(targetGroups, targetTier, requireNonNull(dedupedElements), distinct);
+        if (rebuilt != null) {
+          this.table = rebuilt;
+          this.expandTableThreshold = computeExpandThreshold(targetGroups, targetTier);
+        }
+      }
+    }
+
     @Override
     public ImmutableSet<E> build() {
-      switch (size) {
+      switch (distinct) {
         case 0:
           return of();
         case 1:
-          /*
-           * requireNonNull is safe because we ensure that the first `size` elements have been
-           * populated.
-           */
-          return (ImmutableSet<E>) of(requireNonNull(contents[0]));
-        default:
-          ImmutableSet<E> result;
-          if (hashTable != null && chooseTableSize(size) == hashTable.length) {
-            @Nullable Object[] uniqueElements =
-                shouldTrim(size, contents.length) ? Arrays.copyOf(contents, size) : contents;
-            result =
-                new RegularImmutableSet<E>(
-                    uniqueElements, hashCode, hashTable, hashTable.length - 1, size);
-          } else {
-            result = construct(size, contents);
-            // construct has the side effect of deduping contents, so we update size
-            // accordingly.
-            size = result.size();
+          if (firstElement != null) {
+            return of(firstElement);
           }
+          @SuppressWarnings("unchecked") // only E instances were added
+          E single = (E) requireNonNull(dedupedElements)[0];
+          return of(single);
+        default:
           forceCopy = true;
-          hashTable = null;
-          return result;
+          review();
+          Object[] elements = requireNonNull(dedupedElements);
+          if (distinct < elements.length) {
+            elements = Arrays.copyOf(elements, distinct);
+          }
+          return new RegularImmutableSet<>(elements, hashCode, table, inlineCtrl);
       }
+    }
+
+    /**
+     * Returns the smallest power-of-two group count {@code >= 2} that holds {@code setSize}
+     * elements at {@code <= 7/8} (87.5%) max load.
+     */
+    private static int chooseNumGroups(int setSize) {
+      if (setSize <= 14) {
+        return 2;
+      }
+      checkArgument(setSize <= MAX_SWISS_CAPACITY, "collection too large");
+      int neededGroups = (setSize - 1) / 7 + 1;
+      return Integer.highestOneBit(neededGroups - 1) << 1;
+    }
+
+    /** Caps expansion at either 7/8 group load or the current tier's maximum representable size. */
+    private static int computeExpandThreshold(int numGroups, int tier) {
+      int maxByLoad = numGroups * 7;
+      switch (tier) {
+        case 1:
+          return min(maxByLoad, SwarTables.TIER1_MAX_SIZE);
+        case 2:
+          return min(maxByLoad, SwarTables.TIER2_MAX_SIZE);
+        case 3:
+          return min(maxByLoad, SwarTables.TIER3_MAX_SIZE);
+        default:
+          return maxByLoad;
+      }
+    }
+
+    private static boolean exceededProbeLimit(int step, int groupMask) {
+      return step >= 8 && step >= maxGroupProbes(groupMask + 1);
+    }
+
+    /**
+     * Builds a new tiered interleaved Swiss table from the first {@code n} objects in {@code
+     * elements}, or returns {@code null} if a probe chain exceeds {@link #maxGroupProbes(int)}.
+     */
+    static long @Nullable [] rebuildSwissTable(int numGroups, int tier, Object[] elements, int n) {
+      int stride = tier + 1;
+      long[] table = new long[numGroups * stride];
+      int groupMask = numGroups - 1;
+      int maxProbes = maxGroupProbes(numGroups);
+      for (int i = 0; i < n; i++) {
+        int h = Hashing.smear(elements[i].hashCode());
+        int h2 = SwarTables.h2Top7(h);
+        int g = h & groupMask;
+        int step = 0;
+        while (true) {
+          int base = g * stride;
+          long ctrl = table[base];
+          long emptyMask = SwarTables.emptyLanes(ctrl);
+          if (emptyMask != 0L) {
+            SwarTables.writeSlot(table, base, stride, ctrl, h2, SwarTables.firstLane(emptyMask), i);
+            break;
+          }
+          step++;
+          if (step >= maxProbes) {
+            return null;
+          }
+          g = (g + step) & groupMask;
+        }
+      }
+      return table;
+    }
+
+    /**
+     * Checks the whole Swiss table for an adversarially long probe chain across full groups.
+     *
+     * <p>Online detection in {@code insert*} bounds insertion time to O(n log n), while this check
+     * also catches hash distributions crafted to fill groups independently while creating an
+     * O(n)-probe lookup chain along triangular probing.
+     */
+    static boolean swarHashFloodingDetected(long[] table, int tier, int numGroups) {
+      int maxProbes = maxGroupProbes(numGroups);
+      int groupMask = numGroups - 1;
+      int stride = tier + 1;
+      outer:
+      for (int g = 0; g < numGroups; g++) {
+        if (!SwarTables.hasEmptyLane(table[g * stride])) {
+          int cur = g;
+          for (int step = 1; step < maxProbes; step++) {
+            cur = (cur + step) & groupMask;
+            if (SwarTables.hasEmptyLane(table[cur * stride])) {
+              continue outer;
+            }
+          }
+          return true;
+        }
+      }
+      return false;
+    }
+
+    static int maxGroupProbes(int numGroups) {
+      return max(8, MAX_GROUP_PROBES_MULTIPLIER * (31 - Integer.numberOfLeadingZeros(numGroups)));
     }
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xdecaf;
+  private static int estimatedSizeForUnknownDuplication(int inputElementsIncludingAnyDuplicates) {
+    if (inputElementsIncludingAnyDuplicates
+        < ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY) {
+      return inputElementsIncludingAnyDuplicates;
+    }
+    // Guess the size is "halfway between" all duplicates and no duplicates, on a log scale.
+    return max(
+        ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY,
+        sqrt(inputElementsIncludingAnyDuplicates, RoundingMode.CEILING));
+  }
+
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 0xcafebabe;
 }

@@ -761,11 +761,9 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
         case 0:
           return emptyMap(comparator);
         case 1:
-          // requireNonNull is safe because the first `size` elements have been filled in.
-          Entry<K, V> onlyEntry = requireNonNull(entries[0]);
-          return of(comparator, onlyEntry.getKey(), onlyEntry.getValue());
+          return of(comparator, keyAt(0), valueAt(0));
         default:
-          return fromEntries(comparator, false, entries, size);
+          return fromEntries(comparator, false, toEntryArray(alternatingKeysAndValues, size), size);
       }
     }
 
