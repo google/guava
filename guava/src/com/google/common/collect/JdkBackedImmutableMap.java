@@ -36,12 +36,51 @@ import org.jspecify.annotations.Nullable;
 @GwtIncompatible
 final class JdkBackedImmutableMap<K, V> extends ImmutableMap<K, V> {
   /**
-   * Creates an {@code ImmutableMap} backed by a JDK HashMap. Used when probable hash flooding is
-   * detected. This implementation may replace the entries in entryArray with its own entry objects
-   * (though they will have the same key/value contents), and will take ownership of entryArray.
+   * Creates an {@code ImmutableMap} backed by a JDK {@link HashMap} from the first {@code n}
+   * key-value pairs in a flat {@code alternatingKeysAndValues} array.
+   *
+   * <p>Used as the hash-flooding fallback from {@link RegularImmutableMap#create} and by {@link
+   * ImmutableMap.Builder#buildJdkBacked}. If {@code throwIfDuplicateKeys} is {@code false} and
+   * {@code builder} is non-null, records the first duplicate key on {@code builder} so a later
+   * {@link ImmutableMap.Builder#buildOrThrow} fails immediately.
+   */
+  static <K, V> ImmutableMap<K, V> createFromAlternating(
+      int n,
+      @Nullable Object[] alternatingKeysAndValues,
+      boolean throwIfDuplicateKeys,
+      @Nullable Builder<K, V> builder) {
+    @SuppressWarnings({"rawtypes", "unchecked"}) // creating a typed Entry<K, V>[]
+    Entry<K, V>[] entryArray = new Entry[n];
+    for (int i = 0; i < n; i++) {
+      @SuppressWarnings("unchecked") // alternatingKeysAndValues stores K at even indices
+      K key = (K) requireNonNull(alternatingKeysAndValues[i << 1]);
+      @SuppressWarnings("unchecked") // alternatingKeysAndValues stores V at odd indices
+      V value = (V) requireNonNull(alternatingKeysAndValues[(i << 1) + 1]);
+      entryArray[i] = new ImmutableMapEntry<>(key, value);
+    }
+    return create(n, entryArray, throwIfDuplicateKeys, builder);
+  }
+
+  /**
+   * Creates an {@code ImmutableMap} backed by a JDK {@link HashMap}. Used when probable hash
+   * flooding is detected. This implementation may replace the entries in {@code entryArray} with
+   * its own entry objects (though they will have the same key/value contents), and will take
+   * ownership of {@code entryArray}.
    */
   static <K, V> ImmutableMap<K, V> create(
       int n, @Nullable Entry<K, V>[] entryArray, boolean throwIfDuplicateKeys) {
+    return create(n, entryArray, throwIfDuplicateKeys, /* builder= */ null);
+  }
+
+  /**
+   * Overload of {@link #create(int, Entry[], boolean)} that also records the first duplicate key on
+   * {@code builder} (if non-null) when {@code throwIfDuplicateKeys} is {@code false}.
+   */
+  static <K, V> ImmutableMap<K, V> create(
+      int n,
+      @Nullable Entry<K, V>[] entryArray,
+      boolean throwIfDuplicateKeys,
+      @Nullable Builder<K, V> builder) {
     Map<K, V> delegateMap = newHashMapWithExpectedSize(n);
     // If duplicates are allowed, this map will track the last value for each duplicated key.
     // A second pass will retain only the first entry for that key, but with this last value. The
@@ -58,6 +97,9 @@ final class JdkBackedImmutableMap<K, V> extends ImmutableMap<K, V> {
       if (oldValue != null) {
         if (throwIfDuplicateKeys) {
           throw conflictException("key", entryArray[i], entryArray[i].getKey() + "=" + oldValue);
+        }
+        if (builder != null && builder.duplicateKey == null) {
+          builder.duplicateKey = new Builder.DuplicateKey(key, value, oldValue);
         }
         if (duplicates == null) {
           duplicates = new HashMap<>();
@@ -83,6 +125,7 @@ final class JdkBackedImmutableMap<K, V> extends ImmutableMap<K, V> {
         newEntryArray[outI++] = entry;
       }
       entryArray = newEntryArray;
+      n = newEntryArray.length;
     }
     return new JdkBackedImmutableMap<>(delegateMap, asImmutableList(entryArray, n));
   }

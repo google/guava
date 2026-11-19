@@ -440,13 +440,27 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @DoNotMock
   public static class Builder<K, V> {
     @Nullable Comparator<? super V> valueComparator;
+
+    /**
+     * Flat alternating keys and values in insertion order ({@code [k0, v0, k1, v1, ...]}), avoiding
+     * per-entry {@link Entry} allocations during construction. Elements {@code [0, 2 * size)} are
+     * non-null, and {@code alternatingKeysAndValues.length >= 2 * size}.
+     */
     @Nullable Object[] alternatingKeysAndValues;
+
     int size;
+
+    /**
+     * {@code true} if {@link #alternatingKeysAndValues} may have been handed directly to a built
+     * map, meaning further mutation (such as in-place sorting for {@link #orderEntriesByValue})
+     * must copy the array first.
+     */
     boolean entriesUsed;
 
     /**
-     * If non-null, a duplicate key we found in a previous buildKeepingLast() or buildOrThrow()
-     * call. A later buildOrThrow() can simply report this duplicate immediately.
+     * First duplicate key observed by a previous {@link #buildKeepingLast} or {@link #buildOrThrow}
+     * call on this builder, or {@code null} if none has been seen yet. Allows a subsequent {@link
+     * #buildOrThrow} to report the duplicate immediately.
      */
     @Nullable DuplicateKey duplicateKey;
 
@@ -458,14 +472,18 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       this(ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     Builder(int initialCapacity) {
+      checkMaxEntryCount(initialCapacity);
       this.alternatingKeysAndValues = new @Nullable Object[2 * initialCapacity];
       this.size = 0;
       this.entriesUsed = false;
     }
 
     private void ensureCapacity(int minCapacity) {
+      if (minCapacity < 0) {
+        throw new IllegalArgumentException("cannot store more than Integer.MAX_VALUE / 2 entries");
+      }
+      checkMaxEntryCount(minCapacity);
       if (minCapacity * 2 > alternatingKeysAndValues.length) {
         alternatingKeysAndValues =
             Arrays.copyOf(
@@ -569,41 +587,40 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       if (throwIfDuplicateKeys && duplicateKey != null) {
         throw duplicateKey.exception();
       }
-      /*
-       * If entries is full, then this implementation may end up using the entries array
-       * directly and writing over the entry objects with non-terminal entries, but this is
-       * safe; if this Builder is used further, it will grow the entries array (so it can't
-       * affect the original array), and future build() calls will always copy any entry
-       * objects that cannot be safely reused.
-       */
-      // localAlternatingKeysAndValues is an alias for the alternatingKeysAndValues field, except if
-      // we end up removing duplicates in a copy of the array.
+      switch (size) {
+        case 0:
+          return of();
+        case 1:
+          return of(keyAt(0), valueAt(0));
+        default:
+          break;
+      }
+      // localAlternatingKeysAndValues aliases alternatingKeysAndValues except when deduplicating
+      // before sorting or copying a shared array to preserve builder-reuse immutability.
       @Nullable Object[] localAlternatingKeysAndValues;
       int localSize = size;
       if (valueComparator == null) {
         localAlternatingKeysAndValues = alternatingKeysAndValues;
       } else {
         if (entriesUsed) {
+          // A previous build may share alternatingKeysAndValues; copy before sorting in place.
           alternatingKeysAndValues = Arrays.copyOf(alternatingKeysAndValues, 2 * size);
         }
         localAlternatingKeysAndValues = alternatingKeysAndValues;
         if (!throwIfDuplicateKeys) {
           // We want to retain only the last-put value for any given key, before sorting.
           // This could be improved, but orderEntriesByValue is rather rarely used anyway.
-          localAlternatingKeysAndValues = lastEntryForEachKey(localAlternatingKeysAndValues, size);
-          if (localAlternatingKeysAndValues.length < alternatingKeysAndValues.length) {
-            localSize = localAlternatingKeysAndValues.length >>> 1;
+          @Nullable Object[] deduped = lastEntryForEachKey(localAlternatingKeysAndValues, size);
+          if (deduped != null) {
+            localAlternatingKeysAndValues = deduped;
+            localSize = deduped.length >>> 1;
           }
         }
         sortEntries(localAlternatingKeysAndValues, localSize, valueComparator);
       }
       entriesUsed = true;
-      ImmutableMap<K, V> map =
-          RegularImmutableMap.create(localSize, localAlternatingKeysAndValues, this);
-      if (throwIfDuplicateKeys && duplicateKey != null) {
-        throw duplicateKey.exception();
-      }
-      return map;
+      return RegularImmutableMap.create(
+          localSize, localAlternatingKeysAndValues, throwIfDuplicateKeys, this);
     }
 
     /**
@@ -653,53 +670,107 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return build(false);
     }
 
+    /** Returns the non-null key at {@code index} ({@code 0 <= index < size}). */
+    @SuppressWarnings("unchecked") // put() only stores K at even indices < 2 * size
+    final K keyAt(int index) {
+      return (K) requireNonNull(alternatingKeysAndValues[index << 1]);
+    }
+
+    /** Returns the non-null value at {@code index} ({@code 0 <= index < size}). */
+    @SuppressWarnings("unchecked") // put() only stores V at odd indices < 2 * size
+    final V valueAt(int index) {
+      return (V) requireNonNull(alternatingKeysAndValues[(index << 1) + 1]);
+    }
+
+    /**
+     * Converts the first {@code size} key-value pairs in {@code alternatingKeysAndValues} into an
+     * {@code Entry[]} for subclasses (such as {@link ImmutableBiMap.Builder} and {@link
+     * ImmutableSortedMap.Builder}) whose backing maps still build from entry arrays.
+     */
+    static <K, V> Entry<K, V>[] toEntryArray(
+        @Nullable Object[] alternatingKeysAndValues, int size) {
+      @SuppressWarnings({"rawtypes", "unchecked"}) // creating a typed Entry<K, V>[]
+      Entry<K, V>[] entries = new Entry[size];
+      for (int i = 0; i < size; i++) {
+        @SuppressWarnings("unchecked") // alternatingKeysAndValues stores K at even indices
+        K key = (K) requireNonNull(alternatingKeysAndValues[2 * i]);
+        @SuppressWarnings("unchecked") // alternatingKeysAndValues stores V at odd indices
+        V value = (V) requireNonNull(alternatingKeysAndValues[2 * i + 1]);
+        entries[i] = entryOf(key, value);
+      }
+      return entries;
+    }
+
+    /**
+     * Stably sorts the first {@code size} key-value pairs in {@code alternatingKeysAndValues} in
+     * place according to {@code valueComparator}.
+     */
     static <V> void sortEntries(
         @Nullable Object[] alternatingKeysAndValues,
         int size,
         Comparator<? super V> valueComparator) {
-      @SuppressWarnings({"rawtypes", "unchecked"})
+      @SuppressWarnings({"rawtypes", "unchecked"}) // creating a typed Entry<Object, V>[]
       Entry<Object, V>[] entries = new Entry[size];
       for (int i = 0; i < size; i++) {
-        // requireNonNull is safe because the first `2*size` elements have been filled in.
+        // requireNonNull is safe because the first `2 * size` elements have been filled in.
         Object key = requireNonNull(alternatingKeysAndValues[2 * i]);
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("unchecked") // alternatingKeysAndValues stores V at odd indices
         V value = (V) requireNonNull(alternatingKeysAndValues[2 * i + 1]);
-        entries[i] = new AbstractMap.SimpleImmutableEntry<Object, V>(key, value);
+        entries[i] = entryOf(key, value);
       }
-      Arrays.sort(entries, 0, size, Ordering.from(valueComparator).onResultOf(Entry::getValue));
+      Arrays.sort(
+          entries,
+          0,
+          size,
+          Ordering.from(valueComparator)
+              .onResultOf(
+                  new com.google.common.base.Function<Entry<Object, V>, V>() {
+                    @Override
+                    public V apply(Entry<Object, V> entry) {
+                      return entry.getValue();
+                    }
+                  }));
       for (int i = 0; i < size; i++) {
         alternatingKeysAndValues[2 * i] = entries[i].getKey();
         alternatingKeysAndValues[2 * i + 1] = entries[i].getValue();
       }
     }
 
-    private @Nullable Object[] lastEntryForEachKey(
-        @Nullable Object[] localAlternatingKeysAndValues, int size) {
-      Set<Object> seenKeys = new HashSet<>();
+    /**
+     * Scans the first {@code size} key-value pairs of {@code alternatingKeysAndValues} looking for
+     * duplicate keys. If duplicates are found, a new correctly-sized array is returned containing
+     * only the last occurrence of each duplicate key. Otherwise {@code null} is returned.
+     */
+    private static @Nullable Object @Nullable [] lastEntryForEachKey(
+        @Nullable Object[] alternatingKeysAndValues, int size) {
+      Set<Object> seen = new HashSet<>();
       BitSet dups = new BitSet(); // slots that are overridden by a later duplicate key
       for (int i = size - 1; i >= 0; i--) {
-        Object key = requireNonNull(localAlternatingKeysAndValues[2 * i]);
-        if (!seenKeys.add(key)) {
+        if (!seen.add(requireNonNull(alternatingKeysAndValues[2 * i]))) {
           dups.set(i);
         }
       }
       if (dups.isEmpty()) {
-        return localAlternatingKeysAndValues;
+        return alternatingKeysAndValues;
       }
       Object[] newAlternatingKeysAndValues = new Object[(size - dups.cardinality()) * 2];
-      for (int inI = 0, outI = 0; inI < size * 2; ) {
-        if (dups.get(inI >>> 1)) {
-          inI += 2;
-        } else {
+      for (int inI = 0, outI = 0; inI < size; inI++) {
+        if (!dups.get(inI)) {
+          newAlternatingKeysAndValues[outI++] = requireNonNull(alternatingKeysAndValues[2 * inI]);
           newAlternatingKeysAndValues[outI++] =
-              requireNonNull(localAlternatingKeysAndValues[inI++]);
-          newAlternatingKeysAndValues[outI++] =
-              requireNonNull(localAlternatingKeysAndValues[inI++]);
+              requireNonNull(alternatingKeysAndValues[2 * inI + 1]);
         }
       }
       return newAlternatingKeysAndValues;
     }
 
+    /**
+     * Captures a duplicate key and two conflicting values without eagerly constructing an {@link
+     * IllegalArgumentException} (and its stack trace).
+     *
+     * <p>Stored on {@link Builder#duplicateKey} during {@link #buildKeepingLast} so that a later
+     * {@link #buildOrThrow} on the same builder can immediately report the conflict.
+     */
     static final class DuplicateKey {
       private final Object key;
       private final Object value1;
@@ -738,6 +809,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         return kvMap;
       }
     }
+    if (map.isEmpty()) {
+      return of();
+    }
     return copyOf(map.entrySet());
   }
 
@@ -751,13 +825,85 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   public static <K, V> ImmutableMap<K, V> copyOf(
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
-    int initialCapacity =
-        (entries instanceof Collection)
-            ? ((Collection<?>) entries).size()
-            : ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY;
-    ImmutableMap.Builder<K, V> builder = new ImmutableMap.Builder<K, V>(initialCapacity);
-    builder.putAll(entries);
-    return builder.build();
+    if (entries instanceof Collection) {
+      int size = ((Collection<?>) entries).size();
+      if (size == 0) {
+        return of();
+      }
+      checkMaxEntryCount(size);
+      return copyOfCollection(entries, size);
+    }
+    Iterator<? extends Entry<? extends K, ? extends V>> it = entries.iterator();
+    if (!it.hasNext()) {
+      return of();
+    }
+    Entry<? extends K, ? extends V> first = checkNotNull(it.next());
+    if (!it.hasNext()) {
+      return of(first.getKey(), first.getValue());
+    }
+    Builder<K, V> builder = new Builder<>();
+    builder.put(first);
+    do {
+      builder.put(it.next());
+    } while (it.hasNext());
+    return builder.buildOrThrow();
+  }
+
+  /**
+   * Copies a sized {@link Collection} of entries directly into a flat {@code
+   * alternatingKeysAndValues} array without allocating a {@link Builder} or intermediate {@link
+   * Entry} copies.
+   *
+   * <p>Still checks {@code it.hasNext()} for 0/1-element fast paths and expands the array if a
+   * concurrent collection grows during iteration.
+   */
+  private static <K, V> ImmutableMap<K, V> copyOfCollection(
+      Iterable<? extends Entry<? extends K, ? extends V>> entries, int expectedSize) {
+    Iterator<? extends Entry<? extends K, ? extends V>> it = entries.iterator();
+    if (!it.hasNext()) {
+      return of();
+    }
+    Entry<? extends K, ? extends V> first = checkNotNull(it.next());
+    if (!it.hasNext()) {
+      return of(first.getKey(), first.getValue());
+    }
+    @Nullable Object[] kv = new @Nullable Object[expectedSize * 2];
+    K firstKey = first.getKey();
+    V firstValue = first.getValue();
+    checkEntryNotNull(firstKey, firstValue);
+    kv[0] = firstKey;
+    kv[1] = firstValue;
+    int count = 1;
+    while (it.hasNext()) {
+      Entry<? extends K, ? extends V> entry = checkNotNull(it.next());
+      K key = entry.getKey();
+      V value = entry.getValue();
+      checkEntryNotNull(key, value);
+      if (count == kv.length >>> 1) {
+        // Collection grew concurrently during iteration; expand as Builder does.
+        checkMaxEntryCount(count + 1);
+        kv =
+            Arrays.copyOf(
+                kv, ImmutableCollection.Builder.expandedCapacity(kv.length, (count + 1) * 2));
+      }
+      kv[count * 2] = key;
+      kv[count * 2 + 1] = value;
+      count++;
+    }
+    return RegularImmutableMap.create(count, kv);
+  }
+
+  /**
+   * Maximum number of entries representable in a flat {@code alternatingKeysAndValues} array (which
+   * stores two {@code Object} slots per entry).
+   */
+  static final int MAX_ENTRIES = Integer.MAX_VALUE / 2;
+
+  /** Throws {@link IllegalArgumentException} if {@code entryCount} exceeds {@link #MAX_ENTRIES}. */
+  static void checkMaxEntryCount(int entryCount) {
+    if (entryCount > MAX_ENTRIES) {
+      throw new IllegalArgumentException("cannot store more than Integer.MAX_VALUE / 2 entries");
+    }
   }
 
   static final Entry<?, ?>[] EMPTY_ENTRY_ARRAY = new Entry<?, ?>[0];

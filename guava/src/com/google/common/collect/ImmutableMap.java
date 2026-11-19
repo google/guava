@@ -145,7 +145,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * @throws IllegalArgumentException if duplicate keys are provided
    */
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1, K k2, V v2) {
-    return RegularImmutableMap.fromEntries(entryOf(k1, v1), entryOf(k2, v2));
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    return RegularImmutableMap.create(2, new Object[] {k1, v1, k2, v2});
   }
 
   /**
@@ -154,7 +156,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * @throws IllegalArgumentException if duplicate keys are provided
    */
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
-    return RegularImmutableMap.fromEntries(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3));
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    return RegularImmutableMap.create(3, new Object[] {k1, v1, k2, v2, k3, v3});
   }
 
   /**
@@ -163,8 +168,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * @throws IllegalArgumentException if duplicate keys are provided
    */
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
-    return RegularImmutableMap.fromEntries(
-        entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4));
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    return RegularImmutableMap.create(4, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4});
   }
 
   /**
@@ -174,8 +182,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   public static <K, V> ImmutableMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
-    return RegularImmutableMap.fromEntries(
-        entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4), entryOf(k5, v5));
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    checkEntryNotNull(k5, v5);
+    return RegularImmutableMap.create(5, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5});
   }
 
   /**
@@ -186,13 +198,14 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   public static <K, V> ImmutableMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
-    return RegularImmutableMap.fromEntries(
-        entryOf(k1, v1),
-        entryOf(k2, v2),
-        entryOf(k3, v3),
-        entryOf(k4, v4),
-        entryOf(k5, v5),
-        entryOf(k6, v6));
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    checkEntryNotNull(k5, v5);
+    checkEntryNotNull(k6, v6);
+    return RegularImmutableMap.create(
+        6, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6});
   }
 
   /**
@@ -203,14 +216,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   public static <K, V> ImmutableMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
-    return RegularImmutableMap.fromEntries(
-        entryOf(k1, v1),
-        entryOf(k2, v2),
-        entryOf(k3, v3),
-        entryOf(k4, v4),
-        entryOf(k5, v5),
-        entryOf(k6, v6),
-        entryOf(k7, v7));
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    checkEntryNotNull(k5, v5);
+    checkEntryNotNull(k6, v6);
+    checkEntryNotNull(k7, v7);
+    return RegularImmutableMap.create(
+        7, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7});
   }
 
   /**
@@ -236,15 +250,16 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       V v7,
       K k8,
       V v8) {
-    return RegularImmutableMap.fromEntries(
-        entryOf(k1, v1),
-        entryOf(k2, v2),
-        entryOf(k3, v3),
-        entryOf(k4, v4),
-        entryOf(k5, v5),
-        entryOf(k6, v6),
-        entryOf(k7, v7),
-        entryOf(k8, v8));
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    checkEntryNotNull(k5, v5);
+    checkEntryNotNull(k6, v6);
+    checkEntryNotNull(k7, v7);
+    checkEntryNotNull(k8, v8);
+    return RegularImmutableMap.create(
+        8, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8});
   }
 
   /**
@@ -272,16 +287,17 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       V v8,
       K k9,
       V v9) {
-    return RegularImmutableMap.fromEntries(
-        entryOf(k1, v1),
-        entryOf(k2, v2),
-        entryOf(k3, v3),
-        entryOf(k4, v4),
-        entryOf(k5, v5),
-        entryOf(k6, v6),
-        entryOf(k7, v7),
-        entryOf(k8, v8),
-        entryOf(k9, v9));
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    checkEntryNotNull(k5, v5);
+    checkEntryNotNull(k6, v6);
+    checkEntryNotNull(k7, v7);
+    checkEntryNotNull(k8, v8);
+    checkEntryNotNull(k9, v9);
+    return RegularImmutableMap.create(
+        9, new Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9});
   }
 
   /**
@@ -311,17 +327,21 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       V v9,
       K k10,
       V v10) {
-    return RegularImmutableMap.fromEntries(
-        entryOf(k1, v1),
-        entryOf(k2, v2),
-        entryOf(k3, v3),
-        entryOf(k4, v4),
-        entryOf(k5, v5),
-        entryOf(k6, v6),
-        entryOf(k7, v7),
-        entryOf(k8, v8),
-        entryOf(k9, v9),
-        entryOf(k10, v10));
+    checkEntryNotNull(k1, v1);
+    checkEntryNotNull(k2, v2);
+    checkEntryNotNull(k3, v3);
+    checkEntryNotNull(k4, v4);
+    checkEntryNotNull(k5, v5);
+    checkEntryNotNull(k6, v6);
+    checkEntryNotNull(k7, v7);
+    checkEntryNotNull(k8, v8);
+    checkEntryNotNull(k9, v9);
+    checkEntryNotNull(k10, v10);
+    return RegularImmutableMap.create(
+        10,
+        new Object[] {
+          k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9, k10, v10
+        });
   }
 
   // looking for of() with > 10 entries? Use the builder or ofEntries instead.
@@ -420,9 +440,29 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @DoNotMock
   public static class Builder<K, V> {
     @Nullable Comparator<? super V> valueComparator;
-    @Nullable Entry<K, V>[] entries;
+
+    /**
+     * Flat alternating keys and values in insertion order ({@code [k0, v0, k1, v1, ...]}), avoiding
+     * per-entry {@link Entry} allocations during construction. Elements {@code [0, 2 * size)} are
+     * non-null, and {@code alternatingKeysAndValues.length >= 2 * size}.
+     */
+    @Nullable Object[] alternatingKeysAndValues;
+
     int size;
+
+    /**
+     * {@code true} if {@link #alternatingKeysAndValues} may have been handed directly to a built
+     * map, meaning further mutation (such as in-place sorting for {@link #orderEntriesByValue})
+     * must copy the array first.
+     */
     boolean entriesUsed;
+
+    /**
+     * First duplicate key observed by a previous {@link #buildKeepingLast} or {@link #buildOrThrow}
+     * call on this builder, or {@code null} if none has been seen yet. Allows a subsequent {@link
+     * #buildOrThrow} to report the duplicate immediately.
+     */
+    @Nullable DuplicateKey duplicateKey;
 
     /**
      * Creates a new builder. The returned builder is equivalent to the builder generated by {@link
@@ -432,18 +472,24 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       this(ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     Builder(int initialCapacity) {
-      this.entries = new @Nullable Entry[initialCapacity];
+      checkMaxEntryCount(initialCapacity);
+      this.alternatingKeysAndValues = new @Nullable Object[2 * initialCapacity];
       this.size = 0;
       this.entriesUsed = false;
     }
 
     private void ensureCapacity(int minCapacity) {
-      if (minCapacity > entries.length) {
-        entries =
+      if (minCapacity < 0) {
+        throw new IllegalArgumentException("cannot store more than Integer.MAX_VALUE / 2 entries");
+      }
+      checkMaxEntryCount(minCapacity);
+      if (minCapacity * 2 > alternatingKeysAndValues.length) {
+        alternatingKeysAndValues =
             Arrays.copyOf(
-                entries, ImmutableCollection.Builder.expandedCapacity(entries.length, minCapacity));
+                alternatingKeysAndValues,
+                ImmutableCollection.Builder.expandedCapacity(
+                    alternatingKeysAndValues.length, minCapacity * 2));
         entriesUsed = false;
       }
     }
@@ -456,9 +502,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     @CanIgnoreReturnValue
     public Builder<K, V> put(K key, V value) {
       ensureCapacity(size + 1);
-      Entry<K, V> entry = entryOf(key, value);
-      // don't inline this: we want to fail atomically if key or value is null
-      entries[size++] = entry;
+      checkEntryNotNull(key, value);
+      alternatingKeysAndValues[2 * size] = key;
+      alternatingKeysAndValues[2 * size + 1] = value;
+      size++;
       return this;
     }
 
@@ -526,62 +573,54 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     Builder<K, V> combine(Builder<K, V> other) {
       checkNotNull(other);
       ensureCapacity(this.size + other.size);
-      arraycopy(other.entries, 0, this.entries, this.size, other.size);
+      arraycopy(
+          other.alternatingKeysAndValues,
+          0,
+          this.alternatingKeysAndValues,
+          this.size * 2,
+          other.size * 2);
       this.size += other.size;
       return this;
     }
 
     private ImmutableMap<K, V> build(boolean throwIfDuplicateKeys) {
-      /*
-       * If entries is full, or if hash flooding is detected, then this implementation may end up
-       * using the entries array directly and writing over the entry objects with non-terminal
-       * entries, but this is safe; if this Builder is used further, it will grow the entries array
-       * (so it can't affect the original array), and future build() calls will always copy any
-       * entry objects that cannot be safely reused.
-       */
+      if (throwIfDuplicateKeys && duplicateKey != null) {
+        throw duplicateKey.exception();
+      }
       switch (size) {
         case 0:
           return of();
         case 1:
-          // requireNonNull is safe because the first `size` elements have been filled in.
-          Entry<K, V> onlyEntry = requireNonNull(entries[0]);
-          return of(onlyEntry.getKey(), onlyEntry.getValue());
+          return of(keyAt(0), valueAt(0));
         default:
           break;
       }
-      // localEntries is an alias for the entries field, except if we end up removing duplicates in
-      // a copy of the entries array. Likewise, localSize is the same as size except in that case.
-      // It's possible to keep using this Builder after calling buildKeepingLast(), so we need to
-      // ensure that its state is not corrupted by removing duplicates that should cause a later
-      // buildOrThrow() to fail, or by changing the size.
-      @Nullable Entry<K, V>[] localEntries;
+      // localAlternatingKeysAndValues aliases alternatingKeysAndValues except when deduplicating
+      // before sorting or copying a shared array to preserve builder-reuse immutability.
+      @Nullable Object[] localAlternatingKeysAndValues;
       int localSize = size;
       if (valueComparator == null) {
-        localEntries = entries;
+        localAlternatingKeysAndValues = alternatingKeysAndValues;
       } else {
         if (entriesUsed) {
-          entries = Arrays.copyOf(entries, size);
+          // A previous build may share alternatingKeysAndValues; copy before sorting in place.
+          alternatingKeysAndValues = Arrays.copyOf(alternatingKeysAndValues, 2 * size);
         }
-        @SuppressWarnings("nullness") // entries 0..localSize-1 are non-null
-        Entry<K, V>[] nonNullEntries = entries;
+        localAlternatingKeysAndValues = alternatingKeysAndValues;
         if (!throwIfDuplicateKeys) {
           // We want to retain only the last-put value for any given key, before sorting.
           // This could be improved, but orderEntriesByValue is rather rarely used anyway.
-          Entry<K, V>[] lastEntryForEachKey = lastEntryForEachKey(nonNullEntries, size);
-          if (lastEntryForEachKey != null) {
-            nonNullEntries = lastEntryForEachKey;
-            localSize = lastEntryForEachKey.length;
+          @Nullable Object[] deduped = lastEntryForEachKey(localAlternatingKeysAndValues, size);
+          if (deduped != null) {
+            localAlternatingKeysAndValues = deduped;
+            localSize = deduped.length >>> 1;
           }
         }
-        sort(
-            nonNullEntries,
-            0,
-            localSize,
-            Ordering.from(valueComparator).onResultOf(Entry::getValue));
-        localEntries = nonNullEntries;
+        sortEntries(localAlternatingKeysAndValues, localSize, valueComparator);
       }
       entriesUsed = true;
-      return RegularImmutableMap.fromEntryArray(localSize, localEntries, throwIfDuplicateKeys);
+      return RegularImmutableMap.create(
+          localSize, localAlternatingKeysAndValues, throwIfDuplicateKeys, this);
     }
 
     /**
@@ -639,41 +678,119 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         case 0:
           return of();
         case 1:
-          // requireNonNull is safe because the first `size` elements have been filled in.
-          Entry<K, V> onlyEntry = requireNonNull(entries[0]);
-          return of(onlyEntry.getKey(), onlyEntry.getValue());
+          return of(keyAt(0), valueAt(0));
         default:
           entriesUsed = true;
-          return JdkBackedImmutableMap.create(size, entries, /* throwIfDuplicateKeys= */ true);
+          return JdkBackedImmutableMap.createFromAlternating(
+              size, alternatingKeysAndValues, /* throwIfDuplicateKeys= */ true, this);
+      }
+    }
+
+    /** Returns the non-null key at {@code index} ({@code 0 <= index < size}). */
+    @SuppressWarnings("unchecked") // put() only stores K at even indices < 2 * size
+    final K keyAt(int index) {
+      return (K) requireNonNull(alternatingKeysAndValues[index << 1]);
+    }
+
+    /** Returns the non-null value at {@code index} ({@code 0 <= index < size}). */
+    @SuppressWarnings("unchecked") // put() only stores V at odd indices < 2 * size
+    final V valueAt(int index) {
+      return (V) requireNonNull(alternatingKeysAndValues[(index << 1) + 1]);
+    }
+
+    /**
+     * Converts the first {@code size} key-value pairs in {@code alternatingKeysAndValues} into an
+     * {@code Entry[]} for subclasses (such as {@link ImmutableBiMap.Builder} and {@link
+     * ImmutableSortedMap.Builder}) whose backing maps still build from entry arrays.
+     */
+    static <K, V> Entry<K, V>[] toEntryArray(
+        @Nullable Object[] alternatingKeysAndValues, int size) {
+      @SuppressWarnings({"rawtypes", "unchecked"}) // creating a typed Entry<K, V>[]
+      Entry<K, V>[] entries = new Entry[size];
+      for (int i = 0; i < size; i++) {
+        @SuppressWarnings("unchecked") // alternatingKeysAndValues stores K at even indices
+        K key = (K) requireNonNull(alternatingKeysAndValues[2 * i]);
+        @SuppressWarnings("unchecked") // alternatingKeysAndValues stores V at odd indices
+        V value = (V) requireNonNull(alternatingKeysAndValues[2 * i + 1]);
+        entries[i] = entryOf(key, value);
+      }
+      return entries;
+    }
+
+    /**
+     * Stably sorts the first {@code size} key-value pairs in {@code alternatingKeysAndValues} in
+     * place according to {@code valueComparator}.
+     */
+    static <V> void sortEntries(
+        @Nullable Object[] alternatingKeysAndValues,
+        int size,
+        Comparator<? super V> valueComparator) {
+      @SuppressWarnings({"rawtypes", "unchecked"}) // creating a typed Entry<Object, V>[]
+      Entry<Object, V>[] entries = new Entry[size];
+      for (int i = 0; i < size; i++) {
+        // requireNonNull is safe because the first `2 * size` elements have been filled in.
+        Object key = requireNonNull(alternatingKeysAndValues[2 * i]);
+        @SuppressWarnings("unchecked") // alternatingKeysAndValues stores V at odd indices
+        V value = (V) requireNonNull(alternatingKeysAndValues[2 * i + 1]);
+        entries[i] = entryOf(key, value);
+      }
+      sort(entries, 0, size, Ordering.from(valueComparator).onResultOf(Entry::getValue));
+      for (int i = 0; i < size; i++) {
+        alternatingKeysAndValues[2 * i] = entries[i].getKey();
+        alternatingKeysAndValues[2 * i + 1] = entries[i].getValue();
       }
     }
 
     /**
-     * Scans the first {@code size} elements of {@code entries} looking for duplicate keys. If
-     * duplicates are found, a new correctly-sized array is returned with the same elements (up to
-     * {@code size}), except containing only the last occurrence of each duplicate key. Otherwise
-     * {@code null} is returned.
+     * Scans the first {@code size} key-value pairs of {@code alternatingKeysAndValues} looking for
+     * duplicate keys. If duplicates are found, a new correctly-sized array is returned containing
+     * only the last occurrence of each duplicate key. Otherwise {@code null} is returned.
      */
-    private static <K, V> Entry<K, V> @Nullable [] lastEntryForEachKey(
-        Entry<K, V>[] entries, int size) {
-      Set<K> seen = new HashSet<>();
+    private static @Nullable Object @Nullable [] lastEntryForEachKey(
+        @Nullable Object[] alternatingKeysAndValues, int size) {
+      Set<Object> seen = new HashSet<>();
       BitSet dups = new BitSet(); // slots that are overridden by a later duplicate key
       for (int i = size - 1; i >= 0; i--) {
-        if (!seen.add(entries[i].getKey())) {
+        if (!seen.add(requireNonNull(alternatingKeysAndValues[2 * i]))) {
           dups.set(i);
         }
       }
       if (dups.isEmpty()) {
         return null;
       }
-      @SuppressWarnings({"rawtypes", "unchecked"})
-      Entry<K, V>[] newEntries = new Entry[size - dups.cardinality()];
+      Object[] newAlternatingKeysAndValues = new Object[(size - dups.cardinality()) * 2];
       for (int inI = 0, outI = 0; inI < size; inI++) {
         if (!dups.get(inI)) {
-          newEntries[outI++] = entries[inI];
+          newAlternatingKeysAndValues[outI++] = requireNonNull(alternatingKeysAndValues[2 * inI]);
+          newAlternatingKeysAndValues[outI++] =
+              requireNonNull(alternatingKeysAndValues[2 * inI + 1]);
         }
       }
-      return newEntries;
+      return newAlternatingKeysAndValues;
+    }
+
+    /**
+     * Captures a duplicate key and two conflicting values without eagerly constructing an {@link
+     * IllegalArgumentException} (and its stack trace).
+     *
+     * <p>Stored on {@link Builder#duplicateKey} during {@link #buildKeepingLast} so that a later
+     * {@link #buildOrThrow} on the same builder can immediately report the conflict.
+     */
+    static final class DuplicateKey {
+      private final Object key;
+      private final Object value1;
+      private final Object value2;
+
+      DuplicateKey(Object key, Object value1, Object value2) {
+        this.key = key;
+        this.value1 = value1;
+        this.value2 = value2;
+      }
+
+      IllegalArgumentException exception() {
+        return new IllegalArgumentException(
+            "Multiple entries with same key: " + key + "=" + value1 + " and " + key + "=" + value2);
+      }
     }
   }
 
@@ -714,6 +831,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       ImmutableMap<K, V> result = (ImmutableMap<K, V>) untypedResult;
       return result;
     }
+    if (map.isEmpty()) {
+      return of();
+    }
     return copyOf(map.entrySet());
   }
 
@@ -727,21 +847,84 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   public static <K, V> ImmutableMap<K, V> copyOf(
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
-    @SuppressWarnings("unchecked") // we'll only be using getKey and getValue, which are covariant
-    Entry<K, V>[] entryArray = (Entry<K, V>[]) Iterables.toArray(entries, EMPTY_ENTRY_ARRAY);
-    switch (entryArray.length) {
-      case 0:
+    if (entries instanceof Collection) {
+      int size = ((Collection<?>) entries).size();
+      if (size == 0) {
         return of();
-      case 1:
-        // requireNonNull is safe because the first `size` elements have been filled in.
-        Entry<K, V> onlyEntry = requireNonNull(entryArray[0]);
-        return of(onlyEntry.getKey(), onlyEntry.getValue());
-      default:
-        /*
-         * The current implementation will end up using entryArray directly, though it will write
-         * over the (arbitrary, potentially mutable) Entry objects actually stored in entryArray.
-         */
-        return RegularImmutableMap.fromEntries(entryArray);
+      }
+      checkMaxEntryCount(size);
+      return copyOfCollection(entries, size);
+    }
+    Iterator<? extends Entry<? extends K, ? extends V>> it = entries.iterator();
+    if (!it.hasNext()) {
+      return of();
+    }
+    Entry<? extends K, ? extends V> first = checkNotNull(it.next());
+    if (!it.hasNext()) {
+      return of(first.getKey(), first.getValue());
+    }
+    Builder<K, V> builder = new Builder<>();
+    builder.put(first);
+    do {
+      builder.put(it.next());
+    } while (it.hasNext());
+    return builder.buildOrThrow();
+  }
+
+  /**
+   * Copies a sized {@link Collection} of entries directly into a flat {@code
+   * alternatingKeysAndValues} array without allocating a {@link Builder} or intermediate {@link
+   * Entry} copies.
+   *
+   * <p>Still checks {@code it.hasNext()} for 0/1-element fast paths and expands the array if a
+   * concurrent collection grows during iteration.
+   */
+  private static <K, V> ImmutableMap<K, V> copyOfCollection(
+      Iterable<? extends Entry<? extends K, ? extends V>> entries, int expectedSize) {
+    Iterator<? extends Entry<? extends K, ? extends V>> it = entries.iterator();
+    if (!it.hasNext()) {
+      return of();
+    }
+    Entry<? extends K, ? extends V> first = checkNotNull(it.next());
+    if (!it.hasNext()) {
+      return of(first.getKey(), first.getValue());
+    }
+    @Nullable Object[] kv = new @Nullable Object[expectedSize * 2];
+    K firstKey = first.getKey();
+    V firstValue = first.getValue();
+    checkEntryNotNull(firstKey, firstValue);
+    kv[0] = firstKey;
+    kv[1] = firstValue;
+    int count = 1;
+    while (it.hasNext()) {
+      Entry<? extends K, ? extends V> entry = checkNotNull(it.next());
+      K key = entry.getKey();
+      V value = entry.getValue();
+      checkEntryNotNull(key, value);
+      if (count == kv.length >>> 1) {
+        // Collection grew concurrently during iteration; expand as Builder does.
+        checkMaxEntryCount(count + 1);
+        kv =
+            Arrays.copyOf(
+                kv, ImmutableCollection.Builder.expandedCapacity(kv.length, (count + 1) * 2));
+      }
+      kv[count * 2] = key;
+      kv[count * 2 + 1] = value;
+      count++;
+    }
+    return RegularImmutableMap.create(count, kv);
+  }
+
+  /**
+   * Maximum number of entries representable in a flat {@code alternatingKeysAndValues} array (which
+   * stores two {@code Object} slots per entry).
+   */
+  static final int MAX_ENTRIES = Integer.MAX_VALUE / 2;
+
+  /** Throws {@link IllegalArgumentException} if {@code entryCount} exceeds {@link #MAX_ENTRIES}. */
+  static void checkMaxEntryCount(int entryCount) {
+    if (entryCount > MAX_ENTRIES) {
+      throw new IllegalArgumentException("cannot store more than Integer.MAX_VALUE / 2 entries");
     }
   }
 

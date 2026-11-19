@@ -233,14 +233,14 @@ public class ImmutableMapTest extends TestCase {
   @GwtIncompatible
   public void testBuilderExactlySizedReusesArray() {
     ImmutableMap.Builder<Integer, Integer> builder = ImmutableMap.builderWithExpectedSize(10);
-    Entry<Integer, Integer>[] builderArray = builder.entries;
+    Object[] builderArray = builder.alternatingKeysAndValues;
     for (int i = 0; i < 10; i++) {
       builder.put(i, i);
     }
-    Entry<Integer, Integer>[] builderArrayAfterPuts = builder.entries;
+    Object[] builderArrayAfterPuts = builder.alternatingKeysAndValues;
     RegularImmutableMap<Integer, Integer> map =
         (RegularImmutableMap<Integer, Integer>) builder.buildOrThrow();
-    Entry<Integer, Integer>[] mapInternalArray = map.entries;
+    Object[] mapInternalArray = map.alternatingKeysAndValues;
     assertThat(builderArrayAfterPuts).isSameInstanceAs(builderArray);
     assertThat(mapInternalArray).isSameInstanceAs(builderArray);
   }
@@ -527,18 +527,37 @@ public class ImmutableMapTest extends TestCase {
 
   @GwtIncompatible
   public void testBuildKeepingLast_collisions() {
-    Map<ClassWithTerribleHashCode, Integer> expected = new LinkedHashMap<>();
-    Builder<ClassWithTerribleHashCode, Integer> builder = new Builder<>();
-    int size = RegularImmutableMap.MAX_HASH_BUCKET_LENGTH + 10;
-    for (int i = 0; i < size; i++) {
-      ClassWithTerribleHashCode key = new ClassWithTerribleHashCode(i);
-      builder.put(key, i);
-      builder.put(key, -i);
-      expected.put(key, -i);
+    for (int size : new int[] {80, 300}) { // linear-probing and SWAR-probing flood thresholds
+      Map<ClassWithTerribleHashCode, Integer> expected = new LinkedHashMap<>();
+      Builder<ClassWithTerribleHashCode, Integer> builder = new Builder<>();
+      for (int i = 0; i < size; i++) {
+        ClassWithTerribleHashCode key = new ClassWithTerribleHashCode(i);
+        builder.put(key, i);
+        builder.put(key, -i);
+        expected.put(key, -i);
+      }
+      ImmutableMap<ClassWithTerribleHashCode, Integer> map = builder.buildKeepingLast();
+      assertThat(map).containsExactlyEntriesIn(expected).inOrder();
+      assertThat(map).isInstanceOf(JdkBackedImmutableMap.class);
     }
-    ImmutableMap<ClassWithTerribleHashCode, Integer> map = builder.buildKeepingLast();
-    assertThat(map).containsExactlyEntriesIn(expected).inOrder();
-    assertThat(map).isInstanceOf(JdkBackedImmutableMap.class);
+  }
+
+  /**
+   * Verifies that view {@code asList().get(index)} rejects indices whose {@code index << 1} bit
+   * shift would wrap into valid flat-array bounds (such as {@link Integer#MIN_VALUE} or {@code 1 <<
+   * 30}).
+   */
+  public void testKeySetAndValuesAsList_outOfBoundsBitShiftWraparound() {
+    ImmutableMap<String, Integer> map = ImmutableMap.of("a", 1, "b", 2);
+    ImmutableList<Entry<String, Integer>> entries = map.entrySet().asList();
+    ImmutableList<String> keys = map.keySet().asList();
+    ImmutableList<Integer> values = map.values().asList();
+    int[] badIndices = {-1, 2, Integer.MIN_VALUE, Integer.MIN_VALUE + 1, 1 << 30, (1 << 30) + 1};
+    for (int badIndex : badIndices) {
+      assertThrows(IndexOutOfBoundsException.class, () -> entries.get(badIndex));
+      assertThrows(IndexOutOfBoundsException.class, () -> keys.get(badIndex));
+      assertThrows(IndexOutOfBoundsException.class, () -> values.get(badIndex));
+    }
   }
 
   @GwtIncompatible // Pattern, Matcher
@@ -751,6 +770,31 @@ public class ImmutableMapTest extends TestCase {
     ImmutableMap<String, Integer> copy = ImmutableMap.copyOf(singletonMap("one", 1));
     assertMapEquals(copy, "one", 1);
     assertThat(ImmutableMap.copyOf(copy)).isSameInstanceAs(copy);
+  }
+
+  public void testCopyOfNonCollectionIterable() {
+    Iterable<Entry<String, Integer>> empty = Collections::emptyIterator;
+    assertThat(ImmutableMap.copyOf(empty)).isSameInstanceAs(ImmutableMap.of());
+
+    Iterable<Entry<String, Integer>> single =
+        () -> Collections.singletonList(mapEntry("one", 1)).iterator();
+    assertMapEquals(ImmutableMap.copyOf(single), "one", 1);
+
+    Iterable<Entry<String, Integer>> two =
+        () -> asList(mapEntry("one", 1), mapEntry("two", 2)).iterator();
+    assertMapEquals(ImmutableMap.copyOf(two), "one", 1, "two", 2);
+
+    Iterable<Entry<String, Integer>> nullEntry =
+        () -> Collections.<Entry<String, Integer>>singletonList(null).iterator();
+    assertThrows(NullPointerException.class, () -> ImmutableMap.copyOf(nullEntry));
+
+    Iterable<Entry<String, Integer>> nullKey =
+        () -> Collections.singletonList(mapEntry((String) null, 1)).iterator();
+    assertThrows(NullPointerException.class, () -> ImmutableMap.copyOf(nullKey));
+
+    Iterable<Entry<String, Integer>> nullValue =
+        () -> Collections.singletonList(mapEntry("one", (Integer) null)).iterator();
+    assertThrows(NullPointerException.class, () -> ImmutableMap.copyOf(nullValue));
   }
 
   public void testCopyOf() {
@@ -1138,5 +1182,148 @@ public class ImmutableMapTest extends TestCase {
     ImmutableMap<String, String> map = ImmutableMap.of("foo", "bar", "baz", "quux");
     assertThat(map.entrySet().spliterator().characteristics() & Spliterator.DISTINCT)
         .isNotEqualTo(0);
+  }
+
+  /**
+   * Exercises every {@link RegularImmutableMap} hash-table tier and boundary size:
+   *
+   * <ul>
+   *   <li>Tier 1 {@code byte[]} linear probing ({@code n <= 255}), including load-factor doublings
+   *       ({@code 89->90}, {@code 179->180}), signed-byte wraparound ({@code 128}), and maximum
+   *       0-based entry index {@code 254} at {@code n = 255}.
+   *   <li>Tier 2 SWAR-16 ({@code 256 <= n <= 65,536}).
+   *   <li>Tier 2 SWAR-24 ({@code 65,537 <= n <= 16,777,216}).
+   * </ul>
+   */
+  @GwtIncompatible
+  public void testRegularImmutableMapAllTiersAndBoundaries() {
+    int[] sizes = {
+      2, 8, 89, 90, 128, 129, 179, 180, 254, 255, 256, 257, 1024, 65_536, 65_537, 70_000
+    };
+    for (int n : sizes) {
+      ImmutableMap.Builder<Integer, Integer> builder = ImmutableMap.builderWithExpectedSize(n);
+      for (int i = 0; i < n; i++) {
+        builder.put(i, i * 3 + 1);
+      }
+      ImmutableMap<Integer, Integer> map = builder.buildOrThrow();
+      assertThat(map).isInstanceOf(RegularImmutableMap.class);
+      assertThat(map).hasSize(n);
+      // Spot-check hits, misses, and null handling across all tiers.
+      assertThat(map.get(0)).isEqualTo(1);
+      assertThat(map.get(n / 2)).isEqualTo((n / 2) * 3 + 1);
+      assertThat(map.get(n - 1)).isEqualTo((n - 1) * 3 + 1);
+      assertThat(map.get(-1)).isNull();
+      assertThat(map.get(n)).isNull();
+      assertThat(map.get(null)).isNull();
+      if (n <= 1024) {
+        int expectedHash = 0;
+        for (int i = 0; i < n; i++) {
+          assertThat(map.get(i)).isEqualTo(i * 3 + 1);
+          expectedHash += Integer.hashCode(i) ^ Integer.hashCode(i * 3 + 1);
+        }
+        assertThat(map.hashCode()).isEqualTo(expectedHash);
+      }
+    }
+  }
+
+  /**
+   * Exercises {@link ImmutableMap.Builder#buildKeepingLast} when deduplication shrinks a map across
+   * table-size or storage-tier boundaries (within {@code byte[]}, SWAR-16 to {@code byte[]} at the
+   * {@code n = 255} max-byte boundary and below, and SWAR-32 to SWAR-16), verifying that lookups
+   * succeed and a subsequent {@link ImmutableMap.Builder#buildOrThrow} still fails.
+   */
+  @GwtIncompatible
+  public void testBuildKeepingLastCrossingTierBoundaries() {
+    // 16 entries with 6 unique keys: shrinks byte[] table size from 32 to 16.
+    ImmutableMap.Builder<Integer, Integer> byteShrink = ImmutableMap.builder();
+    for (int i = 0; i < 6; i++) {
+      byteShrink.put(i, i);
+      byteShrink.put(i, i + 100);
+    }
+    byteShrink.put(0, 999);
+    byteShrink.put(1, 998);
+    byteShrink.put(2, 997);
+    byteShrink.put(3, 996);
+    ImmutableMap<Integer, Integer> shrunkByteMap = byteShrink.buildKeepingLast();
+    assertThat(shrunkByteMap).hasSize(6);
+    assertThat(shrunkByteMap.get(0)).isEqualTo(999);
+    assertThat(shrunkByteMap.get(5)).isEqualTo(105);
+    assertThrows(IllegalArgumentException.class, byteShrink::buildOrThrow);
+
+    // 220 entries with 150 unique keys (duplicates at entry indices >= 128): stays in byte[] and
+    // shrinks table size from 512 to 256.
+    ImmutableMap.Builder<Integer, Integer> byteHighIndexShrink = ImmutableMap.builder();
+    for (int i = 0; i < 150; i++) {
+      byteHighIndexShrink.put(i, i);
+    }
+    for (int i = 80; i < 150; i++) {
+      byteHighIndexShrink.put(i, i + 1000);
+    }
+    ImmutableMap<Integer, Integer> shrunkHighIndexByteMap = byteHighIndexShrink.buildKeepingLast();
+    assertThat(shrunkHighIndexByteMap).hasSize(150);
+    for (int i = 0; i < 150; i++) {
+      assertThat(shrunkHighIndexByteMap.get(i)).isEqualTo(i < 80 ? i : i + 1000);
+    }
+    assertThrows(IllegalArgumentException.class, byteHighIndexShrink::buildOrThrow);
+
+    // 256 entries with 255 unique keys: starts in SWAR-16 (>= 256), compacts into byte[] at the
+    // exact max capacity (n = 255, max entry index 254).
+    ImmutableMap.Builder<Integer, Integer> swarToByteMax = ImmutableMap.builder();
+    for (int i = 0; i < 255; i++) {
+      swarToByteMax.put(i, i);
+    }
+    swarToByteMax.put(254, -254);
+    ImmutableMap<Integer, Integer> swarToMaxByteMap = swarToByteMax.buildKeepingLast();
+    assertThat(swarToMaxByteMap).hasSize(255);
+    assertThat(swarToMaxByteMap.get(0)).isEqualTo(0);
+    assertThat(swarToMaxByteMap.get(128)).isEqualTo(128);
+    assertThat(swarToMaxByteMap.get(254)).isEqualTo(-254);
+    assertThrows(IllegalArgumentException.class, swarToByteMax::buildOrThrow);
+
+    // 300 entries with 150 unique keys: starts in SWAR-16 (>= 256), compacts into byte[] (<= 255).
+    ImmutableMap.Builder<Integer, Integer> swarToByte = ImmutableMap.builder();
+    for (int i = 0; i < 150; i++) {
+      swarToByte.put(i, i);
+      swarToByte.put(i, -i);
+    }
+    ImmutableMap<Integer, Integer> swarToByteMap = swarToByte.buildKeepingLast();
+    assertThat(swarToByteMap).hasSize(150);
+    for (int i = 0; i < 150; i++) {
+      assertThat(swarToByteMap.get(i)).isEqualTo(-i);
+    }
+    assertThrows(IllegalArgumentException.class, swarToByte::buildOrThrow);
+
+    // 66,000 entries with 65,000 unique keys: starts in SWAR-32 (> 65,536), compacts into SWAR-16.
+    ImmutableMap.Builder<Integer, Integer> swar32To16 =
+        ImmutableMap.builderWithExpectedSize(66_000);
+    for (int i = 0; i < 65_000; i++) {
+      swar32To16.put(i, i);
+    }
+    for (int i = 0; i < 1_000; i++) {
+      swar32To16.put(i, -i - 1);
+    }
+    ImmutableMap<Integer, Integer> swar32ToSwar16Map = swar32To16.buildKeepingLast();
+    assertThat(swar32ToSwar16Map).hasSize(65_000);
+    assertThat(swar32ToSwar16Map.get(0)).isEqualTo(-1);
+    assertThat(swar32ToSwar16Map.get(999)).isEqualTo(-1000);
+    assertThat(swar32ToSwar16Map.get(1000)).isEqualTo(1000);
+    assertThat(swar32ToSwar16Map.get(64_999)).isEqualTo(64_999);
+    assertThrows(IllegalArgumentException.class, swar32To16::buildOrThrow);
+  }
+
+  @GwtIncompatible
+  public void testRegularImmutableMapSwar24BitPackingAllLanes() {
+    long[] table = new long[8];
+    int groupBase = 4;
+    int[] expected = {
+      0x000001, 0x123456, 0xABCDEF, 0x800000, 0x7FFFFF, 0xFEDCB9, 0x00FF00, 0xFFFFFF
+    };
+    for (int lane = 0; lane < 8; lane++) {
+      SwarTables.writeSlot(
+          table, groupBase, SwarTables.STRIDE_24, table[groupBase], 0x80, lane, expected[lane]);
+    }
+    for (int lane = 0; lane < 8; lane++) {
+      assertThat(SwarTables.read24BitIndex(table, groupBase, lane)).isEqualTo(expected[lane]);
+    }
   }
 }
