@@ -341,6 +341,27 @@ public class InetAddressesTest extends TestCase {
         IllegalArgumentException.class, () -> InetAddresses.forString("fe80::1%21474836480"));
   }
 
+  public void testIPv6AddressWithWhitespaceOrControlCharacterInScopeId() {
+    // ipStringToBytes validates characters only up to the first '%', so anything could follow it.
+    // No interface name or index can contain whitespace or control characters, and a caller that
+    // trusts isInetAddress() may pass the string on to a header, a URL, or a configuration file.
+    ImmutableSet<String> scopeIds =
+        ImmutableSet.of(
+            " ", "eth0 ", " eth0", "eth\t0", "1\n", "\r\n", "\u0000", "1\u0000", "lo0\u0085");
+    for (String scopeId : scopeIds) {
+      String withScopeId = "fe80::1%" + scopeId;
+      assertFalse(withScopeId, InetAddresses.isInetAddress(withScopeId));
+      assertFalse(withScopeId, InetAddresses.isUriInetAddress("[" + withScopeId + "]"));
+      assertFalse(withScopeId, InetAddresses.isMappedIPv4Address("::ffff:102:304%" + scopeId));
+      assertThrows(IllegalArgumentException.class, () -> InetAddresses.forString(withScopeId));
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> InetAddresses.forUriString("[" + withScopeId + "]"));
+    }
+    // A scope ID that merely names an interface that doesn't exist is still a valid literal.
+    assertTrue(InetAddresses.isInetAddress("fe80::1%eth9"));
+  }
+
   public void testToAddrStringIPv4() {
     // Don't need to test IPv4 much; it just calls getHostAddress().
     assertThat(InetAddresses.toAddrString(InetAddresses.forString("1.2.3.4"))).isEqualTo("1.2.3.4");
