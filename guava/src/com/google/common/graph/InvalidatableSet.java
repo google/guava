@@ -7,8 +7,9 @@ import com.google.common.collect.ForwardingSet;
 import java.util.Set;
 
 /**
- * A subclass of `ForwardingSet` that throws `IllegalStateException` on invocation of any method
- * (except `hashCode` and `equals`) if the provided `Supplier` returns false.
+ * A subclass of {@link ForwardingSet} that throws {@link IllegalStateException} on invocation of
+ * any method (except {@link #hashCode} and {@link #equals}) if the provided {@link Supplier}
+ * returns false.
  */
 final class InvalidatableSet<E> extends ForwardingSet<E> {
   private final Supplier<Boolean> validator;

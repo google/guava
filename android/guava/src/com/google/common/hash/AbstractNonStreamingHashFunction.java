@@ -82,8 +82,8 @@ abstract class AbstractNonStreamingHashFunction extends AbstractHashFunction {
     }
 
     /**
-     * Resizes the buffer if necessary. Guaranteed to leave `buffer` in Write Mode ready for new
-     * data.
+     * Resizes the buffer if necessary. Guaranteed to leave {@link #buffer} in Write Mode ready for
+     * new data.
      */
     private void ensureCapacity(int needed) {
       if (buffer.remaining() >= needed) {

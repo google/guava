@@ -316,7 +316,7 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
   }
 
   /**
-   * Populates the graph with nodes and edges in a star shape with node `1` in the middle.
+   * Populates the graph with nodes and edges in a star shape with node {@code 1} in the middle.
    *
    * <p>Note that the edges are added in a shuffled order to properly test the effect of the
    * insertion order.
