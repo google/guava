@@ -59,4 +59,20 @@ public final class InvalidatableSetTest {
     assertThrows(IllegalStateException.class, () -> copyOfWrappedSet.equals(setToTest));
     assertThrows(IllegalStateException.class, () -> copyOfModifiedSet.equals(setToTest));
   }
+
+  @Test
+  public void hashCode_afterInvalidation_doesNotAccessDelegate() {
+    Set<Integer> throwingDelegate =
+        new HashSet<Integer>() {
+          @Override
+          public int hashCode() {
+            throw new IllegalStateException();
+          }
+        };
+    boolean[] valid = {true};
+    Set<Integer> set = InvalidatableSet.of(throwingDelegate, () -> valid[0], () -> "invalid");
+    assertThrows(IllegalStateException.class, set::hashCode);
+    valid[0] = false;
+    int unused = set.hashCode(); // doesn't throw
+  }
 }

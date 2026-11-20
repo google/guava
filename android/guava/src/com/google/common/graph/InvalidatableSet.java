@@ -8,8 +8,8 @@ import java.util.Set;
 
 /**
  * A subclass of {@link ForwardingSet} that throws {@link IllegalStateException} on invocation of
- * any method (except {@link #hashCode} and {@link #equals}) if the provided {@link Supplier}
- * returns false.
+ * any method (except {@link #hashCode}) if the provided {@link Supplier} returns false. Once the
+ * set is invalidated, {@link #hashCode} returns 0.
  */
 final class InvalidatableSet<E> extends ForwardingSet<E> {
   private final Supplier<Boolean> validator;
@@ -36,10 +36,12 @@ final class InvalidatableSet<E> extends ForwardingSet<E> {
   }
 
   // Override hashCode() to access delegate directly (so that it doesn't trigger the validate() call
-  // via delegate()); it seems inappropriate to throw ISE on this method.
+  // via delegate()); it seems inappropriate to throw ISE on this method. Once the set has been
+  // invalidated, though, we don't touch the delegate at all: computing its hash code may itself
+  // throw (e.g., if it is a view that looks up a node that has since been removed).
   @Override
   public int hashCode() {
-    return delegate.hashCode();
+    return validator.get() ? delegate.hashCode() : 0;
   }
 
   private void validate() {

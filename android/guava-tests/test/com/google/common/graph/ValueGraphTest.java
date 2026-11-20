@@ -352,6 +352,33 @@ public final class ValueGraphTest {
   }
 
   @Test
+  public void invalidatedViews_hashCodeDoesNotThrow() {
+    graph = ValueGraphBuilder.directed().build();
+    graph.putEdgeValue(1, 2, "1-2");
+    graph.putEdgeValue(2, 3, "2-3");
+    Set<EndpointPair<Integer>> incidentEdges = graph.asGraph().incidentEdges(1);
+    Set<EndpointPair<Integer>> inEdges = graph.asNetwork().inEdges(2);
+    graph.removeNode(1);
+    assertThrows(IllegalStateException.class, incidentEdges::size);
+    int unused = incidentEdges.hashCode(); // doesn't throw
+    graph.removeNode(2);
+    assertThrows(IllegalStateException.class, inEdges::size);
+    unused = inEdges.hashCode(); // doesn't throw
+  }
+
+  @Test
+  public void network_adjacentEdges_hashCodeAfterNodeRemoval() {
+    MutableNetwork<Integer, String> network = NetworkBuilder.directed().build();
+    network.addEdge(1, 2, "1-2");
+    network.addEdge(2, 3, "2-3");
+    Set<String> adjacentEdges = network.adjacentEdges("1-2");
+    network.removeNode(1);
+    assertThrows(IllegalStateException.class, adjacentEdges::size);
+    int unused = adjacentEdges.hashCode(); // doesn't throw
+    graph = ValueGraphBuilder.directed().build(); // for validateGraphState()
+  }
+
+  @Test
   public void edgeValue_missing() {
     graph = ValueGraphBuilder.directed().build();
 
