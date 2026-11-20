@@ -56,7 +56,8 @@ import org.jspecify.annotations.Nullable;
  *   <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
- * <h3>{@link java.util.CompletableFuture} / {@link java.util.concurrent.CompletionStage} </h3>
+ * <h3>{@link java.util.concurrent.CompletableFuture} / {@link java.util.concurrent.CompletionStage}
+ * </h3>
  *
  * <p>Users of {@code CompletableFuture} will likely want to continue using {@code
  * CompletableFuture}. {@link FluentFuture} is targeted at people who use {@link ListenableFuture},

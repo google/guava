@@ -566,7 +566,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * formula.
    *
    * @param n expected insertions (must be positive)
-   * @param p false positive rate (must be 0 < p < 1)
+   * @param p false positive rate (must be {@code 0 < p < 1})
    */
   @VisibleForTesting
   static long optimalNumOfBits(long n, double p) {

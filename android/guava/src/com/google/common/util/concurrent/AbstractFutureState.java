@@ -405,9 +405,10 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
    *
    * <ul>
    *   <li>{@code null} initial state, nothing has happened.
-   *   <li>{@link Cancellation} terminal state, {@code cancel} was called.
-   *   <li>{@link Failure} terminal state, {@code setException} was called.
-   *   <li>{@link DelegatingToFuture} intermediate state, {@code setFuture} was called.
+   *   <li>{@code AbstractFuture.Cancellation} terminal state, {@code cancel} was called.
+   *   <li>{@code AbstractFuture.Failure} terminal state, {@code setException} was called.
+   *   <li>{@code AbstractFuture.DelegatingToFuture} intermediate state, {@code setFuture} was
+   *       called.
    *   <li>{@link #NULL} terminal state, {@code set(null)} was called.
    *   <li>Any other non-null value, terminal state, {@code set} was called with a non-null
    *       argument.

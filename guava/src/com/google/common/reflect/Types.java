@@ -336,7 +336,7 @@ final class Types {
    *
    * <p>Java 8 introduced a new method {@code getAnnotatedBounds()} in the {@link TypeVariable}
    * interface, whose return type {@code AnnotatedType[]} is also new in Java 8. As of 2025, Android
-   * has not added {@link AnnotatedType}. That means that we cannot implement that interface in
+   * has not added {@code AnnotatedType}. That means that we cannot implement that interface in
    * source code in a way that will compile on both Java and Android. If we include the {@code
    * getAnnotatedBounds()} method, then its return type means it won't compile on Android, while if
    * we don't include the method, then the compiler will complain that an abstract method is

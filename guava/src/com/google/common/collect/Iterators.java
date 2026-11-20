@@ -1049,7 +1049,7 @@ public final class Iterators {
    * example using {@link Arrays#asList(Object[])}, making this method unnecessary.
    *
    * <p>The {@code Iterable} equivalent of this method is either {@link Arrays#asList(Object[])},
-   * {@link ImmutableList#copyOf(Object[])}}, or {@link ImmutableList#of}.
+   * {@link ImmutableList#copyOf(Object[])}, or {@link ImmutableList#of}.
    */
   @SafeVarargs
   public static <T extends @Nullable Object> UnmodifiableIterator<T> forArray(T... array) {
