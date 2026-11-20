@@ -20,6 +20,7 @@ import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Collections.singleton;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -414,5 +415,27 @@ public class TreeBasedTableTest extends AbstractTableTest<Character> {
     table.put("foo", 5, 'x');
     assertEquals(ImmutableMap.of(5, 'x'), row);
     assertEquals(ImmutableMap.of(5, 'x'), subRow);
+  }
+
+  public void testSubRowNestedViewAtExclusiveUpperBound() {
+    sortedTable = TreeBasedTable.create();
+    sortedTable.put("foo", 1, 'a');
+    sortedTable.put("foo", 2, 'b');
+    sortedTable.put("foo", 3, 'c');
+    SortedMap<Integer, Character> headRow = sortedTable.row("foo").headMap(3);
+    assertEquals(ImmutableMap.of(1, 'a', 2, 'b'), headRow.headMap(3));
+    assertEquals(ImmutableMap.of(2, 'b'), headRow.subMap(2, 3));
+    SortedMap<Integer, Character> subRow = sortedTable.row("foo").subMap(1, 3);
+    assertEquals(ImmutableMap.of(1, 'a', 2, 'b'), subRow.headMap(3));
+    assertEquals(ImmutableMap.of(1, 'a'), subRow.subMap(1, 2));
+    assertThrows(IllegalArgumentException.class, () -> headRow.headMap(4));
+    assertThrows(IllegalArgumentException.class, () -> headRow.subMap(2, 4));
+    assertThrows(IllegalArgumentException.class, () -> headRow.tailMap(3));
+    // Like TreeMap, fromKey must be strictly less than the submap's existing upper bound.
+    assertThrows(IllegalArgumentException.class, () -> headRow.subMap(3, 3));
+    // And the nested view still rejects writes at its exclusive upper bound.
+    SortedMap<Integer, Character> sortedMap = headRow.headMap(3);
+    assertThrows(IllegalArgumentException.class, () -> sortedMap.put(3, 'x'));
+    assertThrows(IllegalArgumentException.class, () -> subRow.headMap(0));
   }
 }
