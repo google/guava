@@ -906,6 +906,24 @@ public class TreeRangeMapTest extends TestCase {
         .testEquals();
   }
 
+  public void testSubRangeMapEquals_disconnectedNestedSubRangeMap() {
+    RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+    rangeMap.put(Range.closed(0, 10), 1);
+    RangeMap<Integer, Integer> disconnected =
+        rangeMap.subRangeMap(Range.closed(1, 2)).subRangeMap(Range.closed(3, 4));
+    RangeMap<Integer, Integer> nonEmpty = TreeRangeMap.create();
+    nonEmpty.put(Range.closed(1, 2), 1);
+    new EqualsTester()
+        .addEqualityGroup(
+            disconnected,
+            TreeRangeMap.create(),
+            ImmutableRangeMap.of(),
+            rangeMap.subRangeMap(Range.closed(20, 30)))
+        .addEqualityGroup(nonEmpty, rangeMap.subRangeMap(Range.closed(1, 2)))
+        .testEquals();
+    assertThat(disconnected.toString()).isEqualTo("{}");
+  }
+
   private static void verify(Map<Integer, Integer> model, RangeMap<Integer, Integer> test) {
     for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
       assertEquals(model.get(i), test.get(i));
