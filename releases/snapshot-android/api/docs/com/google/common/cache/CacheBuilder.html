@@ -800,9 +800,9 @@ feasible), use <a href="#expireAfterWrite(java.time.Duration)"><code>expireAfter
 has elapsed after the entry's creation, the most recent replacement of its value, or its last
 access. Access time is reset by all cache read and write operations (including <code>
 Cache.asMap().get(Object)</code> and <code>Cache.asMap().put(K, V)</code>), but not by <code>
-containsKey(Object)</code>, nor by operations on the collection-views of <a href="Cache.html#asMap()"><code>Cache.asMap()</code></a>}. So,
-for example, iterating through <code>Cache.asMap().entrySet()</code> does not reset access time for
-the entries you retrieve.
+containsKey(Object)</code>, nor by operations on the collection-views of <a href="Cache.html#asMap()"><code>Cache.asMap()</code></a>. So, for
+example, iterating through <code>Cache.asMap().entrySet()</code> does not reset access time for the
+entries you retrieve.
 
 <p>When <code>duration</code> is zero, this method hands off to <a href="#maximumSize(long)"><code>maximumSize</code></a><code>(0)</code>, ignoring any otherwise-specified maximum size or weight. This can be
 useful in testing, or to disable caching temporarily without a code change.

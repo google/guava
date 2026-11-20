@@ -8498,9 +8498,9 @@
  has elapsed after the entry's creation, the most recent replacement of its value, or its last
  access. Access time is reset by all cache read and write operations (including {@code
  Cache.asMap().get(Object)} and {@code Cache.asMap().put(K, V)}), but not by {@code
- containsKey(Object)}, nor by operations on the collection-views of {@link Cache#asMap}}. So,
- for example, iterating through {@code Cache.asMap().entrySet()} does not reset access time for
- the entries you retrieve.
+ containsKey(Object)}, nor by operations on the collection-views of {@link Cache#asMap}. So, for
+ example, iterating through {@code Cache.asMap().entrySet()} does not reset access time for the
+ entries you retrieve.
 
  <p>When {@code duration} is zero, this method hands off to {@link #maximumSize(long)
  maximumSize}{@code (0)}, ignoring any otherwise-specified maximum size or weight. This can be
@@ -26724,7 +26724,7 @@
  example using {@link Arrays#asList(Object[])}, making this method unnecessary.
 
  <p>The {@code Iterable} equivalent of this method is either {@link Arrays#asList(Object[])},
- {@link ImmutableList#copyOf(Object[])}}, or {@link ImmutableList#of}.]]>
+ {@link ImmutableList#copyOf(Object[])}, or {@link ImmutableList#of}.]]>
       </doc>
     </method>
     <method name="singletonIterator" return="com.google.common.collect.UnmodifiableIterator&lt;T&gt;"
@@ -71600,7 +71600,8 @@
    <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>
  </ul>
 
- <h3>{@link java.util.CompletableFuture} / {@link java.util.concurrent.CompletionStage} </h3>
+ <h3>{@link java.util.concurrent.CompletableFuture} / {@link java.util.concurrent.CompletionStage}
+ </h3>
 
  <p>Users of {@code CompletableFuture} will likely want to continue using {@code
  CompletableFuture}. {@link FluentFuture} is targeted at people who use {@link ListenableFuture},

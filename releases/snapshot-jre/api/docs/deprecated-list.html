@@ -789,19 +789,9 @@ initTheme();
           run of an application</i>, even if they were inserted in a different order.
       <li>If you want a sorted map or set to contain multiple objects that your primary <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link"><code>Comparator</code></a> considers to be equal (and you are using <code>arbitrary()</code> as a
           tie-breaker): Prefer to break ties by comparing an existing unique field or by
-          assigning each object a sequential ID (such as from an 
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre><code>AtomicLong</code></pre>
-</details>
-) and
+          assigning each object a sequential ID (such as from an <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/atomic/AtomicLong.html" title="class in java.util.concurrent.atomic" class="external-link"><code>AtomicLong</code></a>) and
           comparing that. Or consider storing your objects in a different data structure, like
-          by switching from a 
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre><code>Set</code></pre>
-</details>
- to the <a href="com/google/common/collect/Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> discussed in the first list
+          by switching from a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Set.html" title="interface in java.util" class="external-link"><code>Set</code></a> to the <a href="com/google/common/collect/Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> discussed in the first list
           item above: You can insert your objects as values, and your keys can be the objects
           themselves or objects that contain only the fields compared by your <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link"><code>Comparator</code></a>.
     </ul>
