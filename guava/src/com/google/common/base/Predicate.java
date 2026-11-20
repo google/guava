@@ -34,8 +34,8 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>The {@link Predicates} class provides common predicates and related utilities.
  *
- * <p>See the Guava User Guide article on <a
- * href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code Predicate}</a>.
+ * <p>See the Guava User Guide article on <a href=
+ * "https://github.com/google/guava/wiki/FunctionalExplained">the use of functional types</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0

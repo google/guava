@@ -19,15 +19,8 @@ import java.util.Objects;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Determines a true or false value for a given input; a pre-Java-8 version of {@link
- * java.util.function.Predicate java.util.function.Predicate}.
- *
- * <p>The {@link Predicates} class provides common predicates and related utilities.
- *
- * <p>See the Guava User Guide article on <a
- * href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code Predicate}</a>.
- *
- * <h3>For Java 8+ users</h3>
+ * Legacy version of {@link java.util.function.Predicate java.util.function.Predicate}. Determines a
+ * true or false value for a given input.
  *
  * <p>This interface is now a legacy type. Use {@code java.util.function.Predicate} (or the
  * appropriate primitive specialization such as {@code IntPredicate}) instead whenever possible.
@@ -40,6 +33,11 @@ import org.jspecify.annotations.Nullable;
  * version of this interface will be made to <i>extend</i> {@code java.util.function.Predicate}, so
  * that conversion will be necessary in only one direction. At that time, this interface will be
  * officially discouraged.
+ *
+ * <p>The {@link Predicates} class provides common predicates and related utilities.
+ *
+ * <p>See the Guava User Guide article on <a href=
+ * "https://github.com/google/guava/wiki/FunctionalExplained">the use of functional types</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0

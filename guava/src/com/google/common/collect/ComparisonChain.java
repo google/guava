@@ -23,8 +23,8 @@ import java.util.Comparator;
 import org.jspecify.annotations.Nullable;
 
 /**
- * A utility for performing a chained comparison statement. <b>Note:</b> Java 8+ users should
- * generally prefer the methods in {@link Comparator}; see <a href="#java8">below</a>.
+ * Legacy utility for performing a chained comparison statement. <b>Note:</b> Users should generally
+ * prefer the methods in {@link Comparator}; see <a href="#java8">below</a>.
  *
  * <p>Example usage of {@code ComparisonChain}:
  *
@@ -54,10 +54,10 @@ import org.jspecify.annotations.Nullable;
  * "https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained#comparecompareto">{@code
  * ComparisonChain}</a>.
  *
- * <h4 id="java8">Java 8+ equivalents</h4>
+ * <h2 id="java8">Preferred alternative in the standard library</h2>
  *
- * If you are using Java version 8 or greater, you should generally use the static methods in {@link
- * Comparator} instead of {@code ComparisonChain}. The example above can be implemented like this:
+ * You should generally use the static methods in {@link Comparator} instead of {@code
+ * ComparisonChain}. The example above can be implemented like this:
  *
  * {@snippet :
  * import static java.util.Comparator.comparing;

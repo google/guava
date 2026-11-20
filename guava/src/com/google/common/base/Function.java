@@ -32,8 +32,8 @@ import org.jspecify.annotations.Nullable;
  * Otherwise, at least reduce <i>explicit</i> dependencies on this type by using lambda expressions
  * or method references instead of classes, leaving your code easier to migrate in the future.
  *
- * <p>See the Guava User Guide article on <a
- * href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code Function}</a>.
+ * <p>See the Guava User Guide article on <a href=
+ * "https://github.com/google/guava/wiki/FunctionalExplained">the use of functional types</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0

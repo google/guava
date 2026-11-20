@@ -29,8 +29,8 @@ import org.jspecify.annotations.Nullable;
  * java.util.function.Supplier} in a context where a {@code com.google.common.base.Supplier} is
  * needed, use {@code supplier::get}.
  *
- * <p>See the Guava User Guide article on <a
- * href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code Function}</a>.
+ * <p>See the Guava User Guide article on <a href=
+ * "https://github.com/google/guava/wiki/FunctionalExplained">the use of functional types</a>.
  *
  * @author Harry Heymann
  * @since 2.0

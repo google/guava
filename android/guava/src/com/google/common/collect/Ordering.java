@@ -313,17 +313,16 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * {@code a == b} (identity equality). There is no meaning whatsoever to the order imposed, but it
    * is constant for the life of the VM.
    *
-   * <p>Because the ordering is identity-based, it is not "consistent with {@link
-   * Object#equals(Object)}" as defined by {@link Comparator}. Use caution when building a {@link
-   * SortedSet} or {@link SortedMap} from it, as the resulting collection will not behave exactly
-   * according to spec.
+   * <p>Because the ordering is identity-based, it is not "consistent with {@link Object#equals}" as
+   * defined by {@link Comparator}. Use caution when building a {@link SortedSet} or {@link
+   * SortedMap} from it, as the resulting collection will not behave exactly according to spec.
    *
    * <p>This ordering is not serializable, as its implementation relies on {@link
    * System#identityHashCode(Object)}, so its behavior cannot be preserved across serialization.
    *
    * @since 2.0
    * @deprecated This method is a frequent source of bugs: Its ordering varies across runs, it is
-   *     inconsistent with {@link Object}, and its tie-breaking logic will throw {@code
+   *     inconsistent with {@link Object#equals}, and its tie-breaking logic will throw {@code
    *     IdentityException} on value objects (<a href="https://openjdk.org/jeps/401">JEP 401</a>)
    *     whose hash codes collide. Instead:
    *     <ul>
