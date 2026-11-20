@@ -499,6 +499,9 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
     @Override
     public Range<K> span() {
+      if (subRange.isEmpty()) {
+        throw new NoSuchElementException();
+      }
       Cut<K> lowerBound;
       Entry<Cut<K>, RangeMapEntry<K, V>> lowerEntry =
           entriesByLowerBound.floorEntry(subRange.lowerBound);
