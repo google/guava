@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Collections.singleton;
+import static java.util.Objects.requireNonNull;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
@@ -38,8 +39,10 @@ import com.google.common.collect.testing.google.SetGenerators.ImmutableSetTooSma
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSetUnsizedBuilderGenerator;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSetWithBadHashesGenerator;
 import com.google.common.testing.EqualsTester;
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 import junit.framework.Test;
@@ -247,7 +250,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     assertEquals(1, builder.size);
     builder.add("b", "c", "d");
     assertEquals(4, builder.size);
-    Object[] table = builder.hashTable;
+    int[] table = builder.hashTable;
     assertNotNull(table);
     assertSame(table, ((RegularImmutableSet<String>) builder.build()).table);
   }
@@ -316,7 +319,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     assertEquals(
         "Input size " + inputSize + " and set size " + setSize,
         tableSize,
-        ((RegularImmutableSet<Integer>) set).table.length);
+        requireNonNull(((RegularImmutableSet<Integer>) set).table).length);
   }
 
   public void testCopyOf_copiesImmutableSortedSet() {
@@ -381,5 +384,77 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     ImmutableSet<Object> unused = builder.build();
     ImmutableSet<Object> subject = builder.add(1).add(2).add(3).build();
     assertFalse(subject.contains(4));
+  }
+
+  public void testElementZeroWithZeroSmearedHash() {
+    // 0 has hashCode() == 0 and Hashing.smear(0) == 0, so index 0 and tag bits 0 must not
+    // collide with RegularImmutableSet.ABSENT (0).
+    ImmutableSet<Integer> fromOf = ImmutableSet.of(0, 1);
+    assertTrue(fromOf.contains(0));
+    assertTrue(fromOf.contains(1));
+    assertFalse(fromOf.contains(2));
+
+    ImmutableSet<Integer> fromBuilder =
+        ImmutableSet.<Integer>builderWithExpectedSize(2).add(0).add(1).add(0).build();
+    assertEquals(2, fromBuilder.size());
+    assertTrue(fromBuilder.contains(0));
+    assertTrue(fromBuilder.contains(1));
+    assertFalse(fromBuilder.contains(2));
+  }
+
+  @GwtIncompatible // RegularImmutableSet internals
+  public void testIndexMaskForTableLength() {
+    assertEquals(0xFFFF, RegularImmutableSet.indexMaskForTableLength(8));
+    assertEquals(0xFFFF, RegularImmutableSet.indexMaskForTableLength(1 << 16));
+    assertEquals(0xFF_FFFF, RegularImmutableSet.indexMaskForTableLength(1 << 17));
+    assertEquals(0xFF_FFFF, RegularImmutableSet.indexMaskForTableLength(1 << 24));
+    assertEquals(0x7FFF_FFFF, RegularImmutableSet.indexMaskForTableLength(1 << 25));
+    assertEquals(0x7FFF_FFFF, RegularImmutableSet.indexMaskForTableLength(1 << 30));
+  }
+
+  public void testLargeSetCrossing16BitIndexBoundary() {
+    int count = 70_000;
+    ImmutableSet.Builder<Integer> presized = ImmutableSet.builderWithExpectedSize(count);
+    ImmutableSet.Builder<Integer> unsized = ImmutableSet.builder();
+    for (int i = 0; i < count; i++) {
+      presized.add(i);
+      unsized.add(i);
+    }
+    // Re-add an existing element whose index exceeds 16 bits to verify deduping.
+    presized.add(count - 1);
+    unsized.add(count - 1);
+    ImmutableSet<Integer> fromPresized = presized.build();
+    ImmutableSet<Integer> fromUnsized = unsized.build();
+    assertEquals(count, fromPresized.size());
+    assertEquals(count, fromUnsized.size());
+    assertTrue(fromPresized.contains(0));
+    assertTrue(fromPresized.contains(65_536));
+    assertTrue(fromPresized.contains(count - 1));
+    assertFalse(fromPresized.contains(count));
+    assertTrue(fromUnsized.contains(0));
+    assertTrue(fromUnsized.contains(65_536));
+    assertTrue(fromUnsized.contains(count - 1));
+    assertFalse(fromUnsized.contains(count));
+  }
+
+  public void testCopyOf_emptyCollectionSkipsToArray() {
+    Collection<String> emptyThrowingToArray =
+        new AbstractCollection<String>() {
+          @Override
+          public Iterator<String> iterator() {
+            return Collections.emptyIterator();
+          }
+
+          @Override
+          public int size() {
+            return 0;
+          }
+
+          @Override
+          public Object[] toArray() {
+            throw new AssertionError("toArray() should not be called on an empty Collection");
+          }
+        };
+    assertSame(ImmutableSet.of(), ImmutableSet.copyOf(emptyThrowingToArray));
   }
 }
