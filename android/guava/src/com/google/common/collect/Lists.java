@@ -709,7 +709,9 @@ public final class Lists {
     public final List<T> get(int index) {
       checkElementIndex(index, size());
       int start = index * size;
-      int end = min(start + size, list.size());
+      // Perform the addition in long arithmetic to avoid overflow when start + size exceeds
+      // Integer.MAX_VALUE.
+      int end = (int) min((long) start + size, list.size());
       return list.subList(start, end);
     }
 
