@@ -191,6 +191,78 @@ abstract class AbstractFilteredMapTest extends TestCase {
     assertTrue(filtered.isEmpty());
   }
 
+  public void testFilteredKeysValuesRemoveIf() {
+    Map<String, Integer> unfiltered = createUnfiltered();
+    unfiltered.put("one", 1);
+    unfiltered.put("two", 2);
+    unfiltered.put("three", 3);
+    unfiltered.put("four", 4);
+    Map<String, Integer> filtered = filterKeys(unfiltered, NOT_LENGTH_3);
+
+    assertTrue(filtered.values().removeIf(v -> v < 4));
+    assertEquals(ImmutableMap.of("one", 1, "two", 2, "four", 4), unfiltered);
+    assertFalse(filtered.values().removeIf(v -> v < 4));
+    assertEquals(ImmutableMap.of("one", 1, "two", 2, "four", 4), unfiltered);
+  }
+
+  public void testFilteredValuesRemoveIf() {
+    Map<String, Integer> unfiltered = createUnfiltered();
+    unfiltered.put("one", 1);
+    unfiltered.put("two", 2);
+    unfiltered.put("three", 3);
+    unfiltered.put("four", 4);
+    unfiltered.put("six", 6);
+    Map<String, Integer> filtered = filterValues(unfiltered, EVEN);
+
+    assertTrue(filtered.keySet().removeIf(k -> k.startsWith("t")));
+    assertEquals(ImmutableMap.of("one", 1, "three", 3, "four", 4, "six", 6), unfiltered);
+    assertFalse(filtered.keySet().removeIf(k -> k.startsWith("t")));
+
+    assertTrue(filtered.values().removeIf(v -> v < 5));
+    assertEquals(ImmutableMap.of("one", 1, "three", 3, "six", 6), unfiltered);
+    assertFalse(filtered.values().removeIf(v -> v < 5));
+
+    assertTrue(filtered.entrySet().removeIf(e -> e.getKey().length() == 3));
+    assertEquals(ImmutableMap.of("one", 1, "three", 3), unfiltered);
+    assertFalse(filtered.entrySet().removeIf(e -> true));
+    assertEquals(ImmutableMap.of("one", 1, "three", 3), unfiltered);
+  }
+
+  public void testFilteredValuesFilteredAgainClear() {
+    Map<String, Integer> unfiltered = createUnfiltered();
+    unfiltered.put("one", 1);
+    unfiltered.put("two", 2);
+    unfiltered.put("three", 3);
+    unfiltered.put("four", 4);
+    Map<String, Integer> filtered = filterValues(unfiltered, EVEN);
+
+    Collections2.filter(filtered.values(), v -> v > 2).clear();
+    assertEquals(ImmutableMap.of("one", 1, "two", 2, "three", 3), unfiltered);
+  }
+
+  public void testFilteredEntriesRemoveIf() {
+    Map<String, Integer> unfiltered = createUnfiltered();
+    unfiltered.put("cat", 3);
+    unfiltered.put("dog", 2);
+    unfiltered.put("horse", 5);
+    unfiltered.put("chicken", 7);
+    unfiltered.put("cow", 9);
+    Map<String, Integer> filtered = filterEntries(unfiltered, CORRECT_LENGTH);
+
+    assertTrue(filtered.entrySet().removeIf(e -> e.getValue() > 4));
+    assertEquals(ImmutableMap.of("cat", 3, "dog", 2, "cow", 9), unfiltered);
+
+    assertTrue(filtered.keySet().removeIf(k -> k.startsWith("c")));
+    assertEquals(ImmutableMap.of("dog", 2, "cow", 9), unfiltered);
+
+    assertFalse(filtered.values().removeIf(v -> true));
+    assertEquals(ImmutableMap.of("dog", 2, "cow", 9), unfiltered);
+
+    unfiltered.put("emu", 3);
+    assertTrue(filtered.values().removeIf(v -> true));
+    assertEquals(ImmutableMap.of("dog", 2, "cow", 9), unfiltered);
+  }
+
   public void testFilteredEntriesIllegalPut() {
     Map<String, Integer> unfiltered = createUnfiltered();
     unfiltered.put("cat", 3);
