@@ -210,6 +210,11 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
       }
       return false;
     }
+
+    @Override
+    public final boolean removeIf(java.util.function.Predicate<? super Entry<K, V>> filter) {
+      return delegate().removeIf(filter);
+    }
   }
 
   @Override

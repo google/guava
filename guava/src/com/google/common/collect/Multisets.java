@@ -377,6 +377,12 @@ public final class Multisets {
         return contains(element) ? unfiltered.remove(element, occurrences) : 0;
       }
     }
+
+    @Override
+    public boolean removeIf(java.util.function.Predicate<? super E> filter) {
+      checkNotNull(filter);
+      return unfiltered.removeIf(element -> predicate.apply(element) && filter.test(element));
+    }
   }
 
   /**
