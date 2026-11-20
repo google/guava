@@ -325,13 +325,6 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       @Nullable Object key) {
     if (key == null) {
       return null;
-    } else if (size == 1) {
-      // requireNonNull is safe because the first 2 elements have been filled in.
-      return requireNonNull(alternatingKeysAndValues[keyOffset]).equals(key)
-          ? requireNonNull(alternatingKeysAndValues[keyOffset ^ 1])
-          : null;
-    } else if (hashTableObject == null) {
-      return null;
     }
     if (hashTableObject instanceof byte[]) {
       byte[] hashTable = (byte[]) hashTableObject;
@@ -341,11 +334,28 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         int keyIndex = hashTable[h] & BYTE_MASK; // unsigned read
         if (keyIndex == BYTE_MASK) { // -1 signed becomes 255 unsigned
           return null;
-        } else if (key.equals(alternatingKeysAndValues[keyIndex])) {
+        }
+        Object candidate = alternatingKeysAndValues[keyIndex];
+        if (candidate == key || key.equals(candidate)) {
           return alternatingKeysAndValues[keyIndex ^ 1];
         }
       }
-    } else if (hashTableObject instanceof short[]) {
+    } else if (size == 1) {
+      // requireNonNull is safe because the first 2 elements have been filled in.
+      Object k = requireNonNull(alternatingKeysAndValues[keyOffset]);
+      return (k == key || k.equals(key))
+          ? requireNonNull(alternatingKeysAndValues[keyOffset ^ 1])
+          : null;
+    } else if (hashTableObject == null) {
+      return null;
+    } else {
+      return getFromLargeTable(hashTableObject, alternatingKeysAndValues, key);
+    }
+  }
+
+  private static @Nullable Object getFromLargeTable(
+      Object hashTableObject, @Nullable Object[] alternatingKeysAndValues, Object key) {
+    if (hashTableObject instanceof short[]) {
       short[] hashTable = (short[]) hashTableObject;
       int mask = hashTable.length - 1;
       for (int h = Hashing.smear(key.hashCode()); ; h++) {
@@ -353,7 +363,9 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         int keyIndex = hashTable[h] & SHORT_MASK; // unsigned read
         if (keyIndex == SHORT_MASK) { // -1 signed becomes 65_535 unsigned
           return null;
-        } else if (key.equals(alternatingKeysAndValues[keyIndex])) {
+        }
+        Object candidate = alternatingKeysAndValues[keyIndex];
+        if (candidate == key || key.equals(candidate)) {
           return alternatingKeysAndValues[keyIndex ^ 1];
         }
       }
@@ -365,7 +377,9 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         int keyIndex = hashTable[h];
         if (keyIndex == ABSENT) {
           return null;
-        } else if (key.equals(alternatingKeysAndValues[keyIndex])) {
+        }
+        Object candidate = alternatingKeysAndValues[keyIndex];
+        if (candidate == key || key.equals(candidate)) {
           return alternatingKeysAndValues[keyIndex ^ 1];
         }
       }
