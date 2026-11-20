@@ -300,6 +300,10 @@ abstract class SmoothRateLimiter extends RateLimiter {
       }
     }
 
+    void prefillStoredPermits() {
+      storedPermits = maxPermits;
+    }
+
     @Override
     long storedPermitsToWaitTime(double storedPermits, double permitsToTake) {
       return 0L;
