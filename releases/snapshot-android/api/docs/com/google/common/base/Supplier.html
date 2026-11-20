@@ -89,15 +89,11 @@ initTheme();
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 </span><span class="modifiers">public interface </span><span class="element-name type-name-label">Supplier&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;</span></div>
-<div class="block">A class that can supply objects of a single type; a pre-Java-8 version of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/function/Supplier.html" title="interface in java.util.function" class="external-link"><code>java.util.function.Supplier</code></a>. Semantically, this could be a factory,
-generator, builder, closure, or something else entirely. No guarantees are implied by this
-interface.
+<div class="block">Legacy version of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/function/Supplier.html" title="interface in java.util.function" class="external-link"><code>java.util.function.Supplier</code></a>. Semantically,
+this could be a factory, generator, builder, closure, or something else entirely. No guarantees
+are implied by this interface.
 
 <p>The <a href="Suppliers.html" title="class in com.google.common.base"><code>Suppliers</code></a> class provides common suppliers and related utilities.
-
-<p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of functional types</a>.
-
-<h3 id="for-java-8-users-heading">For Java 8+ users</h3>
 
 <p>This interface is now a legacy type. Use <code>java.util.function.Supplier</code> (or the
 appropriate primitive specialization such as <code>IntSupplier</code>) instead whenever possible.
@@ -108,7 +104,9 @@ or method references instead of classes, leaving your code easier to migrate in 
 <i>other type</i> of supplier is expected, use the method reference <code>supplier::get</code>. A
 future version of <code>com.google.common.base.Supplier</code> will be made to <i>extend</i> <code>
 java.util.function.Supplier</code>, making conversion code necessary only in one direction. At that
-time, this interface will be officially discouraged.</div>
+time, this interface will be officially discouraged.
+
+<p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of functional types</a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>2.0</dd>

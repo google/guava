@@ -300,7 +300,7 @@ implicit).</div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4 method-summary-table-tab6">
 <div class="block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">This method is a frequent source of bugs: Its ordering varies across runs, it is
-    inconsistent with <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link"><code>Object</code></a>, and its tie-breaking logic will throw <code>
+    inconsistent with <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" class="external-link"><code>Object.equals(Object)</code></a>, and its tie-breaking logic will throw <code>
     IdentityException</code> on value objects (<a href="https://openjdk.org/jeps/401">JEP 401</a>)
     whose hash codes collide.</div>
 </div>
@@ -704,7 +704,7 @@ representations as returned by <code>toString()</code>. It does not support null
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">arbitrary</span>()</div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">This method is a frequent source of bugs: Its ordering varies across runs, it is
-    inconsistent with <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link"><code>Object</code></a>, and its tie-breaking logic will throw <code>
+    inconsistent with <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" class="external-link"><code>Object.equals(Object)</code></a>, and its tie-breaking logic will throw <code>
     IdentityException</code> on value objects (<a href="https://openjdk.org/jeps/401">JEP 401</a>)
     whose hash codes collide. Instead:
     <ul>
@@ -737,8 +737,8 @@ representations as returned by <code>toString()</code>. It does not support null
 <code>a == b</code> (identity equality). There is no meaning whatsoever to the order imposed, but it
 is constant for the life of the VM.
 
-<p>Because the ordering is identity-based, it is not "consistent with <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" class="external-link"><code>Object.equals(Object)</code></a>" as defined by <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link"><code>Comparator</code></a>. Use caution when building a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/SortedSet.html" title="interface in java.util" class="external-link"><code>SortedSet</code></a> or <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/SortedMap.html" title="interface in java.util" class="external-link"><code>SortedMap</code></a> from it, as the resulting collection will not behave exactly
-according to spec.
+<p>Because the ordering is identity-based, it is not "consistent with <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" class="external-link"><code>Object.equals(Object)</code></a>" as
+defined by <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link"><code>Comparator</code></a>. Use caution when building a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/SortedSet.html" title="interface in java.util" class="external-link"><code>SortedSet</code></a> or <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/SortedMap.html" title="interface in java.util" class="external-link"><code>SortedMap</code></a> from it, as the resulting collection will not behave exactly according to spec.
 
 <p>This ordering is not serializable, as its implementation relies on <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/System.html#identityHashCode(java.lang.Object)" class="external-link"><code>System.identityHashCode(Object)</code></a>, so its behavior cannot be preserved across serialization.</div>
 <dl class="notes">

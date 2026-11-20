@@ -69,7 +69,11 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled title="Filter contents (type .)" placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#java8" tabindex="0">Preferred alternative in the standard library</a></li>
+</ol>
+</li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
@@ -102,8 +106,8 @@ initTheme();
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 </span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">ComparisonChain</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a></span></div>
-<div class="block">A utility for performing a chained comparison statement. <b>Note:</b> Java 8+ users should
-generally prefer the methods in <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link"><code>Comparator</code></a>; see <a href="#java8">below</a>.
+<div class="block">Legacy utility for performing a chained comparison statement. <b>Note:</b> Users should generally
+prefer the methods in <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link"><code>Comparator</code></a>; see <a href="#java8">below</a>.
 
 <p>Example usage of <code>ComparisonChain</code>:
 
@@ -134,9 +138,10 @@ the presence of expensive <code>compareTo</code> and <code>compare</code> implem
 <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained#comparecompareto"><code>
 ComparisonChain</code></a>.
 
-<h4 id="java8">Java 8+ equivalents</h4>
+<h2 id="java8">Preferred alternative in the standard library</h2>
 
-If you are using Java version 8 or greater, you should generally use the static methods in <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link"><code>Comparator</code></a> instead of <code>ComparisonChain</code>. The example above can be implemented like this:
+You should generally use the static methods in <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link"><code>Comparator</code></a> instead of <code>
+ComparisonChain</code>. The example above can be implemented like this:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
 <pre class="snippet" id="snippet-com.google.common.collect.ComparisonChain2"><code class="language-java">import static java.util.Comparator.comparing;

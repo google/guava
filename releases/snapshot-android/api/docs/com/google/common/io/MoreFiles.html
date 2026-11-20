@@ -86,9 +86,7 @@ initTheme();
 <li><a href="#createParentDirectories(java.nio.file.Path,java.nio.file.attribute.FileAttribute...)" tabindex="0">createParentDirectories(Path, FileAttribute...)</a></li>
 <li><a href="#getFileExtension(java.nio.file.Path)" tabindex="0">getFileExtension(Path)</a></li>
 <li><a href="#getNameWithoutExtension(java.nio.file.Path)" tabindex="0">getNameWithoutExtension(Path)</a></li>
-<li><a href="#warning-security-of-recursive-deletes-heading" tabindex="0">Warning: Security of recursive deletes</a></li>
 <li><a href="#deleteRecursively(java.nio.file.Path,com.google.common.io.RecursiveDeleteOption...)" tabindex="0">deleteRecursively(Path, RecursiveDeleteOption...)</a></li>
-<li><a href="#warning-security-of-recursive-deletes-heading1" tabindex="0">Warning: Security of recursive deletes</a></li>
 <li><a href="#deleteDirectoryContents(java.nio.file.Path,com.google.common.io.RecursiveDeleteOption...)" tabindex="0">deleteDirectoryContents(Path, RecursiveDeleteOption...)</a></li>
 </ol>
 </li>
@@ -460,7 +458,7 @@ directory, this method skips that file and continues. All such exceptions are co
 after attempting to delete all files, an <code>IOException</code> is thrown containing those
 exceptions as <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Throwable.html#getSuppressed()" class="external-link">suppressed exceptions</a>.
 
-<h2 id="warning-security-of-recursive-deletes-heading">Warning: Security of recursive deletes</h2>
+<h4 id="warning-security-of-recursive-deletes-heading">Warning: Security of recursive deletes</h4>
 
 <p>On a file system that supports symbolic links and does <i>not</i> support <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/SecureDirectoryStream.html" title="interface in java.nio.file" class="external-link"><code>SecureDirectoryStream</code></a>, it is possible for a recursive delete to delete files and directories
 that are <i>outside</i> the directory being deleted. This can happen if, after checking that a
@@ -498,7 +496,7 @@ directory, this method skips that file and continues. All such exceptions are co
 after attempting to delete all files, an <code>IOException</code> is thrown containing those
 exceptions as <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Throwable.html#getSuppressed()" class="external-link">suppressed exceptions</a>.
 
-<h2 id="warning-security-of-recursive-deletes-heading1">Warning: Security of recursive deletes</h2>
+<h4 id="warning-security-of-recursive-deletes-heading1">Warning: Security of recursive deletes</h4>
 
 <p>On a file system that supports symbolic links and does <i>not</i> support <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/SecureDirectoryStream.html" title="interface in java.nio.file" class="external-link"><code>SecureDirectoryStream</code></a>, it is possible for a recursive delete to delete files and directories
 that are <i>outside</i> the directory being deleted. This can happen if, after checking that a

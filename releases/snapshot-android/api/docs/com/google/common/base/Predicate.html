@@ -93,13 +93,8 @@ initTheme();
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 </span><span class="modifiers">public interface </span><span class="element-name type-name-label">Predicate&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;</span></div>
-<div class="block">Determines a true or false value for a given input; a pre-Java-8 version of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/function/Predicate.html" title="interface in java.util.function" class="external-link"><code>java.util.function.Predicate</code></a>.
-
-<p>The <a href="Predicates.html" title="class in com.google.common.base"><code>Predicates</code></a> class provides common predicates and related utilities.
-
-<p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of <code>Predicate</code></a>.
-
-<h3 id="for-java-8-users-heading">For Java 8+ users</h3>
+<div class="block">Legacy version of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/function/Predicate.html" title="interface in java.util.function" class="external-link"><code>java.util.function.Predicate</code></a>. Determines a
+true or false value for a given input.
 
 <p>This interface is now a legacy type. Use <code>java.util.function.Predicate</code> (or the
 appropriate primitive specialization such as <code>IntPredicate</code>) instead whenever possible.
@@ -111,7 +106,11 @@ java.util.function.Predicate</code> is expected, use the method reference <code>
 guavaPredicate::apply</code>. For the other direction, use <code>javaUtilPredicate::test</code>. A future
 version of this interface will be made to <i>extend</i> <code>java.util.function.Predicate</code>, so
 that conversion will be necessary in only one direction. At that time, this interface will be
-officially discouraged.</div>
+officially discouraged.
+
+<p>The <a href="Predicates.html" title="class in com.google.common.base"><code>Predicates</code></a> class provides common predicates and related utilities.
+
+<p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of functional types</a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>2.0</dd>

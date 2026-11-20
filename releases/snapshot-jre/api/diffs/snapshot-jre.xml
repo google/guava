@@ -2459,8 +2459,8 @@
  Otherwise, at least reduce <i>explicit</i> dependencies on this type by using lambda expressions
  or method references instead of classes, leaving your code easier to migrate in the future.
 
- <p>See the Guava User Guide article on <a
- href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code Function}</a>.
+ <p>See the Guava User Guide article on <a href=
+ "https://github.com/google/guava/wiki/FunctionalExplained">the use of functional types</a>.
 
  @author Kevin Bourrillion
  @since 2.0]]>
@@ -5302,8 +5302,8 @@
 
  <p>The {@link Predicates} class provides common predicates and related utilities.
 
- <p>See the Guava User Guide article on <a
- href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code Predicate}</a>.
+ <p>See the Guava User Guide article on <a href=
+ "https://github.com/google/guava/wiki/FunctionalExplained">the use of functional types</a>.
 
  @author Kevin Bourrillion
  @since 2.0]]>
@@ -6486,8 +6486,8 @@
  java.util.function.Supplier} in a context where a {@code com.google.common.base.Supplier} is
  needed, use {@code supplier::get}.
 
- <p>See the Guava User Guide article on <a
- href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code Function}</a>.
+ <p>See the Guava User Guide article on <a href=
+ "https://github.com/google/guava/wiki/FunctionalExplained">the use of functional types</a>.
 
  @author Harry Heymann
  @since 2.0]]>
@@ -11393,8 +11393,8 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A utility for performing a chained comparison statement. <b>Note:</b> Java 8+ users should
- generally prefer the methods in {@link Comparator}; see <a href="#java8">below</a>.
+    <![CDATA[Legacy utility for performing a chained comparison statement. <b>Note:</b> Users should generally
+ prefer the methods in {@link Comparator}; see <a href="#java8">below</a>.
 
  <p>Example usage of {@code ComparisonChain}:
 
@@ -11424,10 +11424,10 @@
  "https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained#comparecompareto">{@code
  ComparisonChain}</a>.
 
- <h4 id="java8">Java 8+ equivalents</h4>
+ <h2 id="java8">Preferred alternative in the standard library</h2>
 
- If you are using Java version 8 or greater, you should generally use the static methods in {@link
- Comparator} instead of {@code ComparisonChain}. The example above can be implemented like this:
+ You should generally use the static methods in {@link Comparator} instead of {@code
+ ComparisonChain}. The example above can be implemented like this:
 
  {@snippet :
  import static java.util.Comparator.comparing;
@@ -32931,7 +32931,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="This method is a frequent source of bugs: Its ordering varies across runs, it is
-     inconsistent with {@link Object}, and its tie-breaking logic will throw {@code
+     inconsistent with {@link Object#equals}, and its tie-breaking logic will throw {@code
      IdentityException} on value objects (lEsS_tHaNa href=quote_cHaRhttps://openjdk.org/jeps/401quote_cHaR>JEP 401lEsS_tHaN/a>)
      whose hash codes collide. Instead:
      lEsS_tHaNul>
@@ -32970,17 +32970,16 @@
  {@code a == b} (identity equality). There is no meaning whatsoever to the order imposed, but it
  is constant for the life of the VM.
 
- <p>Because the ordering is identity-based, it is not "consistent with {@link
- Object#equals(Object)}" as defined by {@link Comparator}. Use caution when building a {@link
- SortedSet} or {@link SortedMap} from it, as the resulting collection will not behave exactly
- according to spec.
+ <p>Because the ordering is identity-based, it is not "consistent with {@link Object#equals}" as
+ defined by {@link Comparator}. Use caution when building a {@link SortedSet} or {@link
+ SortedMap} from it, as the resulting collection will not behave exactly according to spec.
 
  <p>This ordering is not serializable, as its implementation relies on {@link
  System#identityHashCode(Object)}, so its behavior cannot be preserved across serialization.
 
  @since 2.0
  @deprecated This method is a frequent source of bugs: Its ordering varies across runs, it is
-     inconsistent with {@link Object}, and its tie-breaking logic will throw {@code
+     inconsistent with {@link Object#equals}, and its tie-breaking logic will throw {@code
      IdentityException} on value objects (<a href="https://openjdk.org/jeps/401">JEP 401</a>)
      whose hash codes collide. Instead:
      <ul>
@@ -49776,7 +49775,7 @@
  after attempting to delete all files, an {@code IOException} is thrown containing those
  exceptions as {@linkplain Throwable#getSuppressed() suppressed exceptions}.
 
- <h2>Warning: Security of recursive deletes</h2>
+ <h4>Warning: Security of recursive deletes</h4>
 
  <p>On a file system that supports symbolic links and does <i>not</i> support {@link
  SecureDirectoryStream}, it is possible for a recursive delete to delete files and directories
@@ -49814,7 +49813,7 @@
  after attempting to delete all files, an {@code IOException} is thrown containing those
  exceptions as {@linkplain Throwable#getSuppressed() suppressed exceptions}.
 
- <h2>Warning: Security of recursive deletes</h2>
+ <h4>Warning: Security of recursive deletes</h4>
 
  <p>On a file system that supports symbolic links and does <i>not</i> support {@link
  SecureDirectoryStream}, it is possible for a recursive delete to delete files and directories
