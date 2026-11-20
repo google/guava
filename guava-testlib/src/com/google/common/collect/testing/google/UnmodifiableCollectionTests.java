@@ -29,6 +29,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.LinkedHashMultiset;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
+import com.google.common.collect.Multisets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -198,19 +199,7 @@ public class UnmodifiableCollectionTests {
     assertSetIsUnmodifiable(multiset.elementSet(), sampleElement);
     assertCollectionsAreEquivalent(multiset, copy);
 
-    assertSetIsUnmodifiable(
-        multiset.entrySet(),
-        new Multiset.Entry<E>() {
-          @Override
-          public int getCount() {
-            return 1;
-          }
-
-          @Override
-          public E getElement() {
-            return sampleElement;
-          }
-        });
+    assertSetIsUnmodifiable(multiset.entrySet(), Multisets.immutableEntry(sampleElement, 1));
     assertCollectionsAreEquivalent(multiset, copy);
   }
 
