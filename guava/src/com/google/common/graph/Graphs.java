@@ -365,14 +365,15 @@ public final class Graphs extends GraphsBridgeMethods {
 
     @Override
     public Set<EndpointPair<N>> incidentEdges(N node) {
-      return new IncidentEdgeSet<N>(this, node, IncidentEdgeSet.EdgeType.BOTH) {
-        @Override
-        public Iterator<EndpointPair<N>> iterator() {
-          return transform(
-              delegate().incidentEdges(node).iterator(),
-              edge -> EndpointPair.of(delegate(), edge.nodeV(), edge.nodeU()));
-        }
-      };
+      Set<EndpointPair<N>> incidentEdges = delegate().incidentEdges(node);
+      return nodeInvalidatableSet(
+          new IncidentEdgeSet<N>(this, node, IncidentEdgeSet.EdgeType.BOTH) {
+            @Override
+            public Iterator<EndpointPair<N>> iterator() {
+              return transform(incidentEdges.iterator(), Graphs::transpose);
+            }
+          },
+          node);
     }
 
     @Override

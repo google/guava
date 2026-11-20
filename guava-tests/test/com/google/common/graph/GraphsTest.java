@@ -27,6 +27,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
+import java.util.Set;
 import org.jspecify.annotations.NullUnmarked;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -381,6 +382,36 @@ public class GraphsTest {
     // View should be updated.
     assertThat(transpose.successors(N1)).contains(N2);
     AbstractGraphTest.validateGraph(transpose);
+  }
+
+  @Test
+  public void transpose_directedGraph_incidentEdges_invalidatedByNodeRemoval() {
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
+    directedGraph.putEdge(N1, N2);
+    Graph<Integer> transpose = transpose(directedGraph);
+    assertThrows(IllegalArgumentException.class, () -> transpose.incidentEdges(N3));
+    assertThrows(NullPointerException.class, () -> transpose.incidentEdges(null));
+
+    Set<EndpointPair<Integer>> incidentEdges = transpose.incidentEdges(N1);
+    assertThat(incidentEdges).containsExactly(EndpointPair.ordered(N2, N1));
+    directedGraph.removeNode(N1);
+    assertThrows(IllegalStateException.class, incidentEdges::size);
+    assertThrows(IllegalStateException.class, incidentEdges::iterator);
+    assertThrows(
+        IllegalStateException.class, () -> incidentEdges.contains(EndpointPair.ordered(N2, N1)));
+    int unused = incidentEdges.hashCode(); // doesn't throw
+  }
+
+  @Test
+  public void transpose_directedGraph_incidentEdges_stableIncidentEdgeOrder() {
+    MutableGraph<Integer> directedGraph =
+        GraphBuilder.directed().incidentEdgeOrder(ElementOrder.stable()).build();
+    directedGraph.putEdge(N2, N1);
+    directedGraph.putEdge(N1, N3);
+
+    assertThat(transpose(directedGraph).incidentEdges(N1))
+        .containsExactly(EndpointPair.ordered(N1, N2), EndpointPair.ordered(N3, N1))
+        .inOrder();
   }
 
   @Test
