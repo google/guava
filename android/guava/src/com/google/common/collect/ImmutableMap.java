@@ -353,9 +353,20 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   @SafeVarargs
   public static <K, V> ImmutableMap<K, V> ofEntries(Entry<? extends K, ? extends V>... entries) {
-    @SuppressWarnings("unchecked") // we will only ever read these
-    Entry<K, V>[] entries2 = (Entry<K, V>[]) entries;
-    return copyOf(Arrays.asList(entries2));
+    int size = entries.length;
+    if (size == 0) {
+      return of();
+    }
+    @Nullable Object[] alternatingKeysAndValues = new Object[size * 2];
+    for (int i = 0; i < size; i++) {
+      Entry<? extends K, ? extends V> entry = entries[i];
+      K key = entry.getKey();
+      V value = entry.getValue();
+      checkEntryNotNull(key, value);
+      alternatingKeysAndValues[2 * i] = key;
+      alternatingKeysAndValues[2 * i + 1] = value;
+    }
+    return RegularImmutableMap.create(size, alternatingKeysAndValues);
   }
 
   /**
@@ -458,7 +469,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       this(ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     Builder(int initialCapacity) {
       this.alternatingKeysAndValues = new @Nullable Object[2 * initialCapacity];
       this.size = 0;
@@ -597,12 +607,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         }
         sortEntries(localAlternatingKeysAndValues, localSize, valueComparator);
       }
-      entriesUsed = true;
       ImmutableMap<K, V> map =
-          RegularImmutableMap.create(localSize, localAlternatingKeysAndValues, this);
-      if (throwIfDuplicateKeys && duplicateKey != null) {
-        throw duplicateKey.exception();
-      }
+          RegularImmutableMap.create(
+              localSize, localAlternatingKeysAndValues, throwIfDuplicateKeys ? null : this);
+      entriesUsed = true;
       return map;
     }
 
@@ -738,6 +746,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         return kvMap;
       }
     }
+    if (map.isEmpty()) {
+      return of();
+    }
     return copyOf(map.entrySet());
   }
 
@@ -751,13 +762,33 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   public static <K, V> ImmutableMap<K, V> copyOf(
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
-    int initialCapacity =
-        (entries instanceof Collection)
-            ? ((Collection<?>) entries).size()
-            : ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY;
-    ImmutableMap.Builder<K, V> builder = new ImmutableMap.Builder<K, V>(initialCapacity);
-    builder.putAll(entries);
-    return builder.build();
+    int initialCapacity;
+    if (entries instanceof Collection) {
+      initialCapacity = ((Collection<?>) entries).size();
+      if (initialCapacity == 0) {
+        return of();
+      }
+    } else {
+      initialCapacity = ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY;
+    }
+    @Nullable Object[] alternatingKeysAndValues = new Object[initialCapacity * 2];
+    int size = 0;
+    for (Entry<? extends K, ? extends V> entry : entries) {
+      if ((size + 1) * 2 > alternatingKeysAndValues.length) {
+        alternatingKeysAndValues =
+            Arrays.copyOf(
+                alternatingKeysAndValues,
+                ImmutableCollection.Builder.expandedCapacity(
+                    alternatingKeysAndValues.length, (size + 1) * 2));
+      }
+      K key = entry.getKey();
+      V value = entry.getValue();
+      checkEntryNotNull(key, value);
+      alternatingKeysAndValues[size * 2] = key;
+      alternatingKeysAndValues[size * 2 + 1] = value;
+      size++;
+    }
+    return RegularImmutableMap.create(size, alternatingKeysAndValues);
   }
 
   static final Entry<?, ?>[] EMPTY_ENTRY_ARRAY = new Entry<?, ?>[0];

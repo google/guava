@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkPositionIndex;
-import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -46,7 +45,6 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   private static final int BYTE_MASK = (1 << Byte.SIZE) - 1; // 2^8 - 1 = 255
   private static final int SHORT_MASK = (1 << Short.SIZE) - 1; // 2^16 - 1 = 65_535
 
-  @SuppressWarnings("unchecked")
   static final ImmutableMap<Object, Object> EMPTY =
       new RegularImmutableMap<>(null, new Object[0], 0);
 
@@ -67,7 +65,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    * & (table.length - 1) instead of % table.length, though.
    */
 
-  private final transient @Nullable Object hashTable;
+  @VisibleForTesting final transient @Nullable Object hashTable;
   @VisibleForTesting final transient @Nullable Object[] alternatingKeysAndValues;
   private final transient int size;
 
@@ -97,6 +95,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   // exception for a later buildOrThrow(). If builder is null that means that a duplicate
   // key will lead to an immediate exception. If it is not null then a duplicate key will instead be
   // stored in the builder, which may use it to throw an exception later.
+  // Callers must have already verified that keys and values in [0, 2 * n) are non-null.
   static <K, V> RegularImmutableMap<K, V> create(
       int n, @Nullable Object[] alternatingKeysAndValues, @Nullable Builder<K, V> builder) {
     if (n == 0) {
@@ -104,30 +103,39 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       RegularImmutableMap<K, V> empty = (RegularImmutableMap<K, V>) EMPTY;
       return empty;
     } else if (n == 1) {
-      // requireNonNull is safe because the first `2*n` elements have been filled in.
-      checkEntryNotNull(
-          requireNonNull(alternatingKeysAndValues[0]), requireNonNull(alternatingKeysAndValues[1]));
       return new RegularImmutableMap<K, V>(null, alternatingKeysAndValues, 1);
     }
     checkPositionIndex(n, alternatingKeysAndValues.length >> 1);
     int tableSize = ImmutableSet.chooseTableSize(n);
     // If there are no duplicate keys, hashTablePlus is the final hashTable value. If there *are*
-    // duplicate keys, hashTablePlus consists of 3 elements: [0] the hashTable; [1] the number of
-    // entries in alternatingKeysAndValues that are still valid after rewriting to remove
-    // duplicates; [2] a Builder.DuplicateKey that records the first duplicate key we encountered
-    // for possible later use in exceptions, perhaps straight away.
-    Object hashTablePlus = createHashTable(alternatingKeysAndValues, n, tableSize, 0);
+    // duplicate keys and builder != null, hashTablePlus consists of 3 elements: [0] the hashTable;
+    // [1] the number of entries in alternatingKeysAndValues that are still valid after rewriting
+    // to remove duplicates; [2] a Builder.DuplicateKey that records a duplicate key we encountered
+    // for possible later use in exceptions.
+    Object hashTablePlus =
+        createHashTable(
+            alternatingKeysAndValues, n, tableSize, 0, /* throwIfDuplicateKeys= */ builder == null);
     Object hashTable;
     if (hashTablePlus instanceof Object[]) {
       Object[] hashTableAndSizeAndDuplicate = (Object[]) hashTablePlus;
       Builder.DuplicateKey duplicateKey = (Builder.DuplicateKey) hashTableAndSizeAndDuplicate[2];
-      if (builder == null) {
-        throw duplicateKey.exception();
-      }
-      builder.duplicateKey = duplicateKey;
-      hashTable = hashTableAndSizeAndDuplicate[0];
+      requireNonNull(builder).duplicateKey = duplicateKey;
       n = (Integer) hashTableAndSizeAndDuplicate[1];
       alternatingKeysAndValues = Arrays.copyOf(alternatingKeysAndValues, n * 2);
+      if (n == 1) {
+        hashTable = null;
+      } else {
+        int shrunkTableSize = ImmutableSet.chooseTableSize(n);
+        hashTable =
+            (shrunkTableSize < tableSize)
+                ? createHashTable(
+                    alternatingKeysAndValues,
+                    n,
+                    shrunkTableSize,
+                    0,
+                    /* throwIfDuplicateKeys= */ true)
+                : hashTableAndSizeAndDuplicate[0];
+      }
     } else {
       hashTable = hashTablePlus;
     }
@@ -135,26 +143,22 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   /**
-   * Returns a hash table for the specified keys and values, and ensures that neither keys nor
-   * values are null. This method may update {@code alternatingKeysAndValues} if there are duplicate
-   * keys. If so, the return value will indicate how many entries are still valid, and will also
-   * include a {@link Builder.DuplicateKey} in case duplicate keys are not allowed now or will not
-   * be allowed on a later {@link Builder#buildOrThrow()} call.
+   * Returns a hash table for the specified keys and values. Callers must ensure that neither keys
+   * nor values in {@code [0, 2 * n)} are null. If {@code throwIfDuplicateKeys} is true, throws
+   * immediately on the first duplicate key without modifying {@code alternatingKeysAndValues}.
+   * Otherwise, updates {@code alternatingKeysAndValues} in place to retain the last value for each
+   * key and returns an {@code Object[]} with [0] the hash table, [1] the deduplicated entry count,
+   * and [2] a {@link Builder.DuplicateKey}.
    *
    * @param keyOffset 1 if this is the reverse direction of a BiMap, 0 otherwise.
-   * @return an {@code Object} that is a {@code byte[]}, {@code short[]}, or {@code int[]}, the
-   *     smallest possible to fit {@code tableSize}; or an {@code Object[]} where [0] is one of
-   *     these; [1] indicates how many element pairs in {@code alternatingKeysAndValues} are valid;
-   *     and [2] is a {@link Builder.DuplicateKey} for the first duplicate key encountered.
    */
   private static @Nullable Object createHashTable(
-      @Nullable Object[] alternatingKeysAndValues, int n, int tableSize, int keyOffset) {
+      @Nullable Object[] alternatingKeysAndValues,
+      int n,
+      int tableSize,
+      int keyOffset,
+      boolean throwIfDuplicateKeys) {
     if (n == 1) {
-      // for n=1 we don't create a hash table, but we need to do the checkEntryNotNull check!
-      // requireNonNull is safe because the first `2*n` elements have been filled in.
-      checkEntryNotNull(
-          requireNonNull(alternatingKeysAndValues[keyOffset]),
-          requireNonNull(alternatingKeysAndValues[keyOffset ^ 1]));
       return null;
     }
     int mask = tableSize - 1;
@@ -176,8 +180,6 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         int outKeyIndex = 2 * outI + keyOffset;
         // requireNonNull is safe because the first `2*n` elements have been filled in.
         Object key = requireNonNull(alternatingKeysAndValues[keyIndex]);
-        Object value = requireNonNull(alternatingKeysAndValues[keyIndex ^ 1]);
-        checkEntryNotNull(key, value);
         for (int h = Hashing.smear(key.hashCode()); ; h++) {
           h &= mask;
           int previousKeyIndex = hashTable[h] & BYTE_MASK; // unsigned read
@@ -185,16 +187,21 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
             hashTable[h] = (byte) outKeyIndex;
             break;
           } else if (key.equals(alternatingKeysAndValues[previousKeyIndex])) {
+            Object value = requireNonNull(alternatingKeysAndValues[keyIndex ^ 1]);
             duplicateKey =
                 new Builder.DuplicateKey(
                     key, value, requireNonNull(alternatingKeysAndValues[previousKeyIndex ^ 1]));
+            if (throwIfDuplicateKeys) {
+              throw duplicateKey.exception();
+            }
             alternatingKeysAndValues[previousKeyIndex ^ 1] = value;
             continue entries;
           }
         }
         if (outI < i) { // if outI == i don't bother writing the values back where they came from
           alternatingKeysAndValues[outKeyIndex] = key;
-          alternatingKeysAndValues[outKeyIndex ^ 1] = value;
+          alternatingKeysAndValues[outKeyIndex ^ 1] =
+              requireNonNull(alternatingKeysAndValues[keyIndex ^ 1]);
         }
         outI++;
       }
@@ -216,8 +223,6 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         int outKeyIndex = 2 * outI + keyOffset;
         // requireNonNull is safe because the first `2*n` elements have been filled in.
         Object key = requireNonNull(alternatingKeysAndValues[keyIndex]);
-        Object value = requireNonNull(alternatingKeysAndValues[keyIndex ^ 1]);
-        checkEntryNotNull(key, value);
         for (int h = Hashing.smear(key.hashCode()); ; h++) {
           h &= mask;
           int previousKeyIndex = hashTable[h] & SHORT_MASK; // unsigned read
@@ -225,16 +230,21 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
             hashTable[h] = (short) outKeyIndex;
             break;
           } else if (key.equals(alternatingKeysAndValues[previousKeyIndex])) {
+            Object value = requireNonNull(alternatingKeysAndValues[keyIndex ^ 1]);
             duplicateKey =
                 new Builder.DuplicateKey(
                     key, value, requireNonNull(alternatingKeysAndValues[previousKeyIndex ^ 1]));
+            if (throwIfDuplicateKeys) {
+              throw duplicateKey.exception();
+            }
             alternatingKeysAndValues[previousKeyIndex ^ 1] = value;
             continue entries;
           }
         }
         if (outI < i) { // if outI == i don't bother writing the values back where they came from
           alternatingKeysAndValues[outKeyIndex] = key;
-          alternatingKeysAndValues[outKeyIndex ^ 1] = value;
+          alternatingKeysAndValues[outKeyIndex ^ 1] =
+              requireNonNull(alternatingKeysAndValues[keyIndex ^ 1]);
         }
         outI++;
       }
@@ -253,8 +263,6 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         int outKeyIndex = 2 * outI + keyOffset;
         // requireNonNull is safe because the first `2*n` elements have been filled in.
         Object key = requireNonNull(alternatingKeysAndValues[keyIndex]);
-        Object value = requireNonNull(alternatingKeysAndValues[keyIndex ^ 1]);
-        checkEntryNotNull(key, value);
         for (int h = Hashing.smear(key.hashCode()); ; h++) {
           h &= mask;
           int previousKeyIndex = hashTable[h];
@@ -262,16 +270,21 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
             hashTable[h] = outKeyIndex;
             break;
           } else if (key.equals(alternatingKeysAndValues[previousKeyIndex])) {
+            Object value = requireNonNull(alternatingKeysAndValues[keyIndex ^ 1]);
             duplicateKey =
                 new Builder.DuplicateKey(
                     key, value, requireNonNull(alternatingKeysAndValues[previousKeyIndex ^ 1]));
+            if (throwIfDuplicateKeys) {
+              throw duplicateKey.exception();
+            }
             alternatingKeysAndValues[previousKeyIndex ^ 1] = value;
             continue entries;
           }
         }
         if (outI < i) { // if outI == i don't bother writing the values back where they came from
           alternatingKeysAndValues[outKeyIndex] = key;
-          alternatingKeysAndValues[outKeyIndex ^ 1] = value;
+          alternatingKeysAndValues[outKeyIndex ^ 1] =
+              requireNonNull(alternatingKeysAndValues[keyIndex ^ 1]);
         }
         outI++;
       }
@@ -281,13 +294,8 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   static @Nullable Object createHashTableOrThrow(
       @Nullable Object[] alternatingKeysAndValues, int n, int tableSize, int keyOffset) {
-    Object hashTablePlus = createHashTable(alternatingKeysAndValues, n, tableSize, keyOffset);
-    if (hashTablePlus instanceof Object[]) {
-      Object[] hashTableAndSizeAndDuplicate = (Object[]) hashTablePlus;
-      Builder.DuplicateKey duplicateKey = (Builder.DuplicateKey) hashTableAndSizeAndDuplicate[2];
-      throw duplicateKey.exception();
-    }
-    return hashTablePlus;
+    return createHashTable(
+        alternatingKeysAndValues, n, tableSize, keyOffset, /* throwIfDuplicateKeys= */ true);
   }
 
   private RegularImmutableMap(
