@@ -21,10 +21,12 @@
 # releases, though, it should always be the same as the <release>
 # argument).
 #
-# For all releases, JDiff compares the release to the previous non-rc
-# release. For example, snapshot is compared against 18.0 (even if there's
-# a 19.0-rc1 out) and 18.0 is compared against 17.0 (or 17.1 or 17.0.1 if
-# there were one of those).
+# For all releases, JDiff compares the release to the immediately previous
+# non-rc release (same flavor), by full version order including patch. For
+# example, snapshot is compared against the latest non-rc (even if there's
+# an rc out), 33.4.6-jre is compared against 33.4.5-jre, and 33.5.0-jre is
+# compared against 33.4.8-jre. Use that same previous version in GitHub
+# release-note "vs." labels so they match the JDiff page title.
 #
 #***************************************************************************
 
