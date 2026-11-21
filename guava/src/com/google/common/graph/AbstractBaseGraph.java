@@ -293,8 +293,8 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
         N nodeV = edge.nodeV();
         Set<EndpointPair<N>> endpointPairIncidentEdges =
             union(incidentEdges(nodeU), incidentEdges(nodeV));
-        return nodePairInvalidatableSet(
-            difference(endpointPairIncidentEdges, ImmutableSet.of(edge)), nodeU, nodeV);
+        return edgeInvalidatableSet(
+            difference(endpointPairIncidentEdges, ImmutableSet.of(edge)), edge);
       }
 
       @Override
