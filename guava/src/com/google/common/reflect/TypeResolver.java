@@ -133,7 +133,30 @@ public final class TypeResolver {
     new TypeVisitor() {
       @Override
       void visitTypeVariable(TypeVariable<?> typeVariable) {
-        mappings.put(new TypeVariableKey(typeVariable), to);
+        TypeVariableKey key = new TypeVariableKey(typeVariable);
+        // Resolve the declared bounds with the pending mapping so recursive
+        // bounds such as `T extends Comparable<T>` are checked against the
+        // actual type, not the unresolved variable.
+        Map<TypeVariableKey, Type> candidate = new HashMap<>(mappings);
+        candidate.put(key, to);
+        TypeResolver resolver = new TypeResolver().where(candidate);
+        for (Type bound : typeVariable.getBounds()) {
+          Type resolvedBound = resolver.resolveType(bound);
+          if (to instanceof WildcardType
+              || containsTypeVariable(to)
+              || containsTypeVariable(resolvedBound)
+              || (to instanceof Class && !(resolvedBound instanceof Class))) {
+            // Not fully verifiable here; keep the historical behavior.
+            continue;
+          }
+          checkArgument(
+              TypeToken.of(resolvedBound).isSupertypeOf(TypeToken.of(to)),
+              "No type mapping from %s bounds (%s) to %s",
+              typeVariable,
+              Arrays.toString(typeVariable.getBounds()),
+              to);
+        }
+        mappings.put(key, to);
       }
 
       @Override
@@ -209,6 +232,41 @@ public final class TypeResolver {
         throw new IllegalArgumentException("No type mapping from " + fromClass + " to " + to);
       }
     }.visit(from);
+  }
+
+  /** Returns whether {@code type} contains a type variable anywhere. */
+  private static boolean containsTypeVariable(Type type) {
+    final boolean[] found = {false};
+    new TypeVisitor() {
+      @Override
+      void visitTypeVariable(TypeVariable<?> t) {
+        found[0] = true;
+      }
+
+      @Override
+      void visitWildcardType(WildcardType t) {
+        for (Type bound : t.getUpperBounds()) {
+          visit(bound);
+        }
+        for (Type bound : t.getLowerBounds()) {
+          visit(bound);
+        }
+      }
+
+      @Override
+      void visitParameterizedType(ParameterizedType t) {
+        visit(t.getOwnerType());
+        for (Type arg : t.getActualTypeArguments()) {
+          visit(arg);
+        }
+      }
+
+      @Override
+      void visitGenericArrayType(GenericArrayType t) {
+        visit(t.getGenericComponentType());
+      }
+    }.visit(type);
+    return found[0];
   }
 
   /**
