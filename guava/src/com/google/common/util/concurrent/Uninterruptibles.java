@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Verify.verify;
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
+import static java.lang.Math.max;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtCompatible;
@@ -90,7 +91,7 @@ public final class Uninterruptibles {
   public static boolean awaitUninterruptibly(CountDownLatch latch, long timeout, TimeUnit unit) {
     boolean interrupted = false;
     try {
-      long remainingNanos = unit.toNanos(timeout);
+      long remainingNanos = max(0L, unit.toNanos(timeout));
       long end = System.nanoTime() + remainingNanos;
 
       while (true) {
@@ -168,7 +169,7 @@ public final class Uninterruptibles {
      * to awaitUninterruptibly in the user code's Condition loop.
      */
     boolean wasAlreadyInterrupted = Thread.interrupted();
-    long remainingNanos = unit.toNanos(timeout);
+    long remainingNanos = max(0L, unit.toNanos(timeout));
     long end = System.nanoTime() + remainingNanos;
 
     try {
@@ -339,7 +340,7 @@ public final class Uninterruptibles {
       Future<V> future, long timeout, TimeUnit unit) throws ExecutionException, TimeoutException {
     boolean interrupted = false;
     try {
-      long remainingNanos = unit.toNanos(timeout);
+      long remainingNanos = max(0L, unit.toNanos(timeout));
       long end = System.nanoTime() + remainingNanos;
 
       while (true) {
@@ -497,7 +498,7 @@ public final class Uninterruptibles {
       Semaphore semaphore, int permits, long timeout, TimeUnit unit) {
     boolean interrupted = false;
     try {
-      long remainingNanos = unit.toNanos(timeout);
+      long remainingNanos = max(0L, unit.toNanos(timeout));
       long end = System.nanoTime() + remainingNanos;
 
       while (true) {
@@ -540,7 +541,7 @@ public final class Uninterruptibles {
   public static boolean tryLockUninterruptibly(Lock lock, long timeout, TimeUnit unit) {
     boolean interrupted = false;
     try {
-      long remainingNanos = unit.toNanos(timeout);
+      long remainingNanos = max(0L, unit.toNanos(timeout));
       long end = System.nanoTime() + remainingNanos;
 
       while (true) {
@@ -597,7 +598,7 @@ public final class Uninterruptibles {
       ExecutorService executor, long timeout, TimeUnit unit) {
     boolean interrupted = false;
     try {
-      long remainingNanos = unit.toNanos(timeout);
+      long remainingNanos = max(0L, unit.toNanos(timeout));
       long end = System.nanoTime() + remainingNanos;
 
       while (true) {
