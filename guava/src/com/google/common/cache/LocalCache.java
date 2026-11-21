@@ -2225,6 +2225,8 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
       ComputingValueReference<K, V> computingValueReference = null;
       boolean createNewEntry = true;
       V newValue;
+      ReferenceEntry<K, V> previousInWriteQueue = null;
+      ReferenceEntry<K, V> nextInWriteQueue = null;
 
       lock();
       try {
@@ -2254,6 +2256,16 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
             }
 
             // immediately reuse invalid entries
+            // Remember e's neighbors in the write queue so that, if the remapping
+            // function returns the existing value unchanged, e can be put back where
+            // it was instead of at the tail (see restoreWriteQueuePosition). Only
+            // entries in a cache that uses the write queue have write-queue links;
+            // for other entries these getters throw, so leave the neighbors null
+            // and restoreWriteQueuePosition will fall back to re-adding e.
+            if (map.usesWriteQueue()) {
+              previousInWriteQueue = e.getPreviousInWriteQueue();
+              nextInWriteQueue = e.getNextInWriteQueue();
+            }
             writeQueue.remove(e);
             accessQueue.remove(e);
             createNewEntry = false;
@@ -2281,7 +2293,16 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
           if (valueReference != null && newValue == valueReference.get()) {
             computingValueReference.set(newValue);
             e.setValueReference(valueReference);
-            recordWrite(e, 0, now); // no change in weight
+            // The remapping function returned the existing value, so nothing was
+            // written. Treat this as a read, not a write: refresh the access time
+            // but leave the write time alone, so expireAfterWrite keeps measuring
+            // from the write that actually stored the value. The entry was removed
+            // from the eviction queues above, so it still needs to be put back in
+            // the write queue in order to expire, at the position it occupied
+            // before: its write time is unchanged, so moving it to the tail would
+            // break the queue's write-time order.
+            recordLockedRead(e, now);
+            restoreWriteQueuePosition(e, previousInWriteQueue, nextInWriteQueue);
             return newValue;
           }
           try {
@@ -2579,6 +2600,48 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
       }
       accessQueue.add(entry);
       writeQueue.add(entry);
+    }
+
+    /**
+     * Puts {@code entry} back into the write queue at the position it occupied before it was
+     * removed, instead of at the tail. The queue is ordered by write time and {@link
+     * #expireEntries} only removes expired entries from the head, so moving an entry whose write
+     * time is unchanged to the tail would leave it sitting behind newer entries past its
+     * expiration.
+     *
+     * <p>If a neighbor is no longer in the queue (for example, the remapping function removed
+     * it), the entry is placed next to whichever neighbor is still queued, or at the tail if
+     * neither is. If the neighbors are null, the cache does not use a write queue, so the entry
+     * is re-added, which is a no-op for the discarding queue.
+     */
+    @GuardedBy("this")
+    void restoreWriteQueuePosition(
+        ReferenceEntry<K, V> entry,
+        @Nullable ReferenceEntry<K, V> previousInWriteQueue,
+        @Nullable ReferenceEntry<K, V> nextInWriteQueue) {
+      if (writeQueue.contains(entry)) {
+        // Already queued (for example, the remapping function re-added it); nothing to do.
+        return;
+      }
+      if (previousInWriteQueue != null
+          && nextInWriteQueue != null
+          && writeQueue.contains(previousInWriteQueue)
+          && writeQueue.contains(nextInWriteQueue)
+          && previousInWriteQueue.getNextInWriteQueue() == nextInWriteQueue
+          && nextInWriteQueue.getPreviousInWriteQueue() == previousInWriteQueue) {
+        connectWriteOrder(previousInWriteQueue, entry);
+        connectWriteOrder(entry, nextInWriteQueue);
+      } else if (previousInWriteQueue != null && writeQueue.contains(previousInWriteQueue)) {
+        ReferenceEntry<K, V> next = previousInWriteQueue.getNextInWriteQueue();
+        connectWriteOrder(previousInWriteQueue, entry);
+        connectWriteOrder(entry, next);
+      } else if (nextInWriteQueue != null && writeQueue.contains(nextInWriteQueue)) {
+        ReferenceEntry<K, V> previous = nextInWriteQueue.getPreviousInWriteQueue();
+        connectWriteOrder(previous, entry);
+        connectWriteOrder(entry, nextInWriteQueue);
+      } else {
+        writeQueue.add(entry);
+      }
     }
 
     /**
