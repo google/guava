@@ -379,6 +379,19 @@ public final class ValueGraphTest {
   }
 
   @Test
+  public void asNetwork_adjacentEdges_invalidatedByEdgeRemoval() {
+    graph = ValueGraphBuilder.directed().build();
+    graph.putEdgeValue(1, 2, "1-2");
+    graph.putEdgeValue(2, 3, "2-3");
+    Set<EndpointPair<Integer>> adjacentEdges =
+        graph.asNetwork().adjacentEdges(EndpointPair.ordered(1, 2));
+    assertThat(adjacentEdges).containsExactly(EndpointPair.ordered(2, 3));
+
+    graph.removeEdge(1, 2);
+    assertThrows(IllegalStateException.class, adjacentEdges::size);
+  }
+
+  @Test
   public void removeEdge_directed_orderMismatch() {
     graph = ValueGraphBuilder.directed().build();
     graph.putEdgeValue(1, 2, "1->2");

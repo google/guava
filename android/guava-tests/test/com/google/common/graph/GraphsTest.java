@@ -344,6 +344,45 @@ public class GraphsTest {
   }
 
   @Test
+  public void asNetwork_adjacentEdges_invalidatedByEdgeRemoval() {
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
+    directedGraph.putEdge(N1, N2);
+    directedGraph.putEdge(N2, N3);
+    Set<EndpointPair<Integer>> adjacentEdges =
+        directedGraph.asNetwork().adjacentEdges(EndpointPair.ordered(N1, N2));
+    assertThat(adjacentEdges).containsExactly(EndpointPair.ordered(N2, N3));
+
+    directedGraph.removeEdge(N1, N2);
+    assertThrows(IllegalStateException.class, adjacentEdges::size);
+  }
+
+  @Test
+  public void asNetwork_adjacentEdges_undirected_invalidatedByEdgeRemoval() {
+    MutableGraph<Integer> undirectedGraph = GraphBuilder.undirected().build();
+    undirectedGraph.putEdge(N1, N2);
+    undirectedGraph.putEdge(N2, N3);
+    Set<EndpointPair<Integer>> adjacentEdges =
+        undirectedGraph.asNetwork().adjacentEdges(EndpointPair.unordered(N1, N2));
+    assertThat(adjacentEdges).containsExactly(EndpointPair.unordered(N2, N3));
+
+    undirectedGraph.removeEdge(N1, N2);
+    assertThrows(IllegalStateException.class, adjacentEdges::size);
+  }
+
+  @Test
+  public void asNetwork_adjacentEdges_selfLoop_invalidatedByEdgeRemoval() {
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().allowsSelfLoops(true).build();
+    directedGraph.putEdge(N1, N1);
+    directedGraph.putEdge(N1, N2);
+    Set<EndpointPair<Integer>> adjacentEdges =
+        directedGraph.asNetwork().adjacentEdges(EndpointPair.ordered(N1, N1));
+    assertThat(adjacentEdges).containsExactly(EndpointPair.ordered(N1, N2));
+
+    directedGraph.removeEdge(N1, N1);
+    assertThrows(IllegalStateException.class, adjacentEdges::size);
+  }
+
+  @Test
   public void transpose_undirectedGraph() {
     MutableGraph<Integer> undirectedGraph = GraphBuilder.undirected().build();
     undirectedGraph.putEdge(N1, N2);
