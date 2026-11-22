@@ -422,6 +422,19 @@ public final class Graphs extends GraphsBridgeMethods {
     }
 
     @Override
+    public Set<EndpointPair<N>> incidentEdges(N node) {
+      Set<EndpointPair<N>> incidentEdges = delegate().incidentEdges(node);
+      return nodeInvalidatableSet(
+          new IncidentEdgeSet<N>(this, node, IncidentEdgeSet.EdgeType.BOTH) {
+            @Override
+            public Iterator<EndpointPair<N>> iterator() {
+              return transform(incidentEdges.iterator(), Graphs::transpose);
+            }
+          },
+          node);
+    }
+
+    @Override
     public int inDegree(N node) {
       return delegate().outDegree(node); // transpose
     }

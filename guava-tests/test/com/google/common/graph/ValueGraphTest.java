@@ -511,6 +511,42 @@ public final class ValueGraphTest {
   }
 
   @Test
+  public void asGraph_incidentEdges_stableIncidentEdgeOrder_preservesIncidentEdgesOrder() {
+    graph = ValueGraphBuilder.directed().incidentEdgeOrder(ElementOrder.stable()).build();
+    graph.putEdgeValue(1, 2, "1-2");
+    graph.putEdgeValue(3, 1, "3-1");
+
+    assertThat(graph.asGraph().incidentEdges(1))
+        .containsExactly(EndpointPair.ordered(1, 2), EndpointPair.ordered(3, 1))
+        .inOrder();
+  }
+
+  @Test
+  public void transpose_incidentEdges_stableIncidentEdgeOrder_preservesIncidentEdgesOrder() {
+    graph = ValueGraphBuilder.directed().incidentEdgeOrder(ElementOrder.stable()).build();
+    graph.putEdgeValue(2, 1, "2-1");
+    graph.putEdgeValue(1, 3, "1-3");
+
+    assertThat(Graphs.transpose(graph).incidentEdges(1))
+        .containsExactly(EndpointPair.ordered(1, 2), EndpointPair.ordered(3, 1))
+        .inOrder();
+  }
+
+  @Test
+  public void transpose_incidentEdges_invalidatedByNodeRemoval() {
+    graph = ValueGraphBuilder.directed().build();
+    graph.putEdgeValue(1, 2, "1-2");
+    ValueGraph<Integer, String> transpose = Graphs.transpose(graph);
+    assertThrows(IllegalArgumentException.class, () -> transpose.incidentEdges(3));
+
+    Set<EndpointPair<Integer>> incidentEdges = transpose.incidentEdges(1);
+    assertThat(incidentEdges).containsExactly(EndpointPair.ordered(2, 1));
+    graph.removeNode(1);
+    assertThrows(IllegalStateException.class, incidentEdges::size);
+    int unused = incidentEdges.hashCode(); // doesn't throw
+  }
+
+  @Test
   public void concurrentIteration() throws Exception {
     graph = ValueGraphBuilder.directed().build();
     graph.putEdgeValue(1, 2, "A");
