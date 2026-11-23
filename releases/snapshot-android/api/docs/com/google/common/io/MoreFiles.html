@@ -109,9 +109,9 @@ initTheme();
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Static utilities for use with <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Path.html" title="interface in java.nio.file" class="external-link"><code>Path</code></a> instances, intended to complement <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Files.html" title="class in java.nio.file" class="external-link"><code>Files</code></a>.
 
-<p>Many methods provided by Guava's <code>Files</code> class for <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/io/File.html" title="class in java.io" class="external-link"><code>File</code></a> instances are
-now available via the JDK's <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Files.html" title="class in java.nio.file" class="external-link"><code>Files</code></a> class for <code>Path</code> - check the JDK's
-class if a sibling method from <code>Files</code> appears to be missing from this class.</div>
+<p>Many methods provided by Guava's <code>Files</code> class for <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/io/File.html" title="class in java.io" class="external-link"><code>File</code></a> instances are now
+available via the JDK's <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Files.html" title="class in java.nio.file" class="external-link"><code>Files</code></a> class for <code>Path</code> - check the JDK's class if a sibling
+method from <code>Files</code> appears to be missing from this class.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>33.4.0 (but since 21.0 in the JRE flavor)</dd>
@@ -204,12 +204,14 @@ the file at the given path, or the empty string if the file has no extension.</d
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Path.html" title="interface in java.nio.file" class="external-link">Path</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#isDirectory(java.nio.file.LinkOption...)" class="member-name-link">isDirectory</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/LinkOption.html" title="enum in java.nio.file" class="external-link">LinkOption</a>...&nbsp;options)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Files.html#isDirectory(java.nio.file.Path,java.nio.file.LinkOption...)" class="external-link"><code>Files.isDirectory(Path, LinkOption...)</code></a> on input paths with the given link options.</div>
+<div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Files.html#isDirectory(java.nio.file.Path,java.nio.file.LinkOption...)" class="external-link"><code>Files.isDirectory(Path, LinkOption...)</code></a>
+on input paths with the given link options.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Path.html" title="interface in java.nio.file" class="external-link">Path</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#isRegularFile(java.nio.file.LinkOption...)" class="member-name-link">isRegularFile</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/LinkOption.html" title="enum in java.nio.file" class="external-link">LinkOption</a>...&nbsp;options)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Files.html#isRegularFile(java.nio.file.Path,java.nio.file.LinkOption...)" class="external-link"><code>Files.isRegularFile(Path, LinkOption...)</code></a> on input paths with the given link options.</div>
+<div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Files.html#isRegularFile(java.nio.file.Path,java.nio.file.LinkOption...)" class="external-link"><code>Files.isRegularFile(Path, LinkOption...)</code></a>
+on input paths with the given link options.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Path.html" title="interface in java.nio.file" class="external-link">Path</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#listFiles(java.nio.file.Path)" class="member-name-link">listFiles</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Path.html" title="interface in java.nio.file" class="external-link">Path</a>&nbsp;dir)</code></div>
@@ -350,7 +352,8 @@ following paths: <code>["/", "/etc", "/etc/config.txt", "/etc/fonts", "/home", "
 <h3>isDirectory</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Path.html" title="interface in java.nio.file" class="external-link">Path</a>&gt;</span>&nbsp;<span class="element-name">isDirectory</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/LinkOption.html" title="enum in java.nio.file" class="external-link">LinkOption</a>...&nbsp;options)</span></div>
-<div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Files.html#isDirectory(java.nio.file.Path,java.nio.file.LinkOption...)" class="external-link"><code>Files.isDirectory(Path, LinkOption...)</code></a> on input paths with the given link options.</div>
+<div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Files.html#isDirectory(java.nio.file.Path,java.nio.file.LinkOption...)" class="external-link"><code>Files.isDirectory(Path, LinkOption...)</code></a>
+on input paths with the given link options.</div>
 </div>
 </section>
 </li>
@@ -359,7 +362,8 @@ following paths: <code>["/", "/etc", "/etc/config.txt", "/etc/fonts", "/home", "
 <h3>isRegularFile</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Path.html" title="interface in java.nio.file" class="external-link">Path</a>&gt;</span>&nbsp;<span class="element-name">isRegularFile</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/LinkOption.html" title="enum in java.nio.file" class="external-link">LinkOption</a>...&nbsp;options)</span></div>
-<div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Files.html#isRegularFile(java.nio.file.Path,java.nio.file.LinkOption...)" class="external-link"><code>Files.isRegularFile(Path, LinkOption...)</code></a> on input paths with the given link options.</div>
+<div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/file/Files.html#isRegularFile(java.nio.file.Path,java.nio.file.LinkOption...)" class="external-link"><code>Files.isRegularFile(Path, LinkOption...)</code></a>
+on input paths with the given link options.</div>
 </div>
 </section>
 </li>

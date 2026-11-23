@@ -145,8 +145,8 @@ the configuration properties of the original map. During deserialization, if the
 used weak references, the entries are reconstructed as they were, but it's not unlikely they'll
 be quickly garbage-collected before they are ever accessed.
 
-<p><code>new MapMaker().weakKeys().makeMap()</code> is a recommended replacement for <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/WeakHashMap.html" title="class in java.util" class="external-link"><code>WeakHashMap</code></a>, but note that it compares keys using object identity whereas <code>
-WeakHashMap</code> uses <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" class="external-link"><code>Object.equals(Object)</code></a>.</div>
+<p><code>new MapMaker().weakKeys().makeMap()</code> is a recommended replacement for <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/WeakHashMap.html" title="class in java.util" class="external-link"><code>WeakHashMap</code></a>, but note that it compares keys using object identity whereas <code>WeakHashMap</code>
+uses <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" class="external-link"><code>Object.equals(Object)</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>2.0</dd>

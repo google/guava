@@ -107,9 +107,9 @@ the JDK collection types and the Guava collection types (listed below).
 
 <dl>
   <dt><a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a>
-  <dd>A new type, which is similar to <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Map.html" title="interface in java.util" class="external-link"><code>Map</code></a>, but may contain multiple entries
-      with the same key. Some behaviors of <a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> are left unspecified and are provided
-      only by the subtypes mentioned below.
+  <dd>A new type, which is similar to <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Map.html" title="interface in java.util" class="external-link"><code>Map</code></a>, but may contain multiple entries with the same
+      key. Some behaviors of <a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> are left unspecified and are provided only by the
+      subtypes mentioned below.
   <dt><a href="ListMultimap.html" title="interface in com.google.common.collect"><code>ListMultimap</code></a>
   <dd>An extension of <a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> which permits duplicate entries, supports random access of
       values for a particular key, and has <i>partially order-dependent equality</i> as defined
@@ -125,20 +125,19 @@ the JDK collection types and the Guava collection types (listed below).
   <dt><a href="SortedSetMultimap.html" title="interface in com.google.common.collect"><code>SortedSetMultimap</code></a>
   <dd>An extension of <a href="SetMultimap.html" title="interface in com.google.common.collect"><code>SetMultimap</code></a> for which the <a href="SortedSetMultimap.html#get(K)">collection values</a> associated with a given key is a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/SortedSet.html" title="interface in java.util" class="external-link"><code>SortedSet</code></a>.
   <dt><a href="BiMap.html" title="interface in com.google.common.collect"><code>BiMap</code></a>
-  <dd>An extension of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Map.html" title="interface in java.util" class="external-link"><code>Map</code></a> that guarantees the uniqueness of its values as well
-      as that of its keys. This is sometimes called an "invertible map," since the restriction on
-      values enables it to support an <a href="BiMap.html#inverse()">inverse view</a> -- which is another
+  <dd>An extension of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Map.html" title="interface in java.util" class="external-link"><code>Map</code></a> that guarantees the uniqueness of its values as well as that of
+      its keys. This is sometimes called an "invertible map," since the restriction on values
+      enables it to support an <a href="BiMap.html#inverse()">inverse view</a> -- which is another
       instance of <code>BiMap</code>.
   <dt><a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a>
-  <dd>A new type, which is similar to <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Map.html" title="interface in java.util" class="external-link"><code>Map</code></a>, but which indexes its values by an
-      ordered pair of keys, a row key and column key.
+  <dd>A new type, which is similar to <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Map.html" title="interface in java.util" class="external-link"><code>Map</code></a>, but which indexes its values by an ordered
+      pair of keys, a row key and column key.
   <dt><a href="Multiset.html" title="interface in com.google.common.collect"><code>Multiset</code></a>
-  <dd>An extension of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Collection.html" title="interface in java.util" class="external-link"><code>Collection</code></a> that may contain duplicate values like a
-      <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/List.html" title="interface in java.util" class="external-link"><code>List</code></a>, yet has order-independent equality like a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Set.html" title="interface in java.util" class="external-link"><code>Set</code></a>.
-      One typical use for a multiset is to represent a histogram.
+  <dd>An extension of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Collection.html" title="interface in java.util" class="external-link"><code>Collection</code></a> that may contain duplicate values like a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/List.html" title="interface in java.util" class="external-link"><code>List</code></a>,
+      yet has order-independent equality like a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Set.html" title="interface in java.util" class="external-link"><code>Set</code></a>. One typical use for a multiset is to
+      represent a histogram.
   <dt><a href="ClassToInstanceMap.html" title="interface in com.google.common.collect"><code>ClassToInstanceMap</code></a>
-  <dd>An extension of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Map.html" title="interface in java.util" class="external-link"><code>Map</code></a> that associates a raw type with an instance of that
-      type.
+  <dd>An extension of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Map.html" title="interface in java.util" class="external-link"><code>Map</code></a> that associates a raw type with an instance of that type.
 </dl>
 
 <h2 id="ranges-heading">Ranges</h2>

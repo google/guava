@@ -965,8 +965,8 @@ iterable is empty, <code>Optional.absent()</code> is returned.
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="annotation in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;</span>&nbsp;<span class="element-name">last</span>()</div>
 <div class="block">Returns an <a href="../base/Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the last element in this fluent iterable. If the
 iterable is empty, <code>Optional.absent()</code> is returned. If the underlying <code>iterable</code> is
-a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/List.html" title="interface in java.util" class="external-link"><code>List</code></a> with <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/RandomAccess.html" title="interface in java.util" class="external-link"><code>RandomAccess</code></a> support, then this operation is guaranteed
-to be <code>O(1)</code>.
+a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/List.html" title="interface in java.util" class="external-link"><code>List</code></a> with <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/RandomAccess.html" title="interface in java.util" class="external-link"><code>RandomAccess</code></a> support, then this operation is guaranteed to be
+<code>O(1)</code>.
 
 <p><b><code>Stream</code> equivalent:</b> <code>stream.reduce((a, b) -&gt; b)</code>.</div>
 <dl class="notes">

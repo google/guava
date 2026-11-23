@@ -393,9 +393,9 @@ amount.</div>
 <p><b>Note:</b> if you won't be adding any elements to the list, use <a href="ImmutableList.html#of()"><code>ImmutableList.of()</code></a>
 instead.
 
-<p><b>Performance note:</b> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ArrayList.html" title="class in java.util" class="external-link"><code>ArrayList</code></a> and <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ArrayDeque.html" title="class in java.util" class="external-link"><code>ArrayDeque</code></a> consistently
-outperform <code>LinkedList</code> except in certain rare and specific situations. Unless you have
-spent a lot of time benchmarking your specific needs, use one of those instead.
+<p><b>Performance note:</b> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ArrayList.html" title="class in java.util" class="external-link"><code>ArrayList</code></a> and <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ArrayDeque.html" title="class in java.util" class="external-link"><code>ArrayDeque</code></a> consistently outperform
+<code>LinkedList</code> except in certain rare and specific situations. Unless you have spent a lot
+of time benchmarking your specific needs, use one of those instead.
 
 <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
 use the <code>LinkedList</code> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/LinkedList.html#%3Cinit%3E()" class="external-link">constructor</a> directly, taking
@@ -415,9 +415,9 @@ shortcut for creating an empty list then calling <a href="Iterables.html#addAll(
 
 <p><b>Note:</b> if mutability is not required and the elements are non-null, use <a href="ImmutableList.html#copyOf(java.lang.Iterable)"><code>ImmutableList.copyOf(Iterable)</code></a> instead.
 
-<p><b>Performance note:</b> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ArrayList.html" title="class in java.util" class="external-link"><code>ArrayList</code></a> and <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ArrayDeque.html" title="class in java.util" class="external-link"><code>ArrayDeque</code></a> consistently
-outperform <code>LinkedList</code> except in certain rare and specific situations. Unless you have
-spent a lot of time benchmarking your specific needs, use one of those instead.
+<p><b>Performance note:</b> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ArrayList.html" title="class in java.util" class="external-link"><code>ArrayList</code></a> and <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ArrayDeque.html" title="class in java.util" class="external-link"><code>ArrayDeque</code></a> consistently outperform
+<code>LinkedList</code> except in certain rare and specific situations. Unless you have spent a lot
+of time benchmarking your specific needs, use one of those instead.
 
 <p><b>Note:</b> if <code>elements</code> is a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Collection.html" title="interface in java.util" class="external-link"><code>Collection</code></a>, you don't need this method. Use
 the <code>LinkedList</code> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/LinkedList.html#%3Cinit%3E(java.util.Collection)" class="external-link">constructor</a> directly,
@@ -692,8 +692,8 @@ Instead, copy the list using <a href="ImmutableList.html#copyOf(java.util.Collec
 serialize the copy. Other methods similar to this do not implement serialization at all for
 this reason.
 
-<p><b>Java 8+ users:</b> many use cases for this method are better addressed by <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/stream/Stream.html#map(java.util.function.Function)" class="external-link"><code>Stream.map(Function)</code></a>. This method is not being deprecated, but we gently encourage you
-to migrate to streams.</div>
+<p><b>Java 8+ users:</b> many use cases for this method are better addressed by <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/stream/Stream.html#map(java.util.function.Function)" class="external-link"><code>Stream.map(Function)</code></a>. This method is not being deprecated, but we gently encourage you to migrate to
+streams.</div>
 </div>
 </section>
 </li>

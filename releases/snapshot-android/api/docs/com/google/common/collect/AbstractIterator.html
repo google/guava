@@ -113,10 +113,9 @@ interface easier to implement for certain types of data sources.
 
 <p><code>Iterator</code> requires its implementations to support querying the end-of-data status
 without changing the iterator's state, using the <a href="#hasNext()"><code>hasNext()</code></a> method. But many data sources,
-such as <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/io/Reader.html#read()" class="external-link"><code>Reader.read()</code></a>, do not expose this information; the only way to discover
-whether there is any data left is by trying to retrieve it. These types of data sources are
-ordinarily difficult to write iterators for. But using this class, one must implement only the
-<a href="#computeNext()"><code>computeNext()</code></a> method, and invoke the <a href="#endOfData()"><code>endOfData()</code></a> method when appropriate.
+such as <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/io/Reader.html#read()" class="external-link"><code>Reader.read()</code></a>, do not expose this information; the only way to discover whether
+there is any data left is by trying to retrieve it. These types of data sources are ordinarily
+difficult to write iterators for. But using this class, one must implement only the <a href="#computeNext()"><code>computeNext()</code></a> method, and invoke the <a href="#endOfData()"><code>endOfData()</code></a> method when appropriate.
 
 <p>Another example is an iterator that skips over null elements in a backing iterator. This could
 be implemented as:

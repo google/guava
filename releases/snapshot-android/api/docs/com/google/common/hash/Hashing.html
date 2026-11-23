@@ -804,7 +804,8 @@ alternatives we've used in the past.
 
 <p>FarmHash fingerprints are encoded by <a href="HashCode.html#asBytes()"><code>HashCode.asBytes()</code></a> in little-endian order. This
 means <a href="HashCode.html#asLong()"><code>HashCode.asLong()</code></a> is guaranteed to return the same value that
-farmhash::Fingerprint64() would for the same input (when compared using <a href="../primitives/UnsignedLongs.html" title="class in com.google.common.primitives"><code>UnsignedLongs</code></a>'s encoding of 64-bit unsigned numbers).
+farmhash::Fingerprint64() would for the same input (when compared using <a href="../primitives/UnsignedLongs.html" title="class in com.google.common.primitives"><code>UnsignedLongs</code></a>'s
+encoding of 64-bit unsigned numbers).
 
 <p>This function is best understood as a <a href="https://en.wikipedia.org/wiki/Fingerprint_(computing)">fingerprint</a> rather than a true
 <a href="https://en.wikipedia.org/wiki/Hash_function">hash function</a>.</div>
@@ -825,8 +826,8 @@ farmhash::Fingerprint64() would for the same input (when compared using <a href=
 <p>This is designed for generating persistent fingerprints of strings. It isn't
 cryptographically secure, but it produces a high-quality hash with few collisions. Fingerprints
 generated using this are byte-wise identical to those created using the C++ version, but note
-that this uses unsigned integers (see <a href="../primitives/UnsignedInts.html" title="class in com.google.common.primitives"><code>UnsignedInts</code></a>).
-Comparisons between the two should take this into account.
+that this uses unsigned integers (see <a href="../primitives/UnsignedInts.html" title="class in com.google.common.primitives"><code>UnsignedInts</code></a>). Comparisons between the two should
+take this into account.
 
 <p>Fingerprint2011() is a form of Murmur2 on strings up to 32 bytes and a form of CityHash for
 longer strings. It could have been one or the other throughout. The main advantage of the

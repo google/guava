@@ -205,8 +205,8 @@ forwards to that future and adds the desired methods.</div>
  <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/Executor.html" title="interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Registers separate success and failure callbacks to be run when this <code>Future</code>'s
-computation is <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/Future.html#isDone()" class="external-link">complete</a> or, if the
-computation is already complete, immediately.</div>
+computation is <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/Future.html#isDone()" class="external-link">complete</a> or, if the computation is already
+complete, immediately.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final &lt;X extends <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Throwable.html" title="class in java.lang" class="external-link">Throwable</a>&gt;<br><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a><wbr>&lt;<a href="#type-param-V" title="type parameter in FluentFuture">V</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#catching(java.lang.Class,com.google.common.base.Function,java.util.concurrent.Executor)" class="member-name-link">catching</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Class.html" title="class in java.lang" class="external-link">Class</a>&lt;X&gt;&nbsp;exceptionType,
@@ -662,8 +662,8 @@ use cases of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.ba
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addCallback</span><wbr><span class="parameters">(<a href="FutureCallback.html" title="interface in com.google.common.util.concurrent">FutureCallback</a>&lt;? super <a href="#type-param-V" title="type parameter in FluentFuture">V</a>&gt;&nbsp;callback,
  <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/Executor.html" title="interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</span></div>
 <div class="block">Registers separate success and failure callbacks to be run when this <code>Future</code>'s
-computation is <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/Future.html#isDone()" class="external-link">complete</a> or, if the
-computation is already complete, immediately.
+computation is <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/Future.html#isDone()" class="external-link">complete</a> or, if the computation is already
+complete, immediately.
 
 <p>The callback is run on <code>executor</code>. There is no guaranteed ordering of execution of
 callbacks, but any callback added through this method is guaranteed to be called once the

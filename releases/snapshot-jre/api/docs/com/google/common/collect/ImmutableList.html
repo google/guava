@@ -906,8 +906,8 @@ in the order in which they appear in the input.
 ImmutableSortedSet.copyOf(elements)</code>; if you want a <code>List</code> you can use its <code>
 asList()</code> view.
 
-<p><b>Java 8+ users:</b> If you want to convert a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/stream/Stream.html" title="interface in java.util.stream" class="external-link"><code>Stream</code></a> to a sorted
-<code>ImmutableList</code>, use <code>stream.sorted().collect(toImmutableList())</code>.</div>
+<p><b>Java 8+ users:</b> If you want to convert a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/stream/Stream.html" title="interface in java.util.stream" class="external-link"><code>Stream</code></a> to a sorted <code>
+ImmutableList</code>, use <code>stream.sorted().collect(toImmutableList())</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/NullPointerException.html" title="class in java.lang" class="external-link">NullPointerException</a></code> - if any element in the input is null</dd>
@@ -931,8 +931,8 @@ equal will stay in the order in which they appear in the input.
 ImmutableSortedSet.copyOf(comparator, elements)</code>; if you want a <code>List</code> you can use its
 <code>asList()</code> view.
 
-<p><b>Java 8+ users:</b> If you want to convert a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/stream/Stream.html" title="interface in java.util.stream" class="external-link"><code>Stream</code></a> to a sorted
-<code>ImmutableList</code>, use <code>stream.sorted(comparator).collect(toImmutableList())</code>.</div>
+<p><b>Java 8+ users:</b> If you want to convert a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/stream/Stream.html" title="interface in java.util.stream" class="external-link"><code>Stream</code></a> to a sorted <code>
+ImmutableList</code>, use <code>stream.sorted(comparator).collect(toImmutableList())</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/NullPointerException.html" title="class in java.lang" class="external-link">NullPointerException</a></code> - if any element in the input is null</dd>

@@ -188,8 +188,8 @@ of input futures.</div>
  <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/Executor.html" title="interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Registers separate success and failure callbacks to be run when the <code>Future</code>'s
-computation is <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/Future.html#isDone()" class="external-link">complete</a> or, if the
-computation is already complete, immediately.</div>
+computation is <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/Future.html#isDone()" class="external-link">complete</a> or, if the computation is already
+complete, immediately.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;<br><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/List.html" title="interface in java.util" class="external-link">List</a>&lt;V&gt;&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#allAsList(com.google.common.util.concurrent.ListenableFuture...)" class="member-name-link">allAsList</a><wbr>(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</code></div>
@@ -1094,8 +1094,8 @@ too.</div>
  <a href="FutureCallback.html" title="interface in com.google.common.util.concurrent">FutureCallback</a>&lt;? super V&gt;&nbsp;callback,
  <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/Executor.html" title="interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</span></div>
 <div class="block">Registers separate success and failure callbacks to be run when the <code>Future</code>'s
-computation is <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/Future.html#isDone()" class="external-link">complete</a> or, if the
-computation is already complete, immediately.
+computation is <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/Future.html#isDone()" class="external-link">complete</a> or, if the computation is already
+complete, immediately.
 
 <p>The callback is run on <code>executor</code>. There is no guaranteed ordering of execution of
 callbacks, but any callback added through this method is guaranteed to be called once the

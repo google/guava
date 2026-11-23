@@ -162,8 +162,8 @@ returned future will emulate <a href="ListenableFuture.html#addListener(java.lan
 internal, unbounded pool at the first call to <code>addListener</code> and holding it until the
 future is <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/Future.html#isDone()" class="external-link">done</a>.
 
-<p>Prefer to create <code>ListenableFuture</code> instances with <a href="SettableFuture.html" title="class in com.google.common.util.concurrent"><code>SettableFuture</code></a>, <a href="MoreExecutors.html#listeningDecorator(java.util.concurrent.ExecutorService)"><code>MoreExecutors.listeningDecorator(java.util.concurrent.ExecutorService)</code></a>, <a href="ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a>, <a href="AbstractFuture.html" title="class in com.google.common.util.concurrent"><code>AbstractFuture</code></a>, and other utilities over creating plain <code>
-Future</code> instances to be upgraded to <code>ListenableFuture</code> after the fact.</div>
+<p>Prefer to create <code>ListenableFuture</code> instances with <a href="SettableFuture.html" title="class in com.google.common.util.concurrent"><code>SettableFuture</code></a>, <a href="MoreExecutors.html#listeningDecorator(java.util.concurrent.ExecutorService)"><code>MoreExecutors.listeningDecorator(ExecutorService)</code></a>, <a href="ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a>, <a href="AbstractFuture.html" title="class in com.google.common.util.concurrent"><code>AbstractFuture</code></a>, and other utilities over creating plain <code>Future</code> instances to be
+upgraded to <code>ListenableFuture</code> after the fact.</div>
 </div>
 </section>
 </li>
@@ -186,8 +186,8 @@ each call to this method may claim and hold a thread for an arbitrary length of 
 bounded executors or other executors that may fail to execute a task promptly may result in
 deadlocks.
 
-<p>Prefer to create <code>ListenableFuture</code> instances with <a href="SettableFuture.html" title="class in com.google.common.util.concurrent"><code>SettableFuture</code></a>, <a href="MoreExecutors.html#listeningDecorator(java.util.concurrent.ExecutorService)"><code>MoreExecutors.listeningDecorator(java.util.concurrent.ExecutorService)</code></a>, <a href="ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a>, <a href="AbstractFuture.html" title="class in com.google.common.util.concurrent"><code>AbstractFuture</code></a>, and other utilities over creating plain <code>
-Future</code> instances to be upgraded to <code>ListenableFuture</code> after the fact.</div>
+<p>Prefer to create <code>ListenableFuture</code> instances with <a href="SettableFuture.html" title="class in com.google.common.util.concurrent"><code>SettableFuture</code></a>, <a href="MoreExecutors.html#listeningDecorator(java.util.concurrent.ExecutorService)"><code>MoreExecutors.listeningDecorator(ExecutorService)</code></a>, <a href="ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a>, <a href="AbstractFuture.html" title="class in com.google.common.util.concurrent"><code>AbstractFuture</code></a>, and other utilities over creating plain <code>Future</code> instances to be
+upgraded to <code>ListenableFuture</code> after the fact.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>12.0</dd>

@@ -2262,10 +2262,10 @@
  finalizeReferent()} on the remaining references.
 
  <p>As an example of how this is used, imagine you have a class {@code MyServer} that creates a
- {@link java.net.ServerSocket ServerSocket}, and you would like to ensure that the {@code
- ServerSocket} is closed even if the {@code MyServer} object is garbage-collected without calling
- its {@code close} method. You <em>could</em> use a finalizer to accomplish this, but that has a
- number of well-known problems. Here is how you might use this class instead:
+ {@link ServerSocket}, and you would like to ensure that the {@code ServerSocket} is closed even
+ if the {@code MyServer} object is garbage-collected without calling its {@code close} method. You
+ <em>could</em> use a finalizer to accomplish this, but that has a number of well-known problems.
+ Here is how you might use this class instead:
 
  {@snippet :
  public class MyServer implements Closeable {
@@ -3562,7 +3562,7 @@
 
  <p><b>Comparison to {@code java.util.Optional}:</b> when the value is absent, this method
  throws {@link IllegalStateException}, whereas the {@code java.util} counterpart throws {@link
- java.util.NoSuchElementException NoSuchElementException}.
+ NoSuchElementException}.
 
  @throws IllegalStateException if the instance is absent ({@link #isPresent} returns {@code
      false}); depending on this <i>specific</i> exception type (over the more general {@link
@@ -5199,7 +5199,7 @@
  <h2>Other types of preconditions</h2>
 
  <p>Not every type of precondition failure is supported by these methods. Continue to throw
- standard JDK exceptions such as {@link java.util.NoSuchElementException} or {@link
+ standard JDK exceptions such as {@link NoSuchElementException} or {@link
  UnsupportedOperationException} in the situations they are intended for.
 
  <h2>Non-preconditions</h2>
@@ -7554,9 +7554,9 @@
    <li>An explicit {@code if/throw} (as illustrated below) is always acceptable; we still
        recommend using our {@link VerifyException} exception type. Throwing a plain {@link
        RuntimeException} is frowned upon.
-   <li>Use of {@link java.util.Objects#requireNonNull(Object)} is generally discouraged, since
-       {@link #verifyNotNull(Object)} and {@link Preconditions#checkNotNull(Object)} perform the
-       same function with more clarity.
+   <li>Use of {@link Objects#requireNonNull(Object)} is generally discouraged, since {@link
+       #verifyNotNull(Object)} and {@link Preconditions#checkNotNull(Object)} perform the same
+       function with more clarity.
  </ul>
 
  <h2>Warning about performance</h2>
@@ -8764,8 +8764,8 @@
  AsyncLoadingCache.get}</a> returns a {@code CompletableFuture}, and implementations of <a
  href="https://www.javadoc.io/doc/com.github.ben-manes.caffeine/caffeine/latest/com.github.benmanes.caffeine/com/github/benmanes/caffeine/cache/AsyncCacheLoader.html#asyncLoad(K,java.util.concurrent.Executor)">{@code
  AsyncCacheLoader.asyncLoad}</a> must return a {@code CompletableFuture}. Users of Guava's {@link
- com.google.common.util.concurrent.ListenableFuture} can adapt between the two {@code Future}
- types by using <a href="https://github.com/lukas-krecan/future-converter#java8-guava">{@code
+ ListenableFuture} can adapt between the two {@code Future} types by using <a
+ href="https://github.com/lukas-krecan/future-converter#java8-guava">{@code
  net.javacrumbs.futureconverter.java8guava.FutureConverter}</a>.
 
  <h2>More on {@code CacheBuilder}</h2>
@@ -9766,7 +9766,7 @@
  previous value (if any) will continue to be returned by {@code get(key)} unless it is evicted.
  If the new value is loaded successfully it will replace the previous value in the cache; if an
  exception is thrown while refreshing the previous value will remain, <i>and the exception will
- be logged (using {@link java.util.logging.Logger}) and swallowed</i>.
+ be logged (using {@link Logger}) and swallowed</i>.
 
  <p>Caches loaded by a {@link CacheLoader} will call {@link CacheLoader#reload} if the cache
  currently contains a value for {@code key}, and {@link CacheLoader#load} otherwise. Loading is
@@ -10052,10 +10052,10 @@
 
  <p>{@code Iterator} requires its implementations to support querying the end-of-data status
  without changing the iterator's state, using the {@link #hasNext} method. But many data sources,
- such as {@link java.io.Reader#read()}, do not expose this information; the only way to discover
- whether there is any data left is by trying to retrieve it. These types of data sources are
- ordinarily difficult to write iterators for. But using this class, one must implement only the
- {@link #computeNext} method, and invoke the {@link #endOfData} method when appropriate.
+ such as {@link Reader#read()}, do not expose this information; the only way to discover whether
+ there is any data left is by trying to retrieve it. These types of data sources are ordinarily
+ difficult to write iterators for. But using this class, one must implement only the {@link
+ #computeNext} method, and invoke the {@link #endOfData} method when appropriate.
 
  <p>Another example is an iterator that skips over null elements in a backing iterator. This could
  be implemented as:
@@ -10219,7 +10219,7 @@
  views are modifiable.
 
  <p>The lists returned by {@link #get}, {@link #removeAll}, and {@link #replaceValues} all
- implement {@link java.util.RandomAccess}.
+ implement {@link RandomAccess}.
 
  <p>This class is not threadsafe when any concurrent operations update the multimap. Concurrent
  read operations will work correctly. To allow concurrent update operations, wrap your multimap
@@ -10705,7 +10705,7 @@
       <![CDATA[{@inheritDoc}
 
  <p>Because a bimap has unique values, this method returns a {@link Set}, instead of the {@link
- java.util.Collection} specified in the {@link Map} interface.]]>
+ Collection} specified in the {@link Map} interface.]]>
       </doc>
     </method>
     <method name="inverse" return="com.google.common.collect.BiMap&lt;V, K&gt;"
@@ -10862,7 +10862,7 @@
  Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals. (See {@link
  Iterables#filter(Iterable, Class)} for related functionality.)
 
- <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#filter Stream.filter}.]]>
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#filter Stream.filter}.]]>
       </doc>
     </method>
     <method name="transform" return="java.util.Collection&lt;T&gt;"
@@ -10888,7 +10888,7 @@
  <p>If the input {@code Collection} is known to be a {@code List}, consider {@link
  Lists#transform}. If only an {@code Iterable} is available, use {@link Iterables#transform}.
 
- <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#map Stream.map}.]]>
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#map Stream.map}.]]>
       </doc>
     </method>
     <method name="orderedPermutations" return="java.util.Collection&lt;java.util.List&lt;E&gt;&gt;"
@@ -10999,9 +10999,8 @@
     <![CDATA[Provides static methods for working with {@code Collection} instances.
 
  <p><b>Java 8+ users:</b> several common uses for this class are now more comprehensively
- addressed by the new {@link java.util.stream.Stream} library. Read the method documentation below
- for comparisons. These methods are not being deprecated, but we gently encourage you to migrate
- to streams.
+ addressed by the new {@link Stream} library. Read the method documentation below for comparisons.
+ These methods are not being deprecated, but we gently encourage you to migrate to streams.
 
  @author Chris Povirk
  @author Mike Bostock
@@ -12033,7 +12032,7 @@
 
  @return the minimum value of type {@code C}; never null
  @throws NoSuchElementException if the type has no (practical) minimum value; for example,
-     {@link java.math.BigInteger}]]>
+     {@link BigInteger}]]>
       </doc>
     </method>
     <method name="maxValue" return="C extends java.lang.Comparable"
@@ -12049,7 +12048,7 @@
 
  @return the maximum value of type {@code C}; never null
  @throws NoSuchElementException if the type has no (practical) maximum value; for example,
-     {@link java.math.BigInteger}]]>
+     {@link BigInteger}]]>
       </doc>
     </method>
     <doc>
@@ -12422,8 +12421,7 @@
 
  <p>The returned iterable is an unmodifiable view of the input array.
 
- <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#of(Object[])
- Stream.of(T...)}.
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#of(Object[]) Stream.of(T...)}.
 
  @since 20.0 (since 18.0 as an overload of {@code of})]]>
       </doc>
@@ -12568,8 +12566,7 @@
       <doc>
       <![CDATA[Returns a fluent iterable containing the specified elements in order.
 
- <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#of(Object[])
- Stream.of(T...)}.
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#of(Object[]) Stream.of(T...)}.
 
  @since 20.0]]>
       </doc>
@@ -12787,8 +12784,8 @@
       <doc>
       <![CDATA[Returns an {@link Optional} containing the last element in this fluent iterable. If the
  iterable is empty, {@code Optional.absent()} is returned. If the underlying {@code iterable} is
- a {@link List} with {@link java.util.RandomAccess} support, then this operation is guaranteed
- to be {@code O(1)}.
+ a {@link List} with {@link RandomAccess} support, then this operation is guaranteed to be
+ {@code O(1)}.
 
  <p><b>{@code Stream} equivalent:</b> {@code stream.reduce((a, b) -> b)}.
 
@@ -14043,8 +14040,8 @@
  more methods to modify the behavior of the backing list as desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
- <p>This class does not implement {@link java.util.RandomAccess}. If the delegate supports random
- access, the {@code ForwardingList} subclass should implement the {@code RandomAccess} interface.
+ <p>This class does not implement {@link RandomAccess}. If the delegate supports random access,
+ the {@code ForwardingList} subclass should implement the {@code RandomAccess} interface.
 
  <p><b>Warning:</b> The methods of {@code ForwardingList} forward <b>indiscriminately</b> to the
  methods of the delegate. For example, overriding {@link #add} alone <b>will not</b> change the
@@ -15776,7 +15773,7 @@
  such custom interfaces directly; they are implemented only in subclasses. Therefore, forwarding
  {@code equals} would break symmetry, as the forwarding object might consider itself equal to the
  object being tested, but the reverse could not be true. This behavior is consistent with the
- JDK's collection wrappers, such as {@link java.util.Collections#unmodifiableCollection}. Use an
+ JDK's collection wrappers, such as {@link Collections#unmodifiableCollection}. Use an
  interface-specific subclass of {@code ForwardingObject}, such as {@link ForwardingList}, to
  preserve equality behavior, or override {@code equals} directly.
 
@@ -18387,8 +18384,8 @@
  ImmutableSortedSet.copyOf(elements)}; if you want a {@code List} you can use its {@code
  asList()} view.
 
- <p><b>Java 8+ users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
- {@code ImmutableList}, use {@code stream.sorted().collect(toImmutableList())}.
+ <p><b>Java 8+ users:</b> If you want to convert a {@link Stream} to a sorted {@code
+ ImmutableList}, use {@code stream.sorted().collect(toImmutableList())}.
 
  @throws NullPointerException if any element in the input is null
  @since 21.0]]>
@@ -18409,8 +18406,8 @@
  ImmutableSortedSet.copyOf(comparator, elements)}; if you want a {@code List} you can use its
  {@code asList()} view.
 
- <p><b>Java 8+ users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
- {@code ImmutableList}, use {@code stream.sorted(comparator).collect(toImmutableList())}.
+ <p><b>Java 8+ users:</b> If you want to convert a {@link Stream} to a sorted {@code
+ ImmutableList}, use {@code stream.sorted(comparator).collect(toImmutableList())}.
 
  @throws NullPointerException if any element in the input is null
  @since 21.0]]>
@@ -19868,9 +19865,8 @@
 
  <p>In the current implementation, all values associated with a given key are stored in the
  {@code Builder} object, even though only one of them will be used in the built map. If there
- can be many repeated keys, it may be more space-efficient to use a {@link
- java.util.LinkedHashMap LinkedHashMap} and {@link ImmutableMap#copyOf(Map)} rather than
- {@code ImmutableMap.Builder}.
+ can be many repeated keys, it may be more space-efficient to use a {@link LinkedHashMap} and
+ {@link ImmutableMap#copyOf(Map)} rather than {@code ImmutableMap.Builder}.
 
  @since 31.1]]>
       </doc>
@@ -25431,10 +25427,9 @@
       <param name="iterable" type="java.lang.Iterable&lt;?&gt;"/>
       <doc>
       <![CDATA[Returns a string representation of {@code iterable}, with the format {@code [e1, e2, ..., en]}
- (that is, identical to {@link java.util.Arrays Arrays}{@code
- .toString(Iterables.toArray(iterable))}). Note that for <i>most</i> implementations of {@link
- Collection}, {@code collection.toString()} also gives the same result, but that behavior is not
- generally guaranteed.]]>
+ (that is, identical to {@link Arrays}{@code .toString(Iterables.toArray(iterable))}). Note that
+ for <i>most</i> implementations of {@link Collection}, {@code collection.toString()} also gives
+ the same result, but that behavior is not generally guaranteed.]]>
       </doc>
     </method>
     <method name="getOnlyElement" return="T extends java.lang.Object"
@@ -25508,8 +25503,7 @@
  stream.filter(element::equals).count()}. If {@code element} might be null, use {@code
  stream.filter(Predicate.isEqual(element)).count()} instead.
 
- @see java.util.Collections#frequency(Collection, Object) Collections.frequency(Collection,
-     Object)]]>
+ @see Collections#frequency(Collection, Object)]]>
       </doc>
     </method>
     <method name="cycle" return="java.lang.Iterable&lt;T&gt;"
@@ -26084,9 +26078,8 @@
  in the {@link Iterators} class.
 
  <p><b>Java 8+ users:</b> several common uses for this class are now more comprehensively
- addressed by the new {@link java.util.stream.Stream} library. Read the method documentation below
- for comparisons. This class is not being deprecated, but we gently encourage you to migrate to
- streams.
+ addressed by the new {@link Stream} library. Read the method documentation below for comparisons.
+ This class is not being deprecated, but we gently encourage you to migrate to streams.
 
  <p><i>Performance notes:</i> Unless otherwise noted, all of the iterables produced in this class
  are <i>lazy</i>, which means that their iterators only advance the backing iteration when
@@ -26417,7 +26410,7 @@
  partition size of 3 yields {@code [[a, b, c], [d, e]]} -- an outer iterator containing two
  inner lists of three and two elements, all in the original order.
 
- <p>The returned lists implement {@link java.util.RandomAccess}.
+ <p>The returned lists implement {@link RandomAccess}.
 
  <p><b>Note:</b> The current implementation eagerly allocates storage for {@code size} elements.
  As a consequence, passing values like {@code Integer.MAX_VALUE} can lead to {@link
@@ -26445,7 +26438,7 @@
  c, d, e]} with a partition size of 3 yields {@code [[a, b, c], [d, e, null]]} -- an outer
  iterator containing two inner lists of three elements each, all in the original order.
 
- <p>The returned lists implement {@link java.util.RandomAccess}.
+ <p>The returned lists implement {@link RandomAccess}.
 
  @param iterator the iterator to return a partitioned view of
  @param size the desired size of each partition
@@ -27150,7 +27143,7 @@
  <p>If any entries for the specified {@code key} already exist in the multimap, their values are
  changed in-place without affecting the iteration order.
 
- <p>The returned list is immutable and implements {@link java.util.RandomAccess}.]]>
+ <p>The returned list is immutable and implements {@link RandomAccess}.]]>
       </doc>
     </method>
     <method name="removeAll" return="java.util.List&lt;V&gt;"
@@ -27161,7 +27154,7 @@
       <doc>
       <![CDATA[{@inheritDoc}
 
- <p>The returned list is immutable and implements {@link java.util.RandomAccess}.]]>
+ <p>The returned list is immutable and implements {@link RandomAccess}.]]>
       </doc>
     </method>
     <method name="clear"
@@ -27300,8 +27293,8 @@
       <![CDATA[{@inheritDoc}
 
  <p>Because the values for a given key may have duplicates and follow the insertion ordering,
- this method returns a {@link List}, instead of the {@link java.util.Collection} specified in
- the {@link Multimap} interface.]]>
+ this method returns a {@link List}, instead of the {@link Collection} specified in the {@link
+ Multimap} interface.]]>
       </doc>
     </method>
     <method name="removeAll" return="java.util.List&lt;V&gt;"
@@ -27313,8 +27306,8 @@
       <![CDATA[{@inheritDoc}
 
  <p>Because the values for a given key may have duplicates and follow the insertion ordering,
- this method returns a {@link List}, instead of the {@link java.util.Collection} specified in
- the {@link Multimap} interface.]]>
+ this method returns a {@link List}, instead of the {@link Collection} specified in the {@link
+ Multimap} interface.]]>
       </doc>
     </method>
     <method name="replaceValues" return="java.util.List&lt;V&gt;"
@@ -27327,8 +27320,8 @@
       <![CDATA[{@inheritDoc}
 
  <p>Because the values for a given key may have duplicates and follow the insertion ordering,
- this method returns a {@link List}, instead of the {@link java.util.Collection} specified in
- the {@link Multimap} interface.]]>
+ this method returns a {@link List}, instead of the {@link Collection} specified in the {@link
+ Multimap} interface.]]>
       </doc>
     </method>
     <method name="asMap" return="java.util.Map&lt;K, java.util.Collection&lt;V&gt;&gt;"
@@ -27499,9 +27492,9 @@
  <p><b>Note:</b> if you won't be adding any elements to the list, use {@link ImmutableList#of()}
  instead.
 
- <p><b>Performance note:</b> {@link ArrayList} and {@link java.util.ArrayDeque} consistently
- outperform {@code LinkedList} except in certain rare and specific situations. Unless you have
- spent a lot of time benchmarking your specific needs, use one of those instead.
+ <p><b>Performance note:</b> {@link ArrayList} and {@link ArrayDeque} consistently outperform
+ {@code LinkedList} except in certain rare and specific situations. Unless you have spent a lot
+ of time benchmarking your specific needs, use one of those instead.
 
  <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
  use the {@code LinkedList} {@linkplain LinkedList#LinkedList() constructor} directly, taking
@@ -27522,9 +27515,9 @@
  <p><b>Note:</b> if mutability is not required and the elements are non-null, use {@link
  ImmutableList#copyOf(Iterable)} instead.
 
- <p><b>Performance note:</b> {@link ArrayList} and {@link java.util.ArrayDeque} consistently
- outperform {@code LinkedList} except in certain rare and specific situations. Unless you have
- spent a lot of time benchmarking your specific needs, use one of those instead.
+ <p><b>Performance note:</b> {@link ArrayList} and {@link ArrayDeque} consistently outperform
+ {@code LinkedList} except in certain rare and specific situations. Unless you have spent a lot
+ of time benchmarking your specific needs, use one of those instead.
 
  <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method. Use
  the {@code LinkedList} {@linkplain LinkedList#LinkedList(Collection) constructor} directly,
@@ -27760,8 +27753,8 @@
  this reason.
 
  <p><b>Java 8+ users:</b> many use cases for this method are better addressed by {@link
- java.util.stream.Stream#map}. This method is not being deprecated, but we gently encourage you
- to migrate to streams.]]>
+ Stream#map}. This method is not being deprecated, but we gently encourage you to migrate to
+ streams.]]>
       </doc>
     </method>
     <method name="partition" return="java.util.List&lt;java.util.List&lt;T&gt;&gt;"
@@ -28138,8 +28131,8 @@
  be quickly garbage-collected before they are ever accessed.
 
  <p>{@code new MapMaker().weakKeys().makeMap()} is a recommended replacement for {@link
- java.util.WeakHashMap}, but note that it compares keys using object identity whereas {@code
- WeakHashMap} uses {@link Object#equals}.
+ WeakHashMap}, but note that it compares keys using object identity whereas {@code WeakHashMap}
+ uses {@link Object#equals}.
 
  @author Bob Lee
  @author Charles Fry
@@ -28184,9 +28177,8 @@
 
  <p>If the mapped keys contain duplicates, an {@code IllegalArgumentException} is thrown when
  the collection operation is performed. (This differs from the {@code Collector} returned by
- {@link java.util.stream.Collectors#toMap(java.util.function.Function,
- java.util.function.Function) Collectors.toMap(Function, Function)}, which throws an {@code
- IllegalStateException}.)
+ {@link Collectors#toMap(java.util.function.Function, java.util.function.Function)
+ Collectors.toMap(Function, Function)}, which throws an {@code IllegalStateException}.)
 
  @since 21.0]]>
       </doc>
@@ -28787,9 +28779,8 @@
       <![CDATA[Returns a {@link Converter} that converts values using {@link BiMap#get bimap.get()}, and whose
  inverse view converts values using {@link BiMap#inverse bimap.inverse()}{@code .get()}.
 
- <p>To use a plain {@link Map} as a {@link Function}, see {@link
- com.google.common.base.Functions#forMap(Map)} or {@link
- com.google.common.base.Functions#forMap(Map, Object)}.
+ <p>To use a plain {@link Map} as a {@link Function}, see {@link Functions#forMap(Map)} or
+ {@link Functions#forMap(Map, Object)}.
 
  @since 16.0]]>
       </doc>
@@ -30486,8 +30477,8 @@
  Multimap#asMap()} will iterate through the keys in sorted order.
 
  <p>For all multimaps generated by the resulting builder, the {@link Multimap#keySet()} can be
- safely cast to a {@link java.util.SortedSet}, and the {@link Multimap#asMap()} can safely be
- cast to a {@link java.util.SortedMap}.]]>
+ safely cast to a {@link SortedSet}, and the {@link Multimap#asMap()} can safely be cast to a
+ {@link SortedMap}.]]>
       </doc>
     </method>
     <method name="treeKeys" return="com.google.common.collect.MultimapBuilder.MultimapBuilderWithKeys&lt;K0&gt;"
@@ -30502,8 +30493,8 @@
  Multimap#asMap()} will iterate through the keys in sorted order.
 
  <p>For all multimaps generated by the resulting builder, the {@link Multimap#keySet()} can be
- safely cast to a {@link java.util.SortedSet}, and the {@link Multimap#asMap()} can safely be
- cast to a {@link java.util.SortedMap}.
+ safely cast to a {@link SortedSet}, and the {@link Multimap#asMap()} can safely be cast to a
+ {@link SortedMap}.
 
  <p>Multimaps generated by the resulting builder will not be serializable if {@code comparator}
  is not serializable.]]>
@@ -30617,11 +30608,10 @@
       <doc>
       <![CDATA[Uses a {@link LinkedList} to store value collections.
 
- <p><b>Performance note:</b> {@link ArrayList} and {@link java.util.ArrayDeque} consistently
- outperform {@code LinkedList} except in certain rare and specific situations. Unless you have
- spent a lot of time benchmarking your specific needs, use one of those instead. (However, we
- do not currently offer a {@link Multimap} implementation based on {@link
- java.util.ArrayDeque}.)]]>
+ <p><b>Performance note:</b> {@link ArrayList} and {@link ArrayDeque} consistently outperform
+ {@code LinkedList} except in certain rare and specific situations. Unless you have spent a
+ lot of time benchmarking your specific needs, use one of those instead. (However, we do not
+ currently offer a {@link Multimap} implementation based on {@link ArrayDeque}.)]]>
       </doc>
     </method>
     <method name="hashSetValues" return="com.google.common.collect.MultimapBuilder.SetMultimapBuilder&lt;K0, java.lang.Object&gt;"
@@ -35183,8 +35173,7 @@
       <![CDATA[{@inheritDoc}
 
  <p>Because a {@code SetMultimap} has unique values for a given key, this method returns a
- {@link Set}, instead of the {@link java.util.Collection} specified in the {@link Multimap}
- interface.]]>
+ {@link Set}, instead of the {@link Collection} specified in the {@link Multimap} interface.]]>
       </doc>
     </method>
     <method name="removeAll" return="java.util.Set&lt;V&gt;"
@@ -35196,8 +35185,7 @@
       <![CDATA[{@inheritDoc}
 
  <p>Because a {@code SetMultimap} has unique values for a given key, this method returns a
- {@link Set}, instead of the {@link java.util.Collection} specified in the {@link Multimap}
- interface.]]>
+ {@link Set}, instead of the {@link Collection} specified in the {@link Multimap} interface.]]>
       </doc>
     </method>
     <method name="replaceValues" return="java.util.Set&lt;V&gt;"
@@ -35210,8 +35198,7 @@
       <![CDATA[{@inheritDoc}
 
  <p>Because a {@code SetMultimap} has unique values for a given key, this method returns a
- {@link Set}, instead of the {@link java.util.Collection} specified in the {@link Multimap}
- interface.
+ {@link Set}, instead of the {@link Collection} specified in the {@link Multimap} interface.
 
  <p>Any duplicates in {@code values} will be stored in the multimap once.]]>
       </doc>
@@ -35224,8 +35211,7 @@
       <![CDATA[{@inheritDoc}
 
  <p>Because a {@code SetMultimap} has unique values for a given key, this method returns a
- {@link Set}, instead of the {@link java.util.Collection} specified in the {@link Multimap}
- interface.]]>
+ {@link Set}, instead of the {@link Collection} specified in the {@link Multimap} interface.]]>
       </doc>
     </method>
     <method name="asMap" return="java.util.Map&lt;K, java.util.Collection&lt;V&gt;&gt;"
@@ -35265,7 +35251,7 @@
  signature doesn't say so explicitly, the map returned by {@link #asMap} has {@code Set} values.
 
  <p>If the values corresponding to a single key should be ordered according to a {@link
- java.util.Comparator} (or the natural order), see the {@link SortedSetMultimap} subinterface.
+ Comparator} (or the natural order), see the {@link SortedSetMultimap} subinterface.
 
  <p>Since the value collections are sets, the behavior of a {@code SetMultimap} is not specified
  if key <em>or value</em> objects already present in the multimap change in a manner that affects
@@ -35694,8 +35680,7 @@
  concurrency, and performance characteristics as the backing map. In essence, this factory
  method provides a {@link Set} implementation corresponding to any {@link Map} implementation.
  There is no need to use this method on a {@link Map} implementation that already has a
- corresponding {@link Set} implementation (such as {@link java.util.HashMap} or {@link
- java.util.TreeMap}).
+ corresponding {@link Set} implementation (such as {@link HashMap} or {@link TreeMap}).
 
  <p>Each method invocation on the set returned by this method results in exactly one method
  invocation on the backing map or its {@code keySet} view, with one exception. The {@code
@@ -35832,8 +35817,8 @@
  Iterables#filter(Iterable, Class)} for related functionality.)
 
  <p><b>Java 8+ users:</b> many use cases for this method are better addressed by {@link
- java.util.stream.Stream#filter}. This method is not being deprecated, but we gently encourage
- you to migrate to streams.]]>
+ Stream#filter}. This method is not being deprecated, but we gently encourage you to migrate to
+ streams.]]>
       </doc>
     </method>
     <method name="filter" return="java.util.SortedSet&lt;E&gt;"
@@ -36539,8 +36524,8 @@
  <p>Changes to the returned collection will update the underlying multimap, and vice versa.
 
  <p>Because a {@code SortedSetMultimap} has unique sorted values for a given key, this method
- returns a {@link SortedSet}, instead of the {@link java.util.Collection} specified in the
- {@link Multimap} interface.]]>
+ returns a {@link SortedSet}, instead of the {@link Collection} specified in the {@link
+ Multimap} interface.]]>
       </doc>
     </method>
     <method name="removeAll" return="java.util.SortedSet&lt;V&gt;"
@@ -36552,8 +36537,8 @@
       <![CDATA[Removes all values associated with a given key.
 
  <p>Because a {@code SortedSetMultimap} has unique sorted values for a given key, this method
- returns a {@link SortedSet}, instead of the {@link java.util.Collection} specified in the
- {@link Multimap} interface.]]>
+ returns a {@link SortedSet}, instead of the {@link Collection} specified in the {@link
+ Multimap} interface.]]>
       </doc>
     </method>
     <method name="replaceValues" return="java.util.SortedSet&lt;V&gt;"
@@ -36566,8 +36551,8 @@
       <![CDATA[Stores a collection of values with the same key, replacing any existing values for that key.
 
  <p>Because a {@code SortedSetMultimap} has unique sorted values for a given key, this method
- returns a {@link SortedSet}, instead of the {@link java.util.Collection} specified in the
- {@link Multimap} interface.
+ returns a {@link SortedSet}, instead of the {@link Collection} specified in the {@link
+ Multimap} interface.
 
  <p>Any duplicates in {@code values} will be stored in the multimap once.]]>
       </doc>
@@ -37064,7 +37049,7 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[An analogue of {@link java.util.function.DoubleFunction} also accepting an index.
+    <![CDATA[An analogue of {@link DoubleFunction} also accepting an index.
 
  <p>This interface is only intended for use by callers of {@link #mapWithIndex(DoubleStream,
  DoubleFunctionWithIndex)}.
@@ -37088,7 +37073,7 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[An analogue of {@link java.util.function.Function} also accepting an index.
+    <![CDATA[An analogue of {@link Function} also accepting an index.
 
  <p>This interface is only intended for use by callers of {@link #mapWithIndex(Stream,
  FunctionWithIndex)}.
@@ -37112,7 +37097,7 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[An analogue of {@link java.util.function.IntFunction} also accepting an index.
+    <![CDATA[An analogue of {@link IntFunction} also accepting an index.
 
  <p>This interface is only intended for use by callers of {@link #mapWithIndex(IntStream,
  IntFunctionWithIndex)}.
@@ -37136,7 +37121,7 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[An analogue of {@link java.util.function.LongFunction} also accepting an index.
+    <![CDATA[An analogue of {@link LongFunction} also accepting an index.
 
  <p>This interface is only intended for use by callers of {@link #mapWithIndex(LongStream,
  LongFunctionWithIndex)}.
@@ -37541,11 +37526,10 @@
  input elements. Cells are inserted into the generated {@code Table} in encounter order.
 
  <p>If multiple input elements map to the same row and column, the specified merging function is
- used to combine the values. Like {@link
- java.util.stream.Collectors#toMap(java.util.function.Function, java.util.function.Function,
- BinaryOperator, java.util.function.Supplier)}, this Collector throws a {@code
- NullPointerException} on null values returned from {@code valueFunction}, and treats nulls
- returned from {@code mergeFunction} as removals of that row/column pair.
+ used to combine the values. Like {@link Collectors#toMap(java.util.function.Function,
+ java.util.function.Function, BinaryOperator, java.util.function.Supplier)}, this Collector
+ throws a {@code NullPointerException} on null values returned from {@code valueFunction}, and
+ treats nulls returned from {@code mergeFunction} as removals of that row/column pair.
 
  @since 21.0]]>
       </doc>
@@ -37929,8 +37913,7 @@
       <![CDATA[{@inheritDoc}
 
  <p>Because a {@code TreeMultimap} has unique sorted keys, this method returns a {@link
- NavigableSet}, instead of the {@link java.util.Set} specified in the {@link Multimap}
- interface.
+ NavigableSet}, instead of the {@link Set} specified in the {@link Multimap} interface.
 
  @since 14.0 (present with return type {@code SortedSet} since 2.0)]]>
       </doc>
@@ -37943,8 +37926,7 @@
       <![CDATA[{@inheritDoc}
 
  <p>Because a {@code TreeMultimap} has unique sorted keys, this method returns a {@link
- NavigableMap}, instead of the {@link java.util.Map} specified in the {@link Multimap}
- interface.
+ NavigableMap}, instead of the {@link Map} specified in the {@link Multimap} interface.
 
  @since 14.0 (present with return type {@code SortedMap} since 2.0)]]>
       </doc>
@@ -38121,7 +38103,7 @@
 
  <p><b>Warning:</b> The comparison must be <i>consistent with equals</i> as explained by the
  {@link Comparable} class specification. Otherwise, the resulting multiset will violate the {@link
- java.util.Collection} contract, which is specified in terms of {@link Object#equals}.
+ Collection} contract, which is specified in terms of {@link Object#equals}.
 
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
@@ -45283,8 +45265,8 @@
 
  <p>FarmHash fingerprints are encoded by {@link HashCode#asBytes} in little-endian order. This
  means {@link HashCode#asLong} is guaranteed to return the same value that
- farmhash::Fingerprint64() would for the same input (when compared using {@link
- com.google.common.primitives.UnsignedLongs}'s encoding of 64-bit unsigned numbers).
+ farmhash::Fingerprint64() would for the same input (when compared using {@link UnsignedLongs}'s
+ encoding of 64-bit unsigned numbers).
 
  <p>This function is best understood as a <a
  href="https://en.wikipedia.org/wiki/Fingerprint_(computing)">fingerprint</a> rather than a true
@@ -45303,8 +45285,8 @@
  <p>This is designed for generating persistent fingerprints of strings. It isn't
  cryptographically secure, but it produces a high-quality hash with few collisions. Fingerprints
  generated using this are byte-wise identical to those created using the C++ version, but note
- that this uses unsigned integers (see {@link com.google.common.primitives.UnsignedInts}).
- Comparisons between the two should take this into account.
+ that this uses unsigned integers (see {@link UnsignedInts}). Comparisons between the two should
+ take this into account.
 
  <p>Fingerprint2011() is a form of Murmur2 on strings up to 32 bytes and a form of CityHash for
  longer strings. It could have been one or the other throughout. The main advantage of the
@@ -47798,8 +47780,8 @@
  if the processor stops processing early.
 
  <p><b>Users who can use {@code Stream}:</b> If your input is a {@link Reader}, consider
- wrapping it with a {@link BufferedReader} and operating on the {@link java.util.stream.Stream}
- of lines returned by {@link BufferedReader#lines()}.
+ wrapping it with a {@link BufferedReader} and operating on the {@link Stream} of lines returned
+ by {@link BufferedReader#lines()}.
 
  @throws IOException if an I/O error occurs
  @since 14.0]]>
@@ -47858,7 +47840,7 @@
       <doc>
       <![CDATA[Returns a Writer that sends all output to the given {@link Appendable} target. Closing the
  writer will close the target if it is {@link Closeable}, and flushing the writer will flush the
- target if it is {@link java.io.Flushable}.
+ target if it is {@link Flushable}.
 
  @param target the object to which output will be sent
  @return a new Writer object, unless target is a Writer, in which case the target is returned]]>
@@ -48837,8 +48819,7 @@
       <param name="file" type="java.io.File"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
-      <![CDATA[Fully maps a file read-only in to memory as per {@link
- FileChannel#map(java.nio.channels.FileChannel.MapMode, long, long)}.
+      <![CDATA[Fully maps a file read-only in to memory as per {@link FileChannel#map(MapMode, long, long)}.
 
  <p>Files are mapped from offset 0 to its length.
 
@@ -48860,9 +48841,8 @@
       <param name="mode" type="java.nio.channels.FileChannel.MapMode"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
-      <![CDATA[Fully maps a file in to memory as per {@link
- FileChannel#map(java.nio.channels.FileChannel.MapMode, long, long)} using the requested {@link
- MapMode}.
+      <![CDATA[Fully maps a file in to memory as per {@link FileChannel#map(MapMode, long, long)} using the
+ requested {@link MapMode}.
 
  <p>Files are mapped from offset 0 to its length.
 
@@ -48886,8 +48866,8 @@
       <param name="size" type="long"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
-      <![CDATA[Maps a file in to memory as per {@link FileChannel#map(java.nio.channels.FileChannel.MapMode,
- long, long)} using the requested {@link MapMode}.
+      <![CDATA[Maps a file in to memory as per {@link FileChannel#map(MapMode, long, long)} using the
+ requested {@link MapMode}.
 
  <p>Files are mapped from offset 0 to {@code size}.
 
@@ -49189,8 +49169,8 @@
     </method>
     <doc>
     <![CDATA[A class for reading lines of text. Provides the same functionality as {@link
- java.io.BufferedReader#readLine()} but for all {@link Readable} objects, not just instances of
- {@link Reader}.
+ BufferedReader#readLine()} but for all {@link Readable} objects, not just instances of {@link
+ Reader}.
 
  @author Chris Nokleberg
  @since 1.0]]>
@@ -49673,8 +49653,8 @@
       deprecated="not deprecated">
       <param name="options" type="java.nio.file.LinkOption[]"/>
       <doc>
-      <![CDATA[Returns a predicate that returns the result of {@link java.nio.file.Files#isDirectory(Path,
- LinkOption...)} on input paths with the given link options.]]>
+      <![CDATA[Returns a predicate that returns the result of {@link Files#isDirectory(Path, LinkOption...)}
+ on input paths with the given link options.]]>
       </doc>
     </method>
     <method name="isRegularFile" return="com.google.common.base.Predicate&lt;java.nio.file.Path&gt;"
@@ -49683,8 +49663,8 @@
       deprecated="not deprecated">
       <param name="options" type="java.nio.file.LinkOption[]"/>
       <doc>
-      <![CDATA[Returns a predicate that returns the result of {@link java.nio.file.Files#isRegularFile(Path,
- LinkOption...)} on input paths with the given link options.]]>
+      <![CDATA[Returns a predicate that returns the result of {@link Files#isRegularFile(Path, LinkOption...)}
+ on input paths with the given link options.]]>
       </doc>
     </method>
     <method name="equal" return="boolean"
@@ -49838,9 +49818,9 @@
     <doc>
     <![CDATA[Static utilities for use with {@link Path} instances, intended to complement {@link Files}.
 
- <p>Many methods provided by Guava's {@code Files} class for {@link java.io.File} instances are
- now available via the JDK's {@link java.nio.file.Files} class for {@code Path} - check the JDK's
- class if a sibling method from {@code Files} appears to be missing from this class.
+ <p>Many methods provided by Guava's {@code Files} class for {@link File} instances are now
+ available via the JDK's {@link Files} class for {@code Path} - check the JDK's class if a sibling
+ method from {@code Files} appears to be missing from this class.
 
  @since 21.0 (but only since 33.4.0 in the Android flavor)
  @author Colin Decker]]>
@@ -50643,7 +50623,7 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A class for arithmetic on doubles that is not covered by {@link java.lang.Math}.
+    <![CDATA[A class for arithmetic on doubles that is not covered by {@link Math}.
 
  @author Louis Wasserman
  @since 11.0]]>
@@ -51022,7 +51002,7 @@
 
  <p>Similar functionality for {@code long} and for {@link BigInteger} can be found in {@link
  LongMath} and {@link BigIntegerMath} respectively. For other common operations on {@code int}
- values, see {@link com.google.common.primitives.Ints}.
+ values, see {@link Ints}.
 
  @author Louis Wasserman
  @since 11.0]]>
@@ -51613,7 +51593,7 @@
 
  <p>Similar functionality for {@code int} and for {@link BigInteger} can be found in {@link
  IntMath} and {@link BigIntegerMath} respectively. For other common operations on {@code long}
- values, see {@link com.google.common.primitives.Longs}.
+ values, see {@link Longs}.
 
  @author Louis Wasserman
  @since 11.0]]>
@@ -52089,11 +52069,10 @@
 
  <p>If any values in the input are {@link Double#NaN NaN} then all values returned are {@link
  Double#NaN NaN}. (This is the one occasion when the behaviour is not the same as you'd get from
- sorting with {@link java.util.Arrays#sort(double[]) Arrays.sort(double[])} or {@link
- java.util.Collections#sort(java.util.List) Collections.sort(List&lt;Double&gt;)} and selecting
- the required value(s). Those methods would sort {@link Double#NaN NaN} as if it is greater than
- any other value and place them at the end of the dataset, even after {@link
- Double#POSITIVE_INFINITY POSITIVE_INFINITY}.)
+ sorting with {@link Arrays#sort(double[])} or {@link Collections#sort(List)
+ Collections.sort(List&lt;Double&gt;)} and selecting the required value(s). Those methods would
+ sort {@link Double#NaN NaN} as if it is greater than any other value and place them at the end of
+ the dataset, even after {@link Double#POSITIVE_INFINITY POSITIVE_INFINITY}.)
 
  <p>Otherwise, {@link Double#NEGATIVE_INFINITY NEGATIVE_INFINITY} and {@link
  Double#POSITIVE_INFINITY POSITIVE_INFINITY} sort to the beginning and the end of the dataset, as
@@ -52478,8 +52457,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a {@link Collector} which accumulates statistics from a {@link java.util.stream.Stream}
- of any type of boxed {@link Number} into a {@link Stats}. Use by calling {@code
+      <![CDATA[Returns a {@link Collector} which accumulates statistics from a {@link Stream} of any type of
+ boxed {@link Number} into a {@link Stats}. Use by calling {@code
  boxedNumericStream.collect(toStats())}. The numbers will be converted to {@code double} values
  (which may cause loss of precision).
 
@@ -53436,8 +53415,8 @@
  and pattern-based checks are performed.
 
  <p>If you know that a given string represents a numeric IP address, use {@link InetAddresses} to
- obtain and manipulate a {@link java.net.InetAddress} instance from it rather than using this
- class. Similarly, if you know that a given string represents a domain name, use {@link
+ obtain and manipulate a {@link InetAddress} instance from it rather than using this class.
+ Similarly, if you know that a given string represents a domain name, use {@link
  InternetDomainName} rather than this class.
 
  @author Craig Berry
@@ -55339,7 +55318,7 @@
  <p>This method is similar to {@link InetAddresses#forString(String)}, however, it requires that
  IPv6 addresses are surrounded by square brackets.
 
- <p>This method is the inverse of {@link InetAddresses#toUriString(java.net.InetAddress)}.
+ <p>This method is the inverse of {@link InetAddresses#toUriString(InetAddress)}.
 
  <p>This method accepts non-ASCII digits, for example {@code "１９２.１６８.０.１"} (those are fullwidth
  characters). That is consistent with {@link InetAddress}, but not with various RFCs. If you
@@ -57963,8 +57942,8 @@
       <doc>
       <![CDATA[Returns {@code true} if {@code target} is present as an element anywhere in {@code array}.
 
- <p><b>Note:</b> consider representing the array as a {@link java.util.BitSet} instead,
- replacing {@code Booleans.contains(array, true)} with {@code !bitSet.isEmpty()} and {@code
+ <p><b>Note:</b> consider representing the array as a {@link BitSet} instead, replacing {@code
+ Booleans.contains(array, true)} with {@code !bitSet.isEmpty()} and {@code
  Booleans.contains(array, false)} with {@code bitSet.nextClearBit(0) == sizeOfBitSet}.
 
  @param array an array of {@code boolean} values, possibly empty
@@ -57981,8 +57960,8 @@
       <doc>
       <![CDATA[Returns the index of the first appearance of the value {@code target} in {@code array}.
 
- <p><b>Note:</b> consider representing the array as a {@link java.util.BitSet} instead, and
- using {@link java.util.BitSet#nextSetBit(int)} or {@link java.util.BitSet#nextClearBit(int)}.
+ <p><b>Note:</b> consider representing the array as a {@link BitSet} instead, and using {@link
+ BitSet#nextSetBit(int)} or {@link BitSet#nextClearBit(int)}.
 
  @param array an array of {@code boolean} values, possibly empty
  @param target a primitive {@code boolean} value
@@ -58165,7 +58144,7 @@
  <p>Elements are copied from the argument collection as if by {@code collection.toArray()}.
  Calling this method is as thread-safe as calling that method.
 
- <p><b>Note:</b> consider representing the collection as a {@link java.util.BitSet} instead.
+ <p><b>Note:</b> consider representing the collection as a {@link BitSet} instead.
 
  @param collection a collection of {@code Boolean} objects
  @return an array containing the same values as {@code collection}, in the same order, converted
@@ -63361,8 +63340,8 @@
  signed.
 
  <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
- support only identity equality), but it is consistent with {@link
- java.util.Arrays#equals(byte[], byte[])}.
+ support only identity equality), but it is consistent with {@link Arrays#equals(byte[],
+ byte[])}.
 
  @since 2.0]]>
       </doc>
@@ -63598,8 +63577,8 @@
  unsigned.
 
  <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
- support only identity equality), but it is consistent with {@link
- java.util.Arrays#equals(byte[], byte[])}.
+ support only identity equality), but it is consistent with {@link Arrays#equals(byte[],
+ byte[])}.
 
  <p><b>Java 9+ users:</b> Use {@link Arrays#compareUnsigned(byte[], byte[])
  Arrays::compareUnsigned}.
@@ -65424,7 +65403,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[See {@link java.lang.reflect.GenericDeclaration#getTypeParameters()}.]]>
+      <![CDATA[See {@link GenericDeclaration#getTypeParameters()}.]]>
       </doc>
     </method>
     <method name="setAccessible"
@@ -65433,7 +65412,7 @@
       deprecated="not deprecated">
       <param name="flag" type="boolean"/>
       <doc>
-      <![CDATA[See {@link java.lang.reflect.AccessibleObject#setAccessible(boolean)}.]]>
+      <![CDATA[See {@link AccessibleObject#setAccessible(boolean)}.]]>
       </doc>
     </method>
     <method name="trySetAccessible" return="boolean"
@@ -65441,7 +65420,7 @@
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[See {@link java.lang.reflect.AccessibleObject#trySetAccessible()}.]]>
+      <![CDATA[See {@link AccessibleObject#trySetAccessible()}.]]>
       </doc>
     </method>
     <method name="isAccessible" return="boolean"
@@ -65449,7 +65428,7 @@
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[See {@link java.lang.reflect.AccessibleObject#isAccessible()}.]]>
+      <![CDATA[See {@link AccessibleObject#isAccessible()}.]]>
       </doc>
     </method>
     <method name="getName" return="java.lang.String"
@@ -65686,11 +65665,9 @@
  assertEquals(new TypeToken<List<String>>() {}, invokable.getOwnerType());
  }
 
- <p><b>Note:</b> earlier versions of this class inherited from {@link
- java.lang.reflect.AccessibleObject AccessibleObject} and {@link
- java.lang.reflect.GenericDeclaration GenericDeclaration}. Since version 31.0 that is no longer
- the case. However, most methods from those types are present with the same signature in this
- class.
+ <p><b>Note:</b> earlier versions of this class inherited from {@link AccessibleObject} and {@link
+ GenericDeclaration}. Since version 31.0 that is no longer the case. However, most methods from
+ those types are present with the same signature in this class.
 
  @param <T> the type that owns this method or constructor.
  @param <R> the return type of (or supertype thereof) the method or the declaring type of the
@@ -66216,8 +66193,8 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the raw type of {@code T}. Formally speaking, if {@code T} is returned by {@link
- java.lang.reflect.Method#getGenericReturnType}, the raw type is what's returned by {@link
- java.lang.reflect.Method#getReturnType} of the same method object. Specifically:
+ Method#getGenericReturnType}, the raw type is what's returned by {@link Method#getReturnType}
+ of the same method object. Specifically:
 
  <ul>
    <li>If {@code T} is a {@code Class} itself, {@code T} itself is returned.
@@ -67062,10 +67039,9 @@
     <![CDATA[An abstract implementation of {@link ListenableFuture}, intended for advanced users only. More
  common ways to create a {@code ListenableFuture} include instantiating a {@link SettableFuture},
  submitting a task to a {@link ListeningExecutorService}, and deriving a {@code Future} from an
- existing one, typically using methods like {@link Futures#transform(ListenableFuture,
- com.google.common.base.Function, java.util.concurrent.Executor) Futures.transform} and {@link
- Futures#catching(ListenableFuture, Class, com.google.common.base.Function,
- java.util.concurrent.Executor) Futures.catching}.
+ existing one, typically using methods like {@link Futures#transform(ListenableFuture, Function,
+ Executor) Futures.transform} and {@link Futures#catching(ListenableFuture, Class, Function,
+ Executor) Futures.catching}.
 
  <p>This class implements all methods in {@code ListenableFuture}. Subclasses should provide a way
  to set the result of the computation through the protected methods {@link #set(Object)}, {@link
@@ -67935,10 +67911,9 @@
     </method>
     <doc>
     <![CDATA[Computes a value, possibly asynchronously. For an example usage and more information, see {@link
- Futures.FutureCombiner#callAsync(AsyncCallable, java.util.concurrent.Executor)}.
+ Futures.FutureCombiner#callAsync(AsyncCallable, Executor)}.
 
- <p>Much like {@link java.util.concurrent.Callable}, but returning a {@link ListenableFuture}
- result.
+ <p>Much like {@link Callable}, but returning a {@link ListenableFuture} result.
 
  @since 20.0]]>
     </doc>
@@ -68773,8 +68748,7 @@
  <p>Instances of this class are serializable if the keys are serializable.
 
  <p><b>Note:</b> If your values are always positive and less than 2^31, you may wish to use a
- {@link com.google.common.collect.Multiset} such as {@link
- com.google.common.collect.ConcurrentHashMultiset} instead.
+ {@link Multiset} such as {@link com.google.common.collect.ConcurrentHashMultiset} instead.
 
  <p><b>Warning:</b> Unlike {@code Multiset}, entries whose values are zero are not automatically
  removed from the map. Instead they must be removed manually with {@link #removeAllZeros}.
@@ -71036,11 +71010,11 @@
       </doc>
     </constructor>
     <doc>
-    <![CDATA[{@link Error} variant of {@link java.util.concurrent.ExecutionException}. As with {@code
- ExecutionException}, the error's {@linkplain #getCause() cause} comes from a failed task,
- possibly run in another thread. That cause should itself be an {@code Error}; if not, use {@code
- ExecutionException} or {@link UncheckedExecutionException}. This allows the client code to
- continue to distinguish between exceptions and errors, even when they come from other threads.
+    <![CDATA[{@link Error} variant of {@link ExecutionException}. As with {@code ExecutionException}, the
+ error's {@linkplain #getCause() cause} comes from a failed task, possibly run in another thread.
+ That cause should itself be an {@code Error}; if not, use {@code ExecutionException} or {@link
+ UncheckedExecutionException}. This allows the client code to continue to distinguish between
+ exceptions and errors, even when they come from other threads.
 
  @author Chris Povirk
  @since 10.0]]>
@@ -71541,8 +71515,8 @@
       <param name="executor" type="java.util.concurrent.Executor"/>
       <doc>
       <![CDATA[Registers separate success and failure callbacks to be run when this {@code Future}'s
- computation is {@linkplain java.util.concurrent.Future#isDone() complete} or, if the
- computation is already complete, immediately.
+ computation is {@linkplain Future#isDone() complete} or, if the computation is already
+ complete, immediately.
 
  <p>The callback is run on {@code executor}. There is no guaranteed ordering of execution of
  callbacks, but any callback added through this method is guaranteed to be called once the
@@ -72224,8 +72198,7 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A callback for accepting the results of a {@link java.util.concurrent.Future} computation
- asynchronously.
+    <![CDATA[A callback for accepting the results of a {@link Future} computation asynchronously.
 
  <p>To attach to a {@link ListenableFuture} use {@link Futures#addCallback}.
 
@@ -72804,8 +72777,8 @@
       <param name="executor" type="java.util.concurrent.Executor"/>
       <doc>
       <![CDATA[Registers separate success and failure callbacks to be run when the {@code Future}'s
- computation is {@linkplain java.util.concurrent.Future#isDone() complete} or, if the
- computation is already complete, immediately.
+ computation is {@linkplain Future#isDone() complete} or, if the computation is already
+ complete, immediately.
 
  <p>The callback is run on {@code executor}. There is no guaranteed ordering of execution of
  callbacks, but any callback added through this method is guaranteed to be called once the
@@ -73224,9 +73197,9 @@
  future is {@linkplain Future#isDone() done}.
 
  <p>Prefer to create {@code ListenableFuture} instances with {@link SettableFuture}, {@link
- MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)}, {@link
- ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain {@code
- Future} instances to be upgraded to {@code ListenableFuture} after the fact.]]>
+ MoreExecutors#listeningDecorator(ExecutorService)}, {@link ListenableFutureTask}, {@link
+ AbstractFuture}, and other utilities over creating plain {@code Future} instances to be
+ upgraded to {@code ListenableFuture} after the fact.]]>
       </doc>
     </method>
     <method name="listenInPoolThread" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -73249,9 +73222,9 @@
  deadlocks.
 
  <p>Prefer to create {@code ListenableFuture} instances with {@link SettableFuture}, {@link
- MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)}, {@link
- ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain {@code
- Future} instances to be upgraded to {@code ListenableFuture} after the fact.
+ MoreExecutors#listeningDecorator(ExecutorService)}, {@link ListenableFutureTask}, {@link
+ AbstractFuture}, and other utilities over creating plain {@code Future} instances to be
+ upgraded to {@code ListenableFuture} after the fact.
 
  @since 12.0]]>
       </doc>
@@ -73374,8 +73347,7 @@
  <ul>
    <li>If you receive them from an {@code java.util.concurrent.ExecutorService}, convert that
        service to a {@link ListeningExecutorService}, usually by calling {@link
-       MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)
-       MoreExecutors.listeningDecorator}.
+       MoreExecutors#listeningDecorator(ExecutorService) MoreExecutors.listeningDecorator}.
    <li>If you manually call {@link java.util.concurrent.FutureTask#set} or a similar method,
        create a {@link SettableFuture} instead. (If your needs are more complex, you may prefer
        {@link AbstractFuture}.)
@@ -74241,10 +74213,9 @@
  evaluation and signaling of conditions. Signaling is entirely <a
  href="http://en.wikipedia.org/wiki/Monitor_(synchronization)#Implicit_signaling">implicit</a>. By
  eliminating explicit signaling, this class can guarantee that only one thread is awakened when a
- condition becomes true (no "signaling storms" due to use of {@link
- java.util.concurrent.locks.Condition#signalAll Condition.signalAll}) and that no signals are lost
- (no "hangs" due to incorrect use of {@link java.util.concurrent.locks.Condition#signal
- Condition.signal}).
+ condition becomes true (no "signaling storms" due to use of {@link Condition#signalAll
+ Condition.signalAll}) and that no signals are lost (no "hangs" due to incorrect use of {@link
+ Condition#signal Condition.signal}).
 
  <p>A thread is said to <i>occupy</i> a monitor if it has <i>entered</i> the monitor but not yet
  <i>left</i>. Only one thread may occupy a given monitor at any moment. A monitor is also
@@ -75153,10 +75124,9 @@
  all threads. Note, however, that it does not guarantee fairness.
 
  <p>Rate limiters are often used to restrict the rate at which some physical or logical resource
- is accessed. This is in contrast to {@link java.util.concurrent.Semaphore} which restricts the
- number of concurrent accesses instead of the rate (note though that concurrency and rate are
- closely related, e.g. see <a href="http://en.wikipedia.org/wiki/Little%27s_law">Little's
- Law</a>).
+ is accessed. This is in contrast to {@link Semaphore} which restricts the number of concurrent
+ accesses instead of the rate (note though that concurrency and rate are closely related, e.g. see
+ <a href="http://en.wikipedia.org/wiki/Little%27s_law">Little's Law</a>).
 
  <p>A {@code RateLimiter} is defined primarily by the rate at which permits are issued. Absent
  additional configuration, permits will be distributed at a fixed rate, defined in terms of
@@ -76772,9 +76742,9 @@
       </doc>
     </constructor>
     <doc>
-    <![CDATA[Unchecked variant of {@link java.util.concurrent.ExecutionException}. As with {@code
- ExecutionException}, the exception's {@linkplain #getCause() cause} comes from a failed task,
- possibly run in another thread.
+    <![CDATA[Unchecked variant of {@link ExecutionException}. As with {@code ExecutionException}, the
+ exception's {@linkplain #getCause() cause} comes from a failed task, possibly run in another
+ thread.
 
  <p>{@code UncheckedExecutionException} is intended as an alternative to {@code
  ExecutionException} when the exception thrown by a task is an unchecked exception. However, it
@@ -76822,7 +76792,7 @@
       </doc>
     </constructor>
     <doc>
-    <![CDATA[Unchecked version of {@link java.util.concurrent.TimeoutException}.
+    <![CDATA[Unchecked version of {@link TimeoutException}.
 
  @author Kevin Bourrillion
  @since 1.0]]>

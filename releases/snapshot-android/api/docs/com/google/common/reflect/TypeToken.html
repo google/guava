@@ -469,7 +469,8 @@ new IKnowMyType&lt;String&gt;() {}.getMyType() =&gt; String
 <h3>getRawType</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Class.html" title="class in java.lang" class="external-link">Class</a>&lt;? super <a href="#type-param-T" title="type parameter in TypeToken">T</a>&gt;</span>&nbsp;<span class="element-name">getRawType</span>()</div>
-<div class="block">Returns the raw type of <code>T</code>. Formally speaking, if <code>T</code> is returned by <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/reflect/Method.html#getGenericReturnType()" class="external-link"><code>Method.getGenericReturnType()</code></a>, the raw type is what's returned by <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/reflect/Method.html#getReturnType()" class="external-link"><code>Method.getReturnType()</code></a> of the same method object. Specifically:
+<div class="block">Returns the raw type of <code>T</code>. Formally speaking, if <code>T</code> is returned by <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/reflect/Method.html#getGenericReturnType()" class="external-link"><code>Method.getGenericReturnType()</code></a>, the raw type is what's returned by <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/reflect/Method.html#getReturnType()" class="external-link"><code>Method.getReturnType()</code></a>
+of the same method object. Specifically:
 
 <ul>
   <li>If <code>T</code> is a <code>Class</code> itself, <code>T</code> itself is returned.

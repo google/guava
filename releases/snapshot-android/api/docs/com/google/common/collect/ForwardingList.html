@@ -141,8 +141,8 @@ implements <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base
 <div class="block">A list which forwards all its method calls to another list. Subclasses should override one or
 more methods to modify the behavior of the backing list as desired per the <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
-<p>This class does not implement <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/RandomAccess.html" title="interface in java.util" class="external-link"><code>RandomAccess</code></a>. If the delegate supports random
-access, the <code>ForwardingList</code> subclass should implement the <code>RandomAccess</code> interface.
+<p>This class does not implement <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/RandomAccess.html" title="interface in java.util" class="external-link"><code>RandomAccess</code></a>. If the delegate supports random access,
+the <code>ForwardingList</code> subclass should implement the <code>RandomAccess</code> interface.
 
 <p><b>Warning:</b> The methods of <code>ForwardingList</code> forward <b>indiscriminately</b> to the
 methods of the delegate. For example, overriding <a href="#add(int,E)"><code>add(int, E)</code></a> alone <b>will not</b> change the

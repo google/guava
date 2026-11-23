@@ -552,8 +552,7 @@ iterate over keys in their enum definition order, not encounter order.
 
 <p>If the mapped keys contain duplicates, an <code>IllegalArgumentException</code> is thrown when
 the collection operation is performed. (This differs from the <code>Collector</code> returned by
-<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/stream/Collectors.html#toMap(java.util.function.Function,java.util.function.Function)" class="external-link"><code>Collectors.toMap(Function, Function)</code></a>, which throws an <code>
-IllegalStateException</code>.)</div>
+<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/stream/Collectors.html#toMap(java.util.function.Function,java.util.function.Function)" class="external-link"><code>Collectors.toMap(Function, Function)</code></a>, which throws an <code>IllegalStateException</code>.)</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>33.2.0 (available since 21.0 in guava-jre)</dd>
@@ -1252,7 +1251,8 @@ value are non-null and the entry does not need to be serializable.</div>
 <div class="block">Returns a <a href="../base/Converter.html" title="class in com.google.common.base"><code>Converter</code></a> that converts values using <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Map.html#get(java.lang.Object)" class="external-link"><code>bimap.get()</code></a>, and whose
 inverse view converts values using <a href="BiMap.html#inverse()"><code>bimap.inverse()</code></a><code>.get()</code>.
 
-<p>To use a plain <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Map.html" title="interface in java.util" class="external-link"><code>Map</code></a> as a <a href="../base/Function.html" title="interface in com.google.common.base"><code>Function</code></a>, see <a href="../base/Functions.html#forMap(java.util.Map)"><code>Functions.forMap(Map)</code></a> or <a href="../base/Functions.html#forMap(java.util.Map,V)"><code>Functions.forMap(Map, Object)</code></a>.</div>
+<p>To use a plain <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Map.html" title="interface in java.util" class="external-link"><code>Map</code></a> as a <a href="../base/Function.html" title="interface in com.google.common.base"><code>Function</code></a>, see <a href="../base/Functions.html#forMap(java.util.Map)"><code>Functions.forMap(Map)</code></a> or
+<a href="../base/Functions.html#forMap(java.util.Map,V)"><code>Functions.forMap(Map, Object)</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>16.0</dd>

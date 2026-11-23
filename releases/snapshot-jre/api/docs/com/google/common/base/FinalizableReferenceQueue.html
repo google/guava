@@ -111,10 +111,10 @@ finalized. If this object is garbage collected earlier, the backing thread will 
 finalizeReferent()</code> on the remaining references.
 
 <p>As an example of how this is used, imagine you have a class <code>MyServer</code> that creates a
-<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/net/ServerSocket.html" title="class in java.net" class="external-link"><code>ServerSocket</code></a>, and you would like to ensure that the <code>
-ServerSocket</code> is closed even if the <code>MyServer</code> object is garbage-collected without calling
-its <code>close</code> method. You <em>could</em> use a finalizer to accomplish this, but that has a
-number of well-known problems. Here is how you might use this class instead:
+<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/net/ServerSocket.html" title="class in java.net" class="external-link"><code>ServerSocket</code></a>, and you would like to ensure that the <code>ServerSocket</code> is closed even
+if the <code>MyServer</code> object is garbage-collected without calling its <code>close</code> method. You
+<em>could</em> use a finalizer to accomplish this, but that has a number of well-known problems.
+Here is how you might use this class instead:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
 <pre class="snippet" id="snippet-com.google.common.base.FinalizableReferenceQueue1"><code class="language-java">public class MyServer implements Closeable {

@@ -104,11 +104,10 @@ initTheme();
 <div class="type-signature"><span class="annotations"><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">ExecutionError</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Error.html" title="class in java.lang" class="external-link">Error</a></span></div>
-<div class="block"><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Error.html" title="class in java.lang" class="external-link"><code>Error</code></a> variant of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/ExecutionException.html" title="class in java.util.concurrent" class="external-link"><code>ExecutionException</code></a>. As with <code>
-ExecutionException</code>, the error's <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Throwable.html#getCause()" class="external-link">cause</a> comes from a failed task,
-possibly run in another thread. That cause should itself be an <code>Error</code>; if not, use <code>
-ExecutionException</code> or <a href="UncheckedExecutionException.html" title="class in com.google.common.util.concurrent"><code>UncheckedExecutionException</code></a>. This allows the client code to
-continue to distinguish between exceptions and errors, even when they come from other threads.</div>
+<div class="block"><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Error.html" title="class in java.lang" class="external-link"><code>Error</code></a> variant of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/ExecutionException.html" title="class in java.util.concurrent" class="external-link"><code>ExecutionException</code></a>. As with <code>ExecutionException</code>, the
+error's <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Throwable.html#getCause()" class="external-link">cause</a> comes from a failed task, possibly run in another thread.
+That cause should itself be an <code>Error</code>; if not, use <code>ExecutionException</code> or <a href="UncheckedExecutionException.html" title="class in com.google.common.util.concurrent"><code>UncheckedExecutionException</code></a>. This allows the client code to continue to distinguish between
+exceptions and errors, even when they come from other threads.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>10.0</dd>

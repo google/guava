@@ -380,8 +380,8 @@ equivalent <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base
  boolean&nbsp;target)</span></div>
 <div class="block">Returns <code>true</code> if <code>target</code> is present as an element anywhere in <code>array</code>.
 
-<p><b>Note:</b> consider representing the array as a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/BitSet.html" title="class in java.util" class="external-link"><code>BitSet</code></a> instead,
-replacing <code>Booleans.contains(array, true)</code> with <code>!bitSet.isEmpty()</code> and <code>
+<p><b>Note:</b> consider representing the array as a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/BitSet.html" title="class in java.util" class="external-link"><code>BitSet</code></a> instead, replacing <code>
+Booleans.contains(array, true)</code> with <code>!bitSet.isEmpty()</code> and <code>
 Booleans.contains(array, false)</code> with <code>bitSet.nextClearBit(0) == sizeOfBitSet</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -401,8 +401,7 @@ Booleans.contains(array, false)</code> with <code>bitSet.nextClearBit(0) == size
  boolean&nbsp;target)</span></div>
 <div class="block">Returns the index of the first appearance of the value <code>target</code> in <code>array</code>.
 
-<p><b>Note:</b> consider representing the array as a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/BitSet.html" title="class in java.util" class="external-link"><code>BitSet</code></a> instead, and
-using <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/BitSet.html#nextSetBit(int)" class="external-link"><code>BitSet.nextSetBit(int)</code></a> or <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/BitSet.html#nextClearBit(int)" class="external-link"><code>BitSet.nextClearBit(int)</code></a>.</div>
+<p><b>Note:</b> consider representing the array as a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/BitSet.html" title="class in java.util" class="external-link"><code>BitSet</code></a> instead, and using <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/BitSet.html#nextSetBit(int)" class="external-link"><code>BitSet.nextSetBit(int)</code></a> or <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/BitSet.html#nextClearBit(int)" class="external-link"><code>BitSet.nextClearBit(int)</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>array</code> - an array of <code>boolean</code> values, possibly empty</dd>

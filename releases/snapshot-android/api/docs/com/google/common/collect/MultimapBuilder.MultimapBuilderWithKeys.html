@@ -232,10 +232,10 @@ number of values per key.</div>
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="MultimapBuilder.ListMultimapBuilder.html" title="class in com.google.common.collect">MultimapBuilder.ListMultimapBuilder</a>&lt;<a href="#type-param-K0" title="type parameter in MultimapBuilder.MultimapBuilderWithKeys">K0</a>, <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">linkedListValues</span>()</div>
 <div class="block">Uses a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/LinkedList.html" title="class in java.util" class="external-link"><code>LinkedList</code></a> to store value collections.
 
-<p><b>Performance note:</b> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ArrayList.html" title="class in java.util" class="external-link"><code>ArrayList</code></a> and <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ArrayDeque.html" title="class in java.util" class="external-link"><code>ArrayDeque</code></a> consistently
-outperform <code>LinkedList</code> except in certain rare and specific situations. Unless you have
-spent a lot of time benchmarking your specific needs, use one of those instead. (However, we
-do not currently offer a <a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> implementation based on <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ArrayDeque.html" title="class in java.util" class="external-link"><code>ArrayDeque</code></a>.)</div>
+<p><b>Performance note:</b> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ArrayList.html" title="class in java.util" class="external-link"><code>ArrayList</code></a> and <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ArrayDeque.html" title="class in java.util" class="external-link"><code>ArrayDeque</code></a> consistently outperform
+<code>LinkedList</code> except in certain rare and specific situations. Unless you have spent a
+lot of time benchmarking your specific needs, use one of those instead. (However, we do not
+currently offer a <a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> implementation based on <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ArrayDeque.html" title="class in java.util" class="external-link"><code>ArrayDeque</code></a>.)</div>
 </div>
 </section>
 </li>
