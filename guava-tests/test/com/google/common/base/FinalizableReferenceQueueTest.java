@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.lang.ref.Cleaner;
 import java.lang.ref.Cleaner.Cleanable;
+import java.lang.ref.PhantomReference;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
@@ -59,6 +60,37 @@ public class FinalizableReferenceQueueTest {
   @After
   public void tearDown() {
     frq = null;
+  }
+
+  @AndroidIncompatible // ThreadGroup.enumerate
+  @Test
+  public void testFinalizerDoesNotInheritContextClassLoader() throws Exception {
+    ThreadGroup group = new ThreadGroup("finalizer context class loader test");
+    ReferenceQueue<Object> queue = new ReferenceQueue<>();
+    // The finalizer holds the queue, so this reference is enqueued only when requested below.
+    PhantomReference<Object> stop = new PhantomReference<>(queue, queue);
+    ClassLoader contextLoader = new ClassLoader(null) {};
+    Thread starter =
+        new Thread(
+            group, () -> Finalizer.startFinalizer(FinalizableReference.class, queue, stop));
+    starter.setContextClassLoader(contextLoader);
+    starter.setDaemon(true);
+    Thread[] threads = new Thread[1];
+    try {
+      starter.start();
+      starter.join(5000);
+      assertThat(starter.isAlive()).isFalse();
+      assertThat(group.enumerate(threads, false)).isEqualTo(1);
+      assertThat(threads[0].getName()).isEqualTo("com.google.common.base.internal.Finalizer");
+      assertThat(threads[0].getContextClassLoader())
+          .isSameInstanceAs(ClassLoader.getSystemClassLoader());
+    } finally {
+      stop.enqueue();
+      if (threads[0] != null) {
+        threads[0].join(5000);
+      }
+    }
+    assertThat(threads[0].isAlive()).isFalse();
   }
 
   @Test
