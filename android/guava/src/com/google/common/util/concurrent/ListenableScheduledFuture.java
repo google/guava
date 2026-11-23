@@ -21,6 +21,9 @@ import org.jspecify.annotations.Nullable;
 /**
  * Helper interface to implement both {@link ListenableFuture} and {@link ScheduledFuture}.
  *
+ * <p>Instances are typically obtained by scheduling tasks on a {@link
+ * ListeningScheduledExecutorService}.
+ *
  * @author Anthony Zana
  * @since 15.0
  */

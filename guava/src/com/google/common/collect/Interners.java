@@ -38,7 +38,8 @@ public final class Interners {
   private Interners() {}
 
   /**
-   * Builder for {@link Interner} instances.
+   * Builder for {@link Interner} instances. To create an instance, use {@link
+   * Interners#newBuilder}.
    *
    * @since 21.0
    */

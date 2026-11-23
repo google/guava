@@ -325,6 +325,9 @@ public class Joiner {
    * An object that joins map entries in the same manner as {@code Joiner} joins iterables and
    * arrays. Like {@code Joiner}, it is thread-safe and immutable.
    *
+   * <p>To create an instance, use {@link Joiner#withKeyValueSeparator(String)} or {@link
+   * Joiner#withKeyValueSeparator(char)}.
+   *
    * <p>In addition to operating on {@code Map} instances, {@code MapJoiner} can operate on {@code
    * Multimap} entries in two distinct modes:
    *

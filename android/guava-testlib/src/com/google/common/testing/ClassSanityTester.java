@@ -417,7 +417,10 @@ public final class ClassSanityTester {
     return new FactoryMethodReturnValueTester(cls, builder.build(), "public static methods");
   }
 
-  /** Runs sanity tests against return values of static factory methods declared by a class. */
+  /**
+   * Runs sanity tests against return values of static factory methods declared by a class.
+   * Instances are obtained from {@link ClassSanityTester#forAllPublicStaticMethods}.
+   */
   public final class FactoryMethodReturnValueTester {
     private final Set<String> packagesToTest = new HashSet<>();
     private final Class<?> declaringClass;

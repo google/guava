@@ -139,7 +139,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
   /**
    * Accumulates statistics during the operation of a {@link Cache} for presentation by {@link
-   * Cache#stats}. This is solely intended for consumption by {@code Cache} implementors.
+   * Cache#stats}. This is solely intended for consumption by {@code Cache} implementors. A standard
+   * implementation is provided by {@link SimpleStatsCounter}.
    *
    * @since 10.0
    */

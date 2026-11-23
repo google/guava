@@ -54,7 +54,10 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 @IgnoreJRERequirement // Users will use this only if they're already using Spliterator.
 public final class SpliteratorTester<E extends @Nullable Object> {
-  /** Return type from "contains the following elements" assertions. */
+  /**
+   * Return type from "contains the following elements" assertions ({@link #expect(Object...)} and
+   * {@link #expect(Iterable)}).
+   */
   public interface Ordered {
     /**
      * Attests that the expected values must not just be present but must be present in the order

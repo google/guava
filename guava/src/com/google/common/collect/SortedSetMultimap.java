@@ -41,6 +41,15 @@ import org.jspecify.annotations.Nullable;
  * of a {@code SortedSetMultimap} in a way that affects its {@link Object#equals} behavior (or its
  * position in the order of the values). Undefined behavior and bugs will result.
  *
+ * <h2>Implementations</h2>
+ *
+ * <ul>
+ *   <li>Configure a mutable {@code SortedSetMultimap} with {@link MultimapBuilder} (using {@link
+ *       MultimapBuilder.MultimapBuilderWithKeys#treeSetValues()})
+ *   <li>{@link TreeMultimap} (when keys should also be sorted; in new code, consider {@link
+ *       MultimapBuilder} instead)
+ * </ul>
+ *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
  *

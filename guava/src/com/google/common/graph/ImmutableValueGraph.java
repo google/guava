@@ -105,7 +105,7 @@ public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
 
   /**
    * A builder for creating {@link ImmutableValueGraph} instances, especially {@code static final}
-   * graphs. Example:
+   * graphs. To create an instance, use {@link ValueGraphBuilder#immutable}. Example:
    *
    * {@snippet :
    * static final ImmutableValueGraph<City, Distance> CITY_ROAD_DISTANCE_GRAPH =

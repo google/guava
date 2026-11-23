@@ -24,6 +24,9 @@ import org.jspecify.annotations.Nullable;
 /**
  * An object representing the differences between two maps.
  *
+ * <p>To create an instance, use {@link Maps#difference(Map, Map)} or another overload of that
+ * method.
+ *
  * @author Kevin Bourrillion
  * @since 2.0
  */
@@ -83,6 +86,9 @@ public interface MapDifference<K extends @Nullable Object, V extends @Nullable O
   /**
    * A difference between the mappings from two maps with the same key. The {@link #leftValue} and
    * {@link #rightValue} are not equal, and one but not both of them may be null.
+   *
+   * <p>Instances are obtained from {@link MapDifference#entriesDiffering} (see {@link
+   * Maps#difference(Map, Map)}).
    *
    * @since 2.0
    */

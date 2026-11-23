@@ -597,6 +597,9 @@ public final class Sets {
    * you either use it as a plain {@link Set}, or immediately invoke {@link #immutableCopy} or
    * {@link #copyInto} and forget the {@code SetView} itself.
    *
+   * <p>Instances are returned by {@link Sets#union}, {@link Sets#intersection}, {@link
+   * Sets#difference}, and {@link Sets#symmetricDifference}.
+   *
    * @since 2.0
    */
   public abstract static class SetView<E extends @Nullable Object> extends AbstractSet<E> {

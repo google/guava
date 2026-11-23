@@ -298,6 +298,8 @@ public final class Monitor {
    * the monitor, so code should not be written to rely on how often a guard might or might not be
    * checked.
    *
+   * <p>To create an instance, use {@link Monitor#newGuard} or subclass {@code Guard} directly.
+   *
    * <p>If a {@code Guard} is passed into any method of a {@code Monitor} other than the one it is
    * associated with, an {@link IllegalMonitorStateException} is thrown.
    *

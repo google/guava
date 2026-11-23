@@ -21,6 +21,9 @@ import com.google.errorprone.annotations.DoNotMock;
 /**
  * Implemented by references that have code to run after garbage collection of their referents.
  *
+ * <p>To create an instance, extend {@link FinalizablePhantomReference}, {@link
+ * FinalizableSoftReference}, or {@link FinalizableWeakReference}.
+ *
  * @see FinalizableReferenceQueue
  * @author Bob Lee
  * @since 2.0

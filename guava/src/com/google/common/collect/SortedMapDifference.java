@@ -17,11 +17,14 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import java.util.Map;
 import java.util.SortedMap;
 import org.jspecify.annotations.Nullable;
 
 /**
  * An object representing the differences between two sorted maps.
+ *
+ * <p>To create an instance, use {@link Maps#difference(SortedMap, Map)}.
  *
  * @author Louis Wasserman
  * @since 8.0

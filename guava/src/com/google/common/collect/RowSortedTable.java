@@ -30,6 +30,8 @@ import org.jspecify.annotations.Nullable;
  * returns a {@link SortedMap}, instead of the {@link Set} and {@link Map} specified by the {@link
  * Table} interface.
  *
+ * <p>The standard implementation is {@link TreeBasedTable}.
+ *
  * @author Warren Dukes
  * @since 8.0
  */

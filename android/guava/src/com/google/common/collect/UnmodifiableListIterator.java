@@ -26,6 +26,9 @@ import org.jspecify.annotations.Nullable;
  * A list iterator that does not support {@link Iterator#remove}, {@link ListIterator#add}, or
  * {@link ListIterator#set}.
  *
+ * <p>{@code UnmodifiableListIterator} is used primarily in conjunction with {@link
+ * ImmutableList#listIterator()}, or can be subclassed directly.
+ *
  * @since 7.0
  * @author Louis Wasserman
  */

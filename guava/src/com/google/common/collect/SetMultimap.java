@@ -45,6 +45,17 @@ import org.jspecify.annotations.Nullable;
  * <p><b>Warning:</b> Do not modify either a key <i>or a value</i> of a {@code SetMultimap} in a way
  * that affects its {@link Object#equals} behavior. Undefined behavior and bugs will result.
  *
+ * <h2>Implementations</h2>
+ *
+ * <ul>
+ *   <li>{@link ImmutableSetMultimap}
+ *   <li>Configure your own mutable {@code SetMultimap} with {@link MultimapBuilder}
+ * </ul>
+ *
+ * <p>Guava also contains other {@code SetMultimap} implementations, such as {@link HashMultimap},
+ * {@link LinkedHashMultimap}, and {@link TreeMultimap}. In new code, we recommend using {@link
+ * MultimapBuilder} instead: It provides better control of how keys and values are stored.
+ *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
  *

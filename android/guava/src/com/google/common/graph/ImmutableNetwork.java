@@ -129,7 +129,7 @@ public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
 
   /**
    * A builder for creating {@link ImmutableNetwork} instances, especially {@code static final}
-   * networks. Example:
+   * networks. To create an instance, use {@link NetworkBuilder#immutable}. Example:
    *
    * {@snippet :
    * static final ImmutableNetwork<City, Train> TRAIN_NETWORK =

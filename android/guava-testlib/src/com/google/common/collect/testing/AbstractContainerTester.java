@@ -180,6 +180,7 @@ public abstract class AbstractContainerTester<C, E extends @Nullable Object>
     return array;
   }
 
+  /** Return type of {@link #createArrayWithDuplicateElement}. */
   public static final class ArrayWithDuplicate<E extends @Nullable Object> {
     public final E[] elements;
     public final E duplicate;

@@ -32,6 +32,17 @@ import org.jspecify.annotations.Nullable;
  * List} of values. Though the method signature doesn't say so explicitly, the map returned by
  * {@link #asMap} has {@code List} values.
  *
+ * <h2>Implementations</h2>
+ *
+ * <ul>
+ *   <li>{@link ImmutableListMultimap}
+ *   <li>Configure your own mutable {@code ListMultimap} with {@link MultimapBuilder}
+ *   <li>{@link LinkedListMultimap} (for one unusual kind of mutable {@code ListMultimap})
+ * </ul>
+ *
+ * <p>Guava also contains {@link ArrayListMultimap}, though in new code we recommend using {@link
+ * MultimapBuilder} instead: It provides better control of how keys and values are stored.
+ *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
  *

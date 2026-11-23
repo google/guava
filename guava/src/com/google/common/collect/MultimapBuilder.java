@@ -282,7 +282,9 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
 
   /**
    * An intermediate stage in a {@link MultimapBuilder} in which the key-value collection map
-   * implementation has been specified, but the value collection implementation has not.
+   * implementation has been specified, but the value collection implementation has not. To create
+   * an instance, use one of the static methods on {@link MultimapBuilder}, such as {@link
+   * MultimapBuilder#hashKeys()} or {@link MultimapBuilder#treeKeys()}.
    *
    * @param <K0> The upper bound on the key type of the generated multimap.
    * @since 16.0
@@ -440,7 +442,9 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
   }
 
   /**
-   * A specialization of {@link MultimapBuilder} that generates {@link ListMultimap} instances.
+   * A specialization of {@link MultimapBuilder} that generates {@link ListMultimap} instances. To
+   * create an instance, call a method such as {@link MultimapBuilderWithKeys#arrayListValues()} on
+   * a {@link MultimapBuilderWithKeys}.
    *
    * @since 16.0
    */
@@ -460,7 +464,9 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
   }
 
   /**
-   * A specialization of {@link MultimapBuilder} that generates {@link SetMultimap} instances.
+   * A specialization of {@link MultimapBuilder} that generates {@link SetMultimap} instances. To
+   * create an instance, call a method such as {@link MultimapBuilderWithKeys#hashSetValues()} on a
+   * {@link MultimapBuilderWithKeys}.
    *
    * @since 16.0
    */
@@ -481,6 +487,8 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
 
   /**
    * A specialization of {@link MultimapBuilder} that generates {@link SortedSetMultimap} instances.
+   * To create an instance, call {@link MultimapBuilderWithKeys#treeSetValues()} or {@link
+   * MultimapBuilderWithKeys#treeSetValues(Comparator)} on a {@link MultimapBuilderWithKeys}.
    *
    * @since 16.0
    */

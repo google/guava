@@ -166,7 +166,8 @@ public final class Quantiles {
 
   /**
    * Describes the point in a fluent API chain where only the scale (i.e. the q in q-quantiles) has
-   * been specified.
+   * been specified. Instances are obtained from {@link Quantiles#scale(int)}, {@link
+   * Quantiles#quartiles()}, or {@link Quantiles#percentiles()}.
    *
    * @since 20.0
    */
@@ -217,7 +218,8 @@ public final class Quantiles {
 
   /**
    * Describes the point in a fluent API chain where the scale and a single quantile index (i.e. the
-   * q and the k in the kth q-quantile) have been specified.
+   * q and the k in the kth q-quantile) have been specified. Instances are obtained from {@link
+   * Quantiles#median()} or {@link Scale#index(int)}.
    *
    * @since 20.0
    */
@@ -316,7 +318,8 @@ public final class Quantiles {
 
   /**
    * Describes the point in a fluent API chain where the scale and a multiple quantile indexes (i.e.
-   * the q and a set of values for the k in the kth q-quantile) have been specified.
+   * the q and a set of values for the k in the kth q-quantile) have been specified. Instances are
+   * obtained from {@link Scale#indexes(int...)} or {@link Scale#indexes(Collection)}.
    *
    * @since 20.0
    */

@@ -673,7 +673,8 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
   /**
    * The set of interfaces and classes that {@code T} is or is a subtype of. {@link Object} is not
-   * included in the set if this type is an interface.
+   * included in the set if this type is an interface. Instances are obtained from {@link
+   * TypeToken#getTypes}.
    *
    * @since 13.0
    */
