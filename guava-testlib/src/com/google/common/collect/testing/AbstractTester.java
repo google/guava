@@ -42,6 +42,57 @@ public class AbstractTester<G> extends TestCase {
   private @Nullable Runnable setUp;
   private @Nullable Runnable tearDown;
 
+  @J2ktIncompatible // JUnit 3 execution
+  @GwtIncompatible // TestCase.runBare
+  @Override
+  public void runBare() throws Throwable {
+    try {
+      super.runBare();
+    } catch (AssertionError failure) {
+      try {
+        @Nullable Object generator = subjectGenerator;
+        // Diagnostics must also terminate for wrappers that keep producing fresh generators.
+        for (int depth = 0; generator != null && depth < 32; depth++) {
+          @Nullable Object inner;
+          if (generator instanceof OneSizeTestContainerGenerator) {
+            inner = ((OneSizeTestContainerGenerator<?, ?>) generator).getInnerGenerator();
+          } else if (generator instanceof DerivedGenerator) {
+            inner = ((DerivedGenerator) generator).getInnerGenerator();
+          } else {
+            break;
+          }
+          if (inner == null) {
+            break;
+          }
+          generator = inner;
+        }
+        if (generator != null) {
+          failure.addSuppressed(new TestFailureContext(suiteName, generator.getClass().getName()));
+        }
+      } catch (RuntimeException | AssertionError | LinkageError contextFailure) {
+        if (contextFailure != failure) {
+          failure.addSuppressed(contextFailure);
+        }
+      }
+      throw failure;
+    }
+  }
+
+  @J2ktIncompatible // JUnit 3 execution
+  @GwtIncompatible // JUnit 3 execution
+  private static final class TestFailureContext extends Throwable {
+    private static final long serialVersionUID = 0;
+
+    TestFailureContext(@Nullable String suiteName, String generatorName) {
+      super("Test suite '" + suiteName + "' uses generator " + generatorName);
+    }
+
+    @Override
+    public synchronized Throwable fillInStackTrace() {
+      return this;
+    }
+  }
+
   // public so that it can be referenced in generated GWT tests.
   @Override
   public void setUp() throws Exception {
