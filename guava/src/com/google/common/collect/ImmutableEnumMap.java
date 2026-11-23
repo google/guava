@@ -34,7 +34,7 @@ import java.util.function.BiConsumer;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Implementation of {@link ImmutableMap} backed by a non-empty {@link java.util.EnumMap}.
+ * Implementation of {@link ImmutableMap} backed by a non-empty {@link EnumMap}.
  *
  * @author Louis Wasserman
  */

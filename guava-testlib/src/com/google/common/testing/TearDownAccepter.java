@@ -18,6 +18,7 @@ package com.google.common.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.DoNotMock;
+import junit.framework.TestCase;
 import org.jspecify.annotations.NullMarked;
 
 /**
@@ -35,7 +36,7 @@ public interface TearDownAccepter {
    *
    * <p>In JUnit4 language, that means as an {@code @After}.
    *
-   * <p>In JUnit3 language, that means during the {@link junit.framework.TestCase#tearDown()} step.
+   * <p>In JUnit3 language, that means during the {@link TestCase#tearDown()} step.
    */
   void addTearDown(TearDown tearDown);
 }

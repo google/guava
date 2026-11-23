@@ -40,6 +40,7 @@ import java.io.Serializable;
 import java.math.RoundingMode;
 import java.util.AbstractList;
 import java.util.AbstractSequentialList;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -55,6 +56,7 @@ import java.util.Spliterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -212,9 +214,9 @@ public final class Lists {
    * <p><b>Note:</b> if you won't be adding any elements to the list, use {@link ImmutableList#of()}
    * instead.
    *
-   * <p><b>Performance note:</b> {@link ArrayList} and {@link java.util.ArrayDeque} consistently
-   * outperform {@code LinkedList} except in certain rare and specific situations. Unless you have
-   * spent a lot of time benchmarking your specific needs, use one of those instead.
+   * <p><b>Performance note:</b> {@link ArrayList} and {@link ArrayDeque} consistently outperform
+   * {@code LinkedList} except in certain rare and specific situations. Unless you have spent a lot
+   * of time benchmarking your specific needs, use one of those instead.
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
    * use the {@code LinkedList} {@linkplain LinkedList#LinkedList() constructor} directly, taking
@@ -237,9 +239,9 @@ public final class Lists {
    * <p><b>Note:</b> if mutability is not required and the elements are non-null, use {@link
    * ImmutableList#copyOf(Iterable)} instead.
    *
-   * <p><b>Performance note:</b> {@link ArrayList} and {@link java.util.ArrayDeque} consistently
-   * outperform {@code LinkedList} except in certain rare and specific situations. Unless you have
-   * spent a lot of time benchmarking your specific needs, use one of those instead.
+   * <p><b>Performance note:</b> {@link ArrayList} and {@link ArrayDeque} consistently outperform
+   * {@code LinkedList} except in certain rare and specific situations. Unless you have spent a lot
+   * of time benchmarking your specific needs, use one of those instead.
    *
    * <p><b>Note:</b> if {@code elements} is a {@link Collection}, you don't need this method. Use
    * the {@code LinkedList} {@linkplain LinkedList#LinkedList(Collection) constructor} directly,
@@ -545,8 +547,8 @@ public final class Lists {
    * this reason.
    *
    * <p><b>Java 8+ users:</b> many use cases for this method are better addressed by {@link
-   * java.util.stream.Stream#map}. This method is not being deprecated, but we gently encourage you
-   * to migrate to streams.
+   * Stream#map}. This method is not being deprecated, but we gently encourage you to migrate to
+   * streams.
    */
   public static <F extends @Nullable Object, T extends @Nullable Object> List<T> transform(
       List<F> fromList, Function<? super F, ? extends T> function) {

@@ -32,6 +32,7 @@ import static java.math.RoundingMode.HALF_UP;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.primitives.Longs;
 import com.google.common.primitives.UnsignedLongs;
 import com.google.errorprone.annotations.InlineMe;
 import java.math.BigInteger;
@@ -46,7 +47,7 @@ import java.math.RoundingMode;
  *
  * <p>Similar functionality for {@code int} and for {@link BigInteger} can be found in {@link
  * IntMath} and {@link BigIntegerMath} respectively. For other common operations on {@code long}
- * values, see {@link com.google.common.primitives.Longs}.
+ * values, see {@link Longs}.
  *
  * @author Louis Wasserman
  * @since 11.0

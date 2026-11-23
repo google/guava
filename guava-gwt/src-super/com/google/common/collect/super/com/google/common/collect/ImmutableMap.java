@@ -39,16 +39,6 @@ import java.util.stream.Collectors;
 import jsinterop.annotations.JsMethod;
 import org.jspecify.annotations.Nullable;
 
-/**
- * GWT emulation of {@link com.google.common.collect.ImmutableMap}. For non sorted maps, it is a
- * thin wrapper around {@link java.util.Collections#emptyMap()}, {@link
- * Collections#singletonMap(Object, Object)} and {@link java.util.LinkedHashMap} for empty,
- * singleton and regular maps respectively. For sorted maps, it's a thin wrapper around {@link
- * java.util.TreeMap}.
- *
- * @see ImmutableSortedMap
- * @author Hayward Chan
- */
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   abstract static class IteratorBasedImmutableMap<K, V> extends ImmutableMap<K, V> {

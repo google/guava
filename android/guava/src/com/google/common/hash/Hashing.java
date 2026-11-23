@@ -18,6 +18,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.primitives.UnsignedInts;
+import com.google.common.primitives.UnsignedLongs;
 import com.google.errorprone.annotations.Immutable;
 import java.security.Key;
 import java.util.ArrayList;
@@ -497,8 +499,8 @@ public final class Hashing {
    *
    * <p>FarmHash fingerprints are encoded by {@link HashCode#asBytes} in little-endian order. This
    * means {@link HashCode#asLong} is guaranteed to return the same value that
-   * farmhash::Fingerprint64() would for the same input (when compared using {@link
-   * com.google.common.primitives.UnsignedLongs}'s encoding of 64-bit unsigned numbers).
+   * farmhash::Fingerprint64() would for the same input (when compared using {@link UnsignedLongs}'s
+   * encoding of 64-bit unsigned numbers).
    *
    * <p>This function is best understood as a <a
    * href="https://en.wikipedia.org/wiki/Fingerprint_(computing)">fingerprint</a> rather than a true
@@ -516,8 +518,8 @@ public final class Hashing {
    * <p>This is designed for generating persistent fingerprints of strings. It isn't
    * cryptographically secure, but it produces a high-quality hash with few collisions. Fingerprints
    * generated using this are byte-wise identical to those created using the C++ version, but note
-   * that this uses unsigned integers (see {@link com.google.common.primitives.UnsignedInts}).
-   * Comparisons between the two should take this into account.
+   * that this uses unsigned integers (see {@link UnsignedInts}). Comparisons between the two should
+   * take this into account.
    *
    * <p>Fingerprint2011() is a form of Murmur2 on strings up to 32 bytes and a form of CityHash for
    * longer strings. It could have been one or the other throughout. The main advantage of the

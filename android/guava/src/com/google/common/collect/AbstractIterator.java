@@ -21,6 +21,7 @@ import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.io.Reader;
 import java.util.NoSuchElementException;
 import org.jspecify.annotations.Nullable;
 
@@ -30,10 +31,10 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>{@code Iterator} requires its implementations to support querying the end-of-data status
  * without changing the iterator's state, using the {@link #hasNext} method. But many data sources,
- * such as {@link java.io.Reader#read()}, do not expose this information; the only way to discover
- * whether there is any data left is by trying to retrieve it. These types of data sources are
- * ordinarily difficult to write iterators for. But using this class, one must implement only the
- * {@link #computeNext} method, and invoke the {@link #endOfData} method when appropriate.
+ * such as {@link Reader#read()}, do not expose this information; the only way to discover whether
+ * there is any data left is by trying to retrieve it. These types of data sources are ordinarily
+ * difficult to write iterators for. But using this class, one must implement only the {@link
+ * #computeNext} method, and invoke the {@link #endOfData} method when appropriate.
  *
  * <p>Another example is an iterator that skips over null elements in a backing iterator. This could
  * be implemented as:

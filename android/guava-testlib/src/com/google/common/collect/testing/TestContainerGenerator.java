@@ -17,7 +17,9 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.testing.features.CollectionFeature;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import org.jspecify.annotations.NullMarked;
@@ -54,10 +56,10 @@ public interface TestContainerGenerator<T, E extends @Nullable Object> {
    * container. This method may return the original list unchanged, the original list modified in
    * place, or a different list.
    *
-   * <p>If the order is non-deterministic, as with {@link java.util.HashSet}, this method can return
-   * its input unmodified. Provided that the test suite is built without {@link
-   * com.google.common.collect.testing.features.CollectionFeature#KNOWN_ORDER}, the tests will look
-   * only at the returned contents without regard for order.
+   * <p>If the order is non-deterministic, as with {@link HashSet}, this method can return its input
+   * unmodified. Provided that the test suite is built without {@link
+   * CollectionFeature#KNOWN_ORDER}, the tests will look only at the returned contents without
+   * regard for order.
    */
   Iterable<E> order(List<E> insertionOrder);
 }

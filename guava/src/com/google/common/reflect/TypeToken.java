@@ -180,8 +180,8 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
   /**
    * Returns the raw type of {@code T}. Formally speaking, if {@code T} is returned by {@link
-   * java.lang.reflect.Method#getGenericReturnType}, the raw type is what's returned by {@link
-   * java.lang.reflect.Method#getReturnType} of the same method object. Specifically:
+   * Method#getGenericReturnType}, the raw type is what's returned by {@link Method#getReturnType}
+   * of the same method object. Specifically:
    *
    * <ul>
    *   <li>If {@code T} is a {@code Class} itself, {@code T} itself is returned.

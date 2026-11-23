@@ -256,8 +256,7 @@ public final class ClassSanityTester {
    *   <li>Equality test is not performed on method return values unless the method is a non-private
    *       static factory method whose return type is {@code cls} or {@code cls}'s subtype.
    *   <li>Inequality check is not performed against state mutation methods such as {@link
-   *       List#add}, or functional update methods such as {@link
-   *       com.google.common.base.Joiner#skipNulls}.
+   *       List#add}, or functional update methods such as {@link Joiner#skipNulls}.
    * </ul>
    *
    * <p>Note that constructors taking a builder object cannot be tested effectively because

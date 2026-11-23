@@ -35,7 +35,10 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.InlineMe;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -54,9 +57,8 @@ import org.jspecify.annotations.Nullable;
  * in the {@link Iterators} class.
  *
  * <p><b>Java 8+ users:</b> several common uses for this class are now more comprehensively
- * addressed by the new {@link java.util.stream.Stream} library. Read the method documentation below
- * for comparisons. This class is not being deprecated, but we gently encourage you to migrate to
- * streams.
+ * addressed by the new {@link Stream} library. Read the method documentation below for comparisons.
+ * This class is not being deprecated, but we gently encourage you to migrate to streams.
  *
  * <p><i>Performance notes:</i> Unless otherwise noted, all of the iterables produced in this class
  * are <i>lazy</i>, which means that their iterators only advance the backing iteration when
@@ -274,10 +276,9 @@ public final class Iterables {
 
   /**
    * Returns a string representation of {@code iterable}, with the format {@code [e1, e2, ..., en]}
-   * (that is, identical to {@link java.util.Arrays Arrays}{@code
-   * .toString(Iterables.toArray(iterable))}). Note that for <i>most</i> implementations of {@link
-   * Collection}, {@code collection.toString()} also gives the same result, but that behavior is not
-   * generally guaranteed.
+   * (that is, identical to {@link Arrays}{@code .toString(Iterables.toArray(iterable))}). Note that
+   * for <i>most</i> implementations of {@link Collection}, {@code collection.toString()} also gives
+   * the same result, but that behavior is not generally guaranteed.
    */
   public static String toString(Iterable<?> iterable) {
     return Iterators.toString(iterable.iterator());
@@ -342,8 +343,8 @@ public final class Iterables {
 
   /**
    * Converts an iterable into a collection. If the iterable is already a collection, it is
-   * returned. Otherwise, an {@link java.util.ArrayList} is created with the contents of the
-   * iterable in the same iteration order.
+   * returned. Otherwise, an {@link ArrayList} is created with the contents of the iterable in the
+   * same iteration order.
    */
   private static <E extends @Nullable Object> Collection<E> castOrCopyToCollection(
       Iterable<E> iterable) {
@@ -375,8 +376,7 @@ public final class Iterables {
    * stream.filter(element::equals).count()}. If {@code element} might be null, use {@code
    * stream.filter(Predicate.isEqual(element)).count()} instead.
    *
-   * @see java.util.Collections#frequency(Collection, Object) Collections.frequency(Collection,
-   *     Object)
+   * @see Collections#frequency(Collection, Object)
    */
   public static int frequency(Iterable<?> iterable, @Nullable Object element) {
     if ((iterable instanceof Multiset)) {

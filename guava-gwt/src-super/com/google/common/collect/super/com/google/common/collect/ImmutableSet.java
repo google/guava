@@ -30,16 +30,6 @@ import java.util.stream.Collector;
 import jsinterop.annotations.JsMethod;
 import org.jspecify.annotations.Nullable;
 
-/**
- * GWT emulated version of {@link com.google.common.collect.ImmutableSet}. For the unsorted sets,
- * they are thin wrapper around {@link java.util.Collections#emptySet()}, {@link
- * Collections#singleton(Object)} and {@link java.util.LinkedHashSet} for empty, singleton and
- * regular sets respectively. For the sorted sets, it's a thin wrapper around {@link
- * java.util.TreeSet}.
- *
- * @see ImmutableSortedSet
- * @author Hayward Chan
- */
 @SuppressWarnings("serial") // Serialization only done in GWT.
 public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements Set<E> {
   ImmutableSet() {}

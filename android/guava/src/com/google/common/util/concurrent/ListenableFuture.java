@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import com.google.errorprone.annotations.DoNotMock;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import org.jspecify.annotations.NullMarked;
@@ -80,8 +81,7 @@ import org.jspecify.annotations.Nullable;
  * <ul>
  *   <li>If you receive them from an {@code java.util.concurrent.ExecutorService}, convert that
  *       service to a {@link ListeningExecutorService}, usually by calling {@link
- *       MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)
- *       MoreExecutors.listeningDecorator}.
+ *       MoreExecutors#listeningDecorator(ExecutorService) MoreExecutors.listeningDecorator}.
  *   <li>If you manually call {@link java.util.concurrent.FutureTask#set} or a similar method,
  *       create a {@link SettableFuture} instead. (If your needs are more complex, you may prefer
  *       {@link AbstractFuture}.)

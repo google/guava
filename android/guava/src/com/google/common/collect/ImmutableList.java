@@ -45,6 +45,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
 import java.util.stream.Collector;
+import java.util.stream.Stream;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -306,8 +307,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * ImmutableSortedSet.copyOf(elements)}; if you want a {@code List} you can use its {@code
    * asList()} view.
    *
-   * <p><b>Java 8+ users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
-   * {@code ImmutableList}, use {@code stream.sorted().collect(toImmutableList())}.
+   * <p><b>Java 8+ users:</b> If you want to convert a {@link Stream} to a sorted {@code
+   * ImmutableList}, use {@code stream.sorted().collect(toImmutableList())}.
    *
    * @throws NullPointerException if any element in the input is null
    * @since 21.0
@@ -329,8 +330,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * ImmutableSortedSet.copyOf(comparator, elements)}; if you want a {@code List} you can use its
    * {@code asList()} view.
    *
-   * <p><b>Java 8+ users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
-   * {@code ImmutableList}, use {@code stream.sorted(comparator).collect(toImmutableList())}.
+   * <p><b>Java 8+ users:</b> If you want to convert a {@link Stream} to a sorted {@code
+   * ImmutableList}, use {@code stream.sorted(comparator).collect(toImmutableList())}.
    *
    * @throws NullPointerException if any element in the input is null
    * @since 21.0

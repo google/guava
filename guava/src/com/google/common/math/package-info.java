@@ -13,8 +13,8 @@
  */
 
 /**
- * Arithmetic functions operating on primitive values and on {@link java.math.BigInteger} and {@link
- * java.math.BigDecimal} instances.
+ * Arithmetic functions operating on primitive values and on {@link BigInteger} and {@link
+ * BigDecimal} instances.
  *
  * <p>This package is a part of the open-source <a href="https://github.com/google/guava">Guava</a>
  * library.
@@ -27,4 +27,6 @@
 package com.google.common.math;
 
 import com.google.errorprone.annotations.CheckReturnValue;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import org.jspecify.annotations.NullMarked;

@@ -26,11 +26,6 @@ import java.util.function.Function;
 import java.util.stream.Collector;
 import org.jspecify.annotations.Nullable;
 
-/**
- * GWT emulation of {@link com.google.common.collect.ImmutableBiMap}.
- *
- * @author Hayward Chan
- */
 public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
     implements BiMap<K, V> {
   public static <T extends @Nullable Object, K, V>

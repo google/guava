@@ -44,6 +44,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -94,11 +95,10 @@ public final class Tables {
    * input elements. Cells are inserted into the generated {@code Table} in encounter order.
    *
    * <p>If multiple input elements map to the same row and column, the specified merging function is
-   * used to combine the values. Like {@link
-   * java.util.stream.Collectors#toMap(java.util.function.Function, java.util.function.Function,
-   * BinaryOperator, java.util.function.Supplier)}, this Collector throws a {@code
-   * NullPointerException} on null values returned from {@code valueFunction}, and treats nulls
-   * returned from {@code mergeFunction} as removals of that row/column pair.
+   * used to combine the values. Like {@link Collectors#toMap(java.util.function.Function,
+   * java.util.function.Function, BinaryOperator, java.util.function.Supplier)}, this Collector
+   * throws a {@code NullPointerException} on null values returned from {@code valueFunction}, and
+   * treats nulls returned from {@code mergeFunction} as removals of that row/column pair.
    *
    * @since 33.2.0 (available since 21.0 in guava-jre)
    */

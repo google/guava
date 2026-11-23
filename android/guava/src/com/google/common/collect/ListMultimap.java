@@ -45,8 +45,8 @@ public interface ListMultimap<K extends @Nullable Object, V extends @Nullable Ob
    * {@inheritDoc}
    *
    * <p>Because the values for a given key may have duplicates and follow the insertion ordering,
-   * this method returns a {@link List}, instead of the {@link java.util.Collection} specified in
-   * the {@link Multimap} interface.
+   * this method returns a {@link List}, instead of the {@link Collection} specified in the {@link
+   * Multimap} interface.
    */
   @Override
   List<V> get(@ParametricNullness K key);
@@ -55,8 +55,8 @@ public interface ListMultimap<K extends @Nullable Object, V extends @Nullable Ob
    * {@inheritDoc}
    *
    * <p>Because the values for a given key may have duplicates and follow the insertion ordering,
-   * this method returns a {@link List}, instead of the {@link java.util.Collection} specified in
-   * the {@link Multimap} interface.
+   * this method returns a {@link List}, instead of the {@link Collection} specified in the {@link
+   * Multimap} interface.
    */
   @CanIgnoreReturnValue
   @Override
@@ -66,8 +66,8 @@ public interface ListMultimap<K extends @Nullable Object, V extends @Nullable Ob
    * {@inheritDoc}
    *
    * <p>Because the values for a given key may have duplicates and follow the insertion ordering,
-   * this method returns a {@link List}, instead of the {@link java.util.Collection} specified in
-   * the {@link Multimap} interface.
+   * this method returns a {@link List}, instead of the {@link Collection} specified in the {@link
+   * Multimap} interface.
    */
   @CanIgnoreReturnValue
   @Override

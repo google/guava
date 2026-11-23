@@ -596,7 +596,7 @@ public final class InetAddresses {
    * <p>This method is similar to {@link InetAddresses#forString(String)}, however, it requires that
    * IPv6 addresses are surrounded by square brackets.
    *
-   * <p>This method is the inverse of {@link InetAddresses#toUriString(java.net.InetAddress)}.
+   * <p>This method is the inverse of {@link InetAddresses#toUriString(InetAddress)}.
    *
    * <p>This method accepts non-ASCII digits, for example {@code "１９２.１６８.０.１"} (those are fullwidth
    * characters). That is consistent with {@link InetAddress}, but not with various RFCs. If you

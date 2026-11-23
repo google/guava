@@ -26,8 +26,11 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -86,11 +89,10 @@ import java.util.Map;
  *
  * <p>If any values in the input are {@link Double#NaN NaN} then all values returned are {@link
  * Double#NaN NaN}. (This is the one occasion when the behaviour is not the same as you'd get from
- * sorting with {@link java.util.Arrays#sort(double[]) Arrays.sort(double[])} or {@link
- * java.util.Collections#sort(java.util.List) Collections.sort(List&lt;Double&gt;)} and selecting
- * the required value(s). Those methods would sort {@link Double#NaN NaN} as if it is greater than
- * any other value and place them at the end of the dataset, even after {@link
- * Double#POSITIVE_INFINITY POSITIVE_INFINITY}.)
+ * sorting with {@link Arrays#sort(double[])} or {@link Collections#sort(List)
+ * Collections.sort(List&lt;Double&gt;)} and selecting the required value(s). Those methods would
+ * sort {@link Double#NaN NaN} as if it is greater than any other value and place them at the end of
+ * the dataset, even after {@link Double#POSITIVE_INFINITY POSITIVE_INFINITY}.)
  *
  * <p>Otherwise, {@link Double#NEGATIVE_INFINITY NEGATIVE_INFINITY} and {@link
  * Double#POSITIVE_INFINITY POSITIVE_INFINITY} sort to the beginning and the end of the dataset, as

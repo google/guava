@@ -22,6 +22,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.DoNotMock;
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import org.jspecify.annotations.Nullable;
 
@@ -183,7 +184,7 @@ public abstract class Optional<T> implements Serializable {
    *
    * <p><b>Comparison to {@code java.util.Optional}:</b> when the value is absent, this method
    * throws {@link IllegalStateException}, whereas the {@code java.util} counterpart throws {@link
-   * java.util.NoSuchElementException NoSuchElementException}.
+   * NoSuchElementException}.
    *
    * @throws IllegalStateException if the instance is absent ({@link #isPresent} returns {@code
    *     false}); depending on this <i>specific</i> exception type (over the more general {@link

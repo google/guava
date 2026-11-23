@@ -44,6 +44,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
+import java.util.RandomAccess;
 import java.util.Set;
 import java.util.function.Consumer;
 import org.jspecify.annotations.Nullable;
@@ -618,7 +619,7 @@ public final class LinkedListMultimap<K extends @Nullable Object, V extends @Nul
    * <p>If any entries for the specified {@code key} already exist in the multimap, their values are
    * changed in-place without affecting the iteration order.
    *
-   * <p>The returned list is immutable and implements {@link java.util.RandomAccess}.
+   * <p>The returned list is immutable and implements {@link RandomAccess}.
    */
   @CanIgnoreReturnValue
   @Override
@@ -654,7 +655,7 @@ public final class LinkedListMultimap<K extends @Nullable Object, V extends @Nul
   /**
    * {@inheritDoc}
    *
-   * <p>The returned list is immutable and implements {@link java.util.RandomAccess}.
+   * <p>The returned list is immutable and implements {@link RandomAccess}.
    */
   @CanIgnoreReturnValue
   @Override

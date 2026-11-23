@@ -22,17 +22,19 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Base class for testers of classes (including {@link Collection} and {@link java.util.Map Map})
- * that contain elements.
+ * Base class for testers of classes (including {@link Collection} and {@link Map}) that contain
+ * elements.
  *
  * @param <C> the type of the container
  * @param <E> the type of the container's contents
@@ -88,7 +90,7 @@ public abstract class AbstractContainerTester<C, E extends @Nullable Object>
   }
 
   /**
-   * @see #expectContents(java.util.Collection)
+   * @see #expectContents(Collection)
    * @param elements expected contents of {@link #container}
    */
   protected final void expectContents(E... elements) {
@@ -121,10 +123,10 @@ public abstract class AbstractContainerTester<C, E extends @Nullable Object>
 
   /**
    * Asserts that the collection under test contains exactly the elements it was initialized with
-   * plus the given elements, according to {@link #expectContents(java.util.Collection)}. In other
-   * words, for the default {@code expectContents()} implementation, the number of occurrences of
-   * each given element has increased by one since the test collection was created, and the number
-   * of occurrences of all other elements has not changed.
+   * plus the given elements, according to {@link #expectContents(Collection)}. In other words, for
+   * the default {@code expectContents()} implementation, the number of occurrences of each given
+   * element has increased by one since the test collection was created, and the number of
+   * occurrences of all other elements has not changed.
    *
    * <p>Note: This means that a test like the following will fail if {@code collection} is a {@code
    * Set}:
@@ -215,7 +217,7 @@ public abstract class AbstractContainerTester<C, E extends @Nullable Object>
   /**
    * Returns the {@linkplain #getSampleElements() sample elements} as ordered by {@link
    * TestContainerGenerator#order(List)}. Tests should use this method only if they declare
-   * requirement {@link com.google.common.collect.testing.features.CollectionFeature#KNOWN_ORDER}.
+   * requirement {@link CollectionFeature#KNOWN_ORDER}.
    */
   protected List<E> getOrderedElements() {
     List<E> list = new ArrayList<>();

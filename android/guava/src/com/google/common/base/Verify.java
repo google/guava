@@ -18,6 +18,7 @@ import static com.google.common.base.Strings.lenientFormat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.Objects;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -51,9 +52,9 @@ import org.jspecify.annotations.Nullable;
  *   <li>An explicit {@code if/throw} (as illustrated below) is always acceptable; we still
  *       recommend using our {@link VerifyException} exception type. Throwing a plain {@link
  *       RuntimeException} is frowned upon.
- *   <li>Use of {@link java.util.Objects#requireNonNull(Object)} is generally discouraged, since
- *       {@link #verifyNotNull(Object)} and {@link Preconditions#checkNotNull(Object)} perform the
- *       same function with more clarity.
+ *   <li>Use of {@link Objects#requireNonNull(Object)} is generally discouraged, since {@link
+ *       #verifyNotNull(Object)} and {@link Preconditions#checkNotNull(Object)} perform the same
+ *       function with more clarity.
  * </ul>
  *
  * <h2>Warning about performance</h2>

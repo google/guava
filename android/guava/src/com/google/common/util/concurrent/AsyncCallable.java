@@ -15,15 +15,16 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import org.jspecify.annotations.Nullable;
 
 /**
  * Computes a value, possibly asynchronously. For an example usage and more information, see {@link
- * Futures.FutureCombiner#callAsync(AsyncCallable, java.util.concurrent.Executor)}.
+ * Futures.FutureCombiner#callAsync(AsyncCallable, Executor)}.
  *
- * <p>Much like {@link java.util.concurrent.Callable}, but returning a {@link ListenableFuture}
- * result.
+ * <p>Much like {@link Callable}, but returning a {@link ListenableFuture} result.
  *
  * @since 20.0
  */

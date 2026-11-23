@@ -50,6 +50,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.RandomAccess;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -589,7 +590,7 @@ public final class Iterators {
    * partition size of 3 yields {@code [[a, b, c], [d, e]]} -- an outer iterator containing two
    * inner lists of three and two elements, all in the original order.
    *
-   * <p>The returned lists implement {@link java.util.RandomAccess}.
+   * <p>The returned lists implement {@link RandomAccess}.
    *
    * <p><b>Note:</b> The current implementation eagerly allocates storage for {@code size} elements.
    * As a consequence, passing values like {@code Integer.MAX_VALUE} can lead to {@link
@@ -615,7 +616,7 @@ public final class Iterators {
    * c, d, e]} with a partition size of 3 yields {@code [[a, b, c], [d, e, null]]} -- an outer
    * iterator containing two inner lists of three elements each, all in the original order.
    *
-   * <p>The returned lists implement {@link java.util.RandomAccess}.
+   * <p>The returned lists implement {@link RandomAccess}.
    *
    * @param iterator the iterator to return a partitioned view of
    * @param size the desired size of each partition

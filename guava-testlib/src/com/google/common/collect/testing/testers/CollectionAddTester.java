@@ -31,8 +31,11 @@ import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * A generic JUnit test which tests {@code add} operations on a collection. Can't be invoked
@@ -91,8 +94,8 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
 
   /**
    * Returns the {@link Method} instance for {@link #testAdd_nullSupported()} so that tests of
-   * {@link java.util.Collections#checkedCollection(java.util.Collection, Class)} can suppress it
-   * with {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
+   * {@link Collections#checkedCollection(Collection, Class)} can suppress it with {@code
+   * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
    * href="https://bugs.openjdk.org/browse/JDK-6409434">JDK-6409434</a> is fixed. It's unclear
    * whether nulls were to be permitted or forbidden, but presumably the eventual fix will be to
    * permit them, as it seems more likely that code would depend on that behavior than on the other.
@@ -106,9 +109,8 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
 
   /**
    * Returns the {@link Method} instance for {@link #testAdd_nullSupported()} so that tests of
-   * {@link java.util.TreeSet} can suppress it with {@code
-   * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="https://bugs.openjdk.org/browse/JDK-5045147">JDK-5045147</a> is fixed.
+   * {@link TreeSet} can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()}
+   * until <a href="https://bugs.openjdk.org/browse/JDK-5045147">JDK-5045147</a> is fixed.
    */
   @J2ktIncompatible
   @GwtIncompatible // reflection

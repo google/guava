@@ -39,7 +39,7 @@ import java.math.RoundingMode;
 import java.util.Iterator;
 
 /**
- * A class for arithmetic on doubles that is not covered by {@link java.lang.Math}.
+ * A class for arithmetic on doubles that is not covered by {@link Math}.
  *
  * @author Louis Wasserman
  * @since 11.0

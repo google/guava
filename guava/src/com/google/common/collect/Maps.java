@@ -47,6 +47,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Converter;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
+import com.google.common.base.Functions;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ForwardingCollection.SimpleForwardingCollection;
@@ -93,6 +94,7 @@ import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -182,9 +184,8 @@ public final class Maps {
    *
    * <p>If the mapped keys contain duplicates, an {@code IllegalArgumentException} is thrown when
    * the collection operation is performed. (This differs from the {@code Collector} returned by
-   * {@link java.util.stream.Collectors#toMap(java.util.function.Function,
-   * java.util.function.Function) Collectors.toMap(Function, Function)}, which throws an {@code
-   * IllegalStateException}.)
+   * {@link Collectors#toMap(java.util.function.Function, java.util.function.Function)
+   * Collectors.toMap(Function, Function)}, which throws an {@code IllegalStateException}.)
    *
    * @since 21.0
    */
@@ -1576,9 +1577,8 @@ public final class Maps {
    * Returns a {@link Converter} that converts values using {@link BiMap#get bimap.get()}, and whose
    * inverse view converts values using {@link BiMap#inverse bimap.inverse()}{@code .get()}.
    *
-   * <p>To use a plain {@link Map} as a {@link Function}, see {@link
-   * com.google.common.base.Functions#forMap(Map)} or {@link
-   * com.google.common.base.Functions#forMap(Map, Object)}.
+   * <p>To use a plain {@link Map} as a {@link Function}, see {@link Functions#forMap(Map)} or
+   * {@link Functions#forMap(Map, Object)}.
    *
    * @since 16.0
    */

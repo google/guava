@@ -26,9 +26,10 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Set;
 
 /**
- * Tests {@link java.util.Set#hashCode}.
+ * Tests {@link Set#hashCode}.
  *
  * @author George van den Driessche
  */

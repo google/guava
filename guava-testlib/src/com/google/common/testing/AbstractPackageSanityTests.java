@@ -28,6 +28,7 @@ import static java.util.Collections.sort;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
@@ -257,8 +258,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
    *       that when equal parameters are passed, the result instance should also be equal; and vice
    *       versa.
    *   <li>Inequality check is not performed against state mutation methods such as {@link
-   *       List#add}, or functional update methods such as {@link
-   *       com.google.common.base.Joiner#skipNulls}.
+   *       List#add}, or functional update methods such as {@link Joiner#skipNulls}.
    *   <li>If the constructor or factory method used to construct instance takes a parameter that
    *       {@link AbstractPackageSanityTests} doesn't know how to construct, the test will fail.
    *   <li>If there is no visible constructor or visible static factory method declared by {@code

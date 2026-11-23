@@ -35,6 +35,7 @@ import java.lang.reflect.Method;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -218,9 +219,8 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
 
   /**
    * Returns the {@link Method} instance for {@link #testPut_nullKeyUnsupported()} so that tests of
-   * {@link java.util.TreeMap} can suppress it with {@code
-   * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="https://bugs.openjdk.org/browse/JDK-5045147">JDK-5045147</a> is fixed.
+   * {@link TreeMap} can suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()}
+   * until <a href="https://bugs.openjdk.org/browse/JDK-5045147">JDK-5045147</a> is fixed.
    */
   @J2ktIncompatible
   @GwtIncompatible // reflection

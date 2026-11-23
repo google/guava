@@ -18,6 +18,7 @@ package com.google.common.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.io.Serializable;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 import org.jspecify.annotations.NullMarked;
@@ -45,9 +46,9 @@ public final class SerializableTester {
    * serialization tests require more setup. This no-op behavior allows test authors to intersperse
    * {@code SerializableTester} calls with other, GWT-compatible tests.
    *
-   * <p>Note that the specified object may not be known by the compiler to be a {@link
-   * java.io.Serializable} instance, and is thus declared an {@code Object}. For example, it might
-   * be declared as a {@code List}.
+   * <p>Note that the specified object may not be known by the compiler to be a {@link Serializable}
+   * instance, and is thus declared an {@code Object}. For example, it might be declared as a {@code
+   * List}.
    *
    * @return the re-serialized object
    * @throws RuntimeException if the specified object was not successfully serialized or
@@ -67,9 +68,9 @@ public final class SerializableTester {
    * serialization tests require more setup. This no-op behavior allows test authors to intersperse
    * {@code SerializableTester} calls with other, GWT-compatible tests.
    *
-   * <p>Note that the specified object may not be known by the compiler to be a {@link
-   * java.io.Serializable} instance, and is thus declared an {@code Object}. For example, it might
-   * be declared as a {@code List}.
+   * <p>Note that the specified object may not be known by the compiler to be a {@link Serializable}
+   * instance, and is thus declared an {@code Object}. For example, it might be declared as a {@code
+   * List}.
    *
    * <p>Note also that serialization is not in general required to return an object that is
    * {@linkplain Object#equals equal} to the original, nor is it required to return even an object
