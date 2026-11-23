@@ -472,10 +472,9 @@ public final class Multisets {
    * <p>Results are undefined if {@code multiset1} and {@code multiset2} are based on different
    * equivalence relations (as {@code HashMultiset} and {@code TreeMultiset} are).
    *
-   * <p><b>Note:</b> Iterating over the returned view iterates over {@code multiset1} and looks up
-   * each element in {@code multiset2}, so it performs better when {@code multiset1} is the smaller
-   * of the two multisets. If you have reason to believe one of your multisets will generally be
-   * smaller than the other, pass it first.
+   * <p>Iterating over the returned view visits the distinct elements of {@code multiset1} and
+   * looks up their counts in {@code multiset2}. If count lookups have similar costs in the two
+   * multisets, passing the multiset with fewer distinct elements first can reduce this work.
    *
    * @since 2.0
    */
