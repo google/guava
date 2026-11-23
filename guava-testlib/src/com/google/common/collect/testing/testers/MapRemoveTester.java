@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.assertEqualInOrder;
+import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
@@ -27,10 +29,13 @@ import static org.junit.Assert.assertThrows;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.WrongType;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 
 /**
@@ -42,6 +47,34 @@ import java.util.Map.Entry;
  */
 @GwtCompatible
 public class MapRemoveTester<K, V> extends AbstractMapTester<K, V> {
+  @MapFeature.Require(SUPPORTS_REMOVE)
+  @CollectionFeature.Require(KNOWN_ORDER)
+  @CollectionSize.Require(SEVERAL)
+  public void testRemove_firstPreservesOrder() {
+    runRemovePreservesOrder(0);
+  }
+
+  @MapFeature.Require(SUPPORTS_REMOVE)
+  @CollectionFeature.Require(KNOWN_ORDER)
+  @CollectionSize.Require(SEVERAL)
+  public void testRemove_middlePreservesOrder() {
+    runRemovePreservesOrder(1);
+  }
+
+  @MapFeature.Require(SUPPORTS_REMOVE)
+  @CollectionFeature.Require(KNOWN_ORDER)
+  @CollectionSize.Require(SEVERAL)
+  public void testRemove_lastPreservesOrder() {
+    runRemovePreservesOrder(2);
+  }
+
+  private void runRemovePreservesOrder(int index) {
+    List<Entry<K, V>> expected = new ArrayList<>(getOrderedElements());
+    Entry<K, V> removed = expected.remove(index);
+    assertEquals(removed.getValue(), getMap().remove(removed.getKey()));
+    assertEqualInOrder(expected, getMap().entrySet());
+  }
+
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemove_present() {
