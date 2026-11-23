@@ -11,10 +11,10 @@
 
 package com.google.common.hash;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.annotations.GwtIncompatible;
 import java.lang.reflect.Field;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.Random;
 import org.jspecify.annotations.Nullable;
@@ -298,21 +298,29 @@ abstract class Striped64 extends Number {
     } catch (SecurityException tryReflectionInstead) {
     }
     try {
-      return AccessController.doPrivileged(
-          new PrivilegedExceptionAction<Unsafe>() {
-            @Override
-            public Unsafe run() throws Exception {
-              Class<Unsafe> k = Unsafe.class;
-              for (Field f : k.getDeclaredFields()) {
-                f.setAccessible(true);
-                Object x = f.get(null);
-                if (k.isInstance(x)) return k.cast(x);
+      PrivilegedExceptionAction<Unsafe> action =
+          () -> {
+            Class<Unsafe> k = Unsafe.class;
+            for (Field f : k.getDeclaredFields()) {
+              f.setAccessible(true);
+              Object x = f.get(null);
+              if (k.isInstance(x)) {
+                return k.cast(x);
               }
-              throw new NoSuchFieldError("the Unsafe");
             }
-          });
-    } catch (PrivilegedActionException e) {
-      throw new RuntimeException("Could not initialize intrinsics", e.getCause());
+            throw new NoSuchFieldError("the Unsafe");
+          };
+      try {
+        return (Unsafe)
+            requireNonNull(
+                Class.forName("java.security.AccessController")
+                    .getMethod("doPrivileged", PrivilegedExceptionAction.class)
+                    .invoke(null, action));
+      } catch (Exception e) {
+        return action.run();
+      }
+    } catch (Exception e) {
+      throw new RuntimeException("Could not initialize intrinsics", e);
     }
   }
 }
