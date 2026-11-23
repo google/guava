@@ -710,6 +710,11 @@ public final class CacheBuilder<K, V> {
    * Specifies that each entry should be automatically removed from the cache once a fixed duration
    * has elapsed after the entry's creation, or the most recent replacement of its value.
    *
+   * <p>Use this method to limit how stale an entry can become, for example when the data it was
+   * loaded from may change over time. If you instead want to remove entries that are not likely to
+   * be used again soon, use {@link #expireAfterAccess expireAfterAccess}. Both can be set on the
+   * same cache.
+   *
    * <p>When {@code duration} is zero, this method hands off to {@link #maximumSize(long)
    * maximumSize}{@code (0)}, ignoring any otherwise-specified maximum size or weight. This can be
    * useful in testing, or to disable caching temporarily without a code change.
@@ -739,6 +744,11 @@ public final class CacheBuilder<K, V> {
   /**
    * Specifies that each entry should be automatically removed from the cache once a fixed duration
    * has elapsed after the entry's creation, or the most recent replacement of its value.
+   *
+   * <p>Use this method to limit how stale an entry can become, for example when the data it was
+   * loaded from may change over time. If you instead want to remove entries that are not likely to
+   * be used again soon, use {@link #expireAfterAccess expireAfterAccess}. Both can be set on the
+   * same cache.
    *
    * <p>When {@code duration} is zero, this method hands off to {@link #maximumSize(long)
    * maximumSize}{@code (0)}, ignoring any otherwise-specified maximum size or weight. This can be
@@ -785,6 +795,11 @@ public final class CacheBuilder<K, V> {
    * example, iterating through {@code Cache.asMap().entrySet()} does not reset access time for the
    * entries you retrieve.
    *
+   * <p>Use this method to remove entries that are not likely to be used again soon. Note that it
+   * doesn't limit how long an entry that keeps being accessed stays in the cache. If you instead
+   * want to limit how stale an entry can become, use {@link #expireAfterWrite expireAfterWrite}.
+   * Both can be set on the same cache.
+   *
    * <p>When {@code duration} is zero, this method hands off to {@link #maximumSize(long)
    * maximumSize}{@code (0)}, ignoring any otherwise-specified maximum size or weight. This can be
    * useful in testing, or to disable caching temporarily without a code change.
@@ -819,6 +834,11 @@ public final class CacheBuilder<K, V> {
    * containsKey(Object)}, nor by operations on the collection-views of {@link Cache#asMap}. So, for
    * example, iterating through {@code Cache.asMap().entrySet()} does not reset access time for the
    * entries you retrieve.
+   *
+   * <p>Use this method to remove entries that are not likely to be used again soon. Note that it
+   * doesn't limit how long an entry that keeps being accessed stays in the cache. If you instead
+   * want to limit how stale an entry can become, use {@link #expireAfterWrite expireAfterWrite}.
+   * Both can be set on the same cache.
    *
    * <p>When {@code duration} is zero, this method hands off to {@link #maximumSize(long)
    * maximumSize}{@code (0)}, ignoring any otherwise-specified maximum size or weight. This can be
