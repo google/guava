@@ -38522,7 +38522,7 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[An iterator that does not support {@link #remove}.
+    <![CDATA[An iterator that does not support {@link Iterator#remove}.
 
  <p>{@code UnmodifiableIterator} is used primarily in conjunction with implementations of {@link
  ImmutableCollection}, such as {@link ImmutableList}. You can, however, convert an existing
@@ -38571,7 +38571,8 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A list iterator that does not support {@link #remove}, {@link #add}, or {@link #set}.
+    <![CDATA[A list iterator that does not support {@link Iterator#remove}, {@link ListIterator#add}, or
+ {@link ListIterator#set}.
 
  @since 7.0
  @author Louis Wasserman]]>
