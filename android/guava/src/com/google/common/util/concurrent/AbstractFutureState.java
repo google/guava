@@ -560,9 +560,10 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
           try {
             unsafe =
                 (Unsafe)
-                    Class.forName("java.security.AccessController")
-                        .getMethod("doPrivileged", PrivilegedExceptionAction.class)
-                        .invoke(null, action);
+                    requireNonNull(
+                        Class.forName("java.security.AccessController")
+                            .getMethod("doPrivileged", PrivilegedExceptionAction.class)
+                            .invoke(null, action));
           } catch (Exception e) {
             unsafe = action.run();
           }

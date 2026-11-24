@@ -629,18 +629,18 @@ public final class Iterators {
     return partitionImpl(iterator, size, true);
   }
 
-  private static <T extends @Nullable Object> UnmodifiableIterator<List<@Nullable T>> partitionImpl(
-      Iterator<T> iterator, int size, boolean pad) {
+  private static <T extends @Nullable Object> UnmodifiableIterator<List<T>> partitionImpl(
+      Iterator<? extends T> iterator, int size, boolean pad) {
     checkNotNull(iterator);
     checkArgument(size > 0);
-    return new UnmodifiableIterator<List<@Nullable T>>() {
+    return new UnmodifiableIterator<List<T>>() {
       @Override
       public boolean hasNext() {
         return iterator.hasNext();
       }
 
       @Override
-      public List<@Nullable T> next() {
+      public List<T> next() {
         if (!hasNext()) {
           throw new NoSuchElementException();
         }
@@ -654,7 +654,13 @@ public final class Iterators {
           array[i] = null; // for GWT
         }
 
-        List<@Nullable T> list = unmodifiableList(asList(array));
+        /*
+         * Our array is of type `@Nullable T[]`, since it sometimes contains trailing nulls for the
+         * final partition. But those nulls are exposed only in the resulting List only when `pad`
+         * is `true`, which happens only when `T` is `@Nullable`.
+         */
+        @SuppressWarnings("nullness")
+        List<T> list = unmodifiableList(asList(array));
         // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.
         if (pad || count == size) {
           return list;

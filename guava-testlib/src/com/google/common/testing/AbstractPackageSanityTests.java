@@ -20,6 +20,7 @@ import static com.google.common.base.Predicates.and;
 import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Maps.newTreeMap;
+import static com.google.common.reflect.Reflection.getPackageName;
 import static com.google.common.testing.AbstractPackageSanityTests.Chopper.suffix;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
@@ -366,7 +367,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
 
   private List<Class<?>> loadClassesInPackage() throws IOException {
     List<Class<?>> classes = new ArrayList<>();
-    String packageName = getClass().getPackage().getName();
+    String packageName = getPackageName(getClass());
     for (ClassPath.ClassInfo classInfo :
         ClassPath.from(getClass().getClassLoader()).getTopLevelClasses(packageName)) {
       Class<?> cls;
