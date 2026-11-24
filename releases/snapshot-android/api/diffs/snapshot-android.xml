@@ -2143,6 +2143,8 @@
     <![CDATA[Wraps an object so that {@link #equals(Object)} and {@link #hashCode()} delegate to an {@link
  Equivalence}.
 
+ <p>To create an instance, use {@link Equivalence#wrap}.
+
  <p>For example, given an {@link Equivalence} for {@link String strings} named {@code equiv}
  that tests equivalence using their lengths:
 
@@ -2206,6 +2208,9 @@
     </method>
     <doc>
     <![CDATA[Implemented by references that have code to run after garbage collection of their referents.
+
+ <p>To create an instance, extend {@link FinalizablePhantomReference}, {@link
+ FinalizableSoftReference}, or {@link FinalizableWeakReference}.
 
  @see FinalizableReferenceQueue
  @author Bob Lee
@@ -3005,6 +3010,9 @@
     <doc>
     <![CDATA[An object that joins map entries in the same manner as {@code Joiner} joins iterables and
  arrays. Like {@code Joiner}, it is thread-safe and immutable.
+
+ <p>To create an instance, use {@link Joiner#withKeyValueSeparator(String)} or {@link
+ Joiner#withKeyValueSeparator(char)}.
 
  <p>In addition to operating on {@code Map} instances, {@code MapJoiner} can operate on {@code
  Multimap} entries in two distinct modes:
@@ -7911,7 +7919,8 @@
     </method>
     <doc>
     <![CDATA[Accumulates statistics during the operation of a {@link Cache} for presentation by {@link
- Cache#stats}. This is solely intended for consumption by {@code Cache} implementors.
+ Cache#stats}. This is solely intended for consumption by {@code Cache} implementors. A standard
+ implementation is provided by {@link SimpleStatsCounter}.
 
  @since 10.0]]>
     </doc>
@@ -18026,7 +18035,10 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[Abstract base class for builders of {@link ImmutableCollection} types.
+    <![CDATA[Abstract base class for builders of {@link ImmutableCollection} types. To create an instance,
+ use a concrete subtype such as {@link ImmutableList.Builder} (via {@link
+ ImmutableList#builder}), {@link ImmutableSet.Builder} (via {@link ImmutableSet#builder}), or
+ {@link ImmutableMultiset.Builder} (via {@link ImmutableMultiset#builder}).
 
  @since 10.0]]>
     </doc>
@@ -25107,7 +25119,8 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[Builder for {@link Interner} instances.
+    <![CDATA[Builder for {@link Interner} instances. To create an instance, use {@link
+ Interners#newBuilder}.
 
  @since 21.0]]>
     </doc>
@@ -27165,6 +27178,17 @@
  List} of values. Though the method signature doesn't say so explicitly, the map returned by
  {@link #asMap} has {@code List} values.
 
+ <h2>Implementations</h2>
+
+ <ul>
+   <li>{@link ImmutableListMultimap}
+   <li>Configure your own mutable {@code ListMultimap} with {@link MultimapBuilder}
+   <li>{@link LinkedListMultimap} (for one unusual kind of mutable {@code ListMultimap})
+ </ul>
+
+ <p>Guava also contains {@link ArrayListMultimap}, though in new code we recommend using {@link
+ MultimapBuilder} instead: It provides better control of how keys and values are stored.
+
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
 
@@ -27724,6 +27748,9 @@
     <doc>
     <![CDATA[An object representing the differences between two maps.
 
+ <p>To create an instance, use {@link Maps#difference(Map, Map)} or another overload of that
+ method.
+
  @author Kevin Bourrillion
  @since 2.0]]>
     </doc>
@@ -27770,6 +27797,9 @@
     <doc>
     <![CDATA[A difference between the mappings from two maps with the same key. The {@link #leftValue} and
  {@link #rightValue} are not equal, and one but not both of them may be null.
+
+ <p>Instances are obtained from {@link MapDifference#entriesDiffering} (see {@link
+ Maps#difference(Map, Map)}).
 
  @since 2.0]]>
     </doc>
@@ -30355,7 +30385,9 @@
       <param name="multimap" type="com.google.common.collect.Multimap&lt;? extends K, ? extends V&gt;"/>
     </method>
     <doc>
-    <![CDATA[A specialization of {@link MultimapBuilder} that generates {@link ListMultimap} instances.
+    <![CDATA[A specialization of {@link MultimapBuilder} that generates {@link ListMultimap} instances. To
+ create an instance, call a method such as {@link MultimapBuilderWithKeys#arrayListValues()} on
+ a {@link MultimapBuilderWithKeys}.
 
  @since 16.0]]>
     </doc>
@@ -30470,7 +30502,9 @@
     </method>
     <doc>
     <![CDATA[An intermediate stage in a {@link MultimapBuilder} in which the key-value collection map
- implementation has been specified, but the value collection implementation has not.
+ implementation has been specified, but the value collection implementation has not. To create
+ an instance, use one of the static methods on {@link MultimapBuilder}, such as {@link
+ MultimapBuilder#hashKeys()} or {@link MultimapBuilder#treeKeys()}.
 
  @param <K0> The upper bound on the key type of the generated multimap.
  @since 16.0]]>
@@ -30494,7 +30528,9 @@
       <param name="multimap" type="com.google.common.collect.Multimap&lt;? extends K, ? extends V&gt;"/>
     </method>
     <doc>
-    <![CDATA[A specialization of {@link MultimapBuilder} that generates {@link SetMultimap} instances.
+    <![CDATA[A specialization of {@link MultimapBuilder} that generates {@link SetMultimap} instances. To
+ create an instance, call a method such as {@link MultimapBuilderWithKeys#hashSetValues()} on a
+ {@link MultimapBuilderWithKeys}.
 
  @since 16.0]]>
     </doc>
@@ -30518,6 +30554,8 @@
     </method>
     <doc>
     <![CDATA[A specialization of {@link MultimapBuilder} that generates {@link SortedSetMultimap} instances.
+ To create an instance, call {@link MultimapBuilderWithKeys#treeSetValues()} or {@link
+ MultimapBuilderWithKeys#treeSetValues(Comparator)} on a {@link MultimapBuilderWithKeys}.
 
  @since 16.0]]>
     </doc>
@@ -32024,9 +32062,10 @@
     </method>
     <doc>
     <![CDATA[An unmodifiable element-count pair for a multiset. The {@link Multiset#entrySet} method returns
- a view of the multiset whose elements are of this class. A multiset implementation may return
- Entry instances that are either live "read-through" views to the Multiset, or immutable
- snapshots. Note that this type is unrelated to the similarly-named type {@code Map.Entry}.
+ a view of the multiset whose elements are of this class; to create a standalone instance, use
+ {@link Multisets#immutableEntry}. A multiset implementation may return Entry instances that are
+ either live "read-through" views to the Multiset, or immutable snapshots. Note that this type
+ is unrelated to the similarly-named type {@code Map.Entry}.
 
  @since 2.0]]>
     </doc>
@@ -33392,6 +33431,8 @@
     <doc>
     <![CDATA[An iterator that supports a one-element lookahead while iterating.
 
+ <p>To create an instance, use {@link Iterators#peekingIterator(Iterator)}.
+
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/CollectionHelpersExplained#peekingiterator">{@code
  PeekingIterator}</a>.
@@ -34516,6 +34557,13 @@
  <p>In contrast to {@link RangeSet}, no "coalescing" is done of {@linkplain
  Range#isConnected(Range) connected} ranges, even if they are mapped to the same value.
 
+ <h2>Implementations</h2>
+
+ <ul>
+   <li>{@link ImmutableRangeMap}
+   <li>{@link TreeRangeMap}
+ </ul>
+
  @author Louis Wasserman
  @since 14.0]]>
     </doc>
@@ -34827,6 +34875,13 @@
 
  <p>For a {@link Set} whose contents are specified by a {@link Range}, see {@link ContiguousSet}.
 
+ <h2>Implementations</h2>
+
+ <ul>
+   <li>{@link ImmutableRangeSet}
+   <li>{@link TreeRangeSet}
+ </ul>
+
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/NewCollectionTypesExplained#rangeset">RangeSets</a>.
 
@@ -34869,6 +34924,8 @@
  <p>The {@link #rowKeySet} method returns a {@link SortedSet} and the {@link #rowMap} method
  returns a {@link SortedMap}, instead of the {@link Set} and {@link Map} specified by the {@link
  Table} interface.
+
+ <p>The standard implementation is {@link TreeBasedTable}.
 
  @author Warren Dukes
  @since 8.0]]>
@@ -34976,6 +35033,17 @@
 
  <p><b>Warning:</b> Do not modify either a key <i>or a value</i> of a {@code SetMultimap} in a way
  that affects its {@link Object#equals} behavior. Undefined behavior and bugs will result.
+
+ <h2>Implementations</h2>
+
+ <ul>
+   <li>{@link ImmutableSetMultimap}
+   <li>Configure your own mutable {@code SetMultimap} with {@link MultimapBuilder}
+ </ul>
+
+ <p>Guava also contains other {@code SetMultimap} implementations, such as {@link HashMultimap},
+ {@link LinkedHashMultimap}, and {@link TreeMultimap}. In new code, we recommend using {@link
+ MultimapBuilder} instead: It provides better control of how keys and values are stored.
 
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
@@ -36006,6 +36074,9 @@
  you either use it as a plain {@link Set}, or immediately invoke {@link #immutableCopy} or
  {@link #copyInto} and forget the {@code SetView} itself.
 
+ <p>Instances are returned by {@link Sets#union}, {@link Sets#intersection}, {@link
+ Sets#difference}, and {@link Sets#symmetricDifference}.
+
  @since 2.0]]>
     </doc>
   </class>
@@ -36037,6 +36108,8 @@
     </method>
     <doc>
     <![CDATA[An object representing the differences between two sorted maps.
+
+ <p>To create an instance, use {@link Maps#difference(SortedMap, Map)}.
 
  @author Louis Wasserman
  @since 8.0]]>
@@ -36199,6 +36272,13 @@
  {@link Comparable} class specification. Otherwise, the resulting multiset will violate the {@link
  Collection} contract, which is specified in terms of {@link Object#equals}.
 
+ <h2>Implementations</h2>
+
+ <ul>
+   <li>{@link ImmutableSortedMultiset}
+   <li>{@link TreeMultiset}
+ </ul>
+
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
 
@@ -36302,6 +36382,15 @@
  <p><b>Warning:</b> As in all {@link SetMultimap}s, do not modify either a key <i>or a value</i>
  of a {@code SortedSetMultimap} in a way that affects its {@link Object#equals} behavior (or its
  position in the order of the values). Undefined behavior and bugs will result.
+
+ <h2>Implementations</h2>
+
+ <ul>
+   <li>Configure a mutable {@code SortedSetMultimap} with {@link MultimapBuilder} (using {@link
+       MultimapBuilder.MultimapBuilderWithKeys#treeSetValues()})
+   <li>{@link TreeMultimap} (when keys should also be sorted; in new code, consider {@link
+       MultimapBuilder} instead)
+ </ul>
 
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
@@ -37179,7 +37268,9 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[Row key / column key / value triplet corresponding to a mapping in a table.
+    <![CDATA[Row key / column key / value triplet corresponding to a mapping in a table. The {@link
+ Table#cellSet} method returns a view of the table whose elements are of this type; to create a
+ standalone instance, use {@link Tables#immutableCell}.
 
  @since 7.0]]>
     </doc>
@@ -38239,6 +38330,9 @@
     <![CDATA[A list iterator that does not support {@link Iterator#remove}, {@link ListIterator#add}, or
  {@link ListIterator#set}.
 
+ <p>{@code UnmodifiableListIterator} is used primarily in conjunction with {@link
+ ImmutableList#listIterator()}, or can be subclassed directly.
+
  @since 7.0
  @author Louis Wasserman]]>
     </doc>
@@ -38856,7 +38950,7 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A builder for simple, fast escapers.
+    <![CDATA[A builder for simple, fast escapers. To create an instance, use {@link Escapers#builder}.
 
  <p>Typically an escaper needs to deal with the escaping of high valued characters or code
  points. In these cases it is necessary to extend either {@link ArrayBasedCharEscaper} or {@link
@@ -39442,7 +39536,8 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[Context for an exception thrown by a subscriber.
+    <![CDATA[Context for an exception thrown by a subscriber, passed to {@link
+ SubscriberExceptionHandler#handleException} by {@link EventBus}.
 
  @since 16.0]]>
     </doc>
@@ -40892,7 +40987,7 @@
     </method>
     <doc>
     <![CDATA[A builder for creating {@link ImmutableGraph} instances, especially {@code static final}
- graphs. Example:
+ graphs. To create an instance, use {@link GraphBuilder#immutable}. Example:
 
  {@snippet :
  static final ImmutableGraph<Country> COUNTRY_ADJACENCY_GRAPH =
@@ -41052,7 +41147,7 @@
     </method>
     <doc>
     <![CDATA[A builder for creating {@link ImmutableNetwork} instances, especially {@code static final}
- networks. Example:
+ networks. To create an instance, use {@link NetworkBuilder#immutable}. Example:
 
  {@snippet :
  static final ImmutableNetwork<City, Train> TRAIN_NETWORK =
@@ -41206,7 +41301,7 @@
     </method>
     <doc>
     <![CDATA[A builder for creating {@link ImmutableValueGraph} instances, especially {@code static final}
- graphs. Example:
+ graphs. To create an instance, use {@link ValueGraphBuilder#immutable}. Example:
 
  {@snippet :
  static final ImmutableValueGraph<City, Distance> CITY_ROAD_DISTANCE_GRAPH =
@@ -41331,6 +41426,9 @@
     <![CDATA[A subinterface of {@link Graph} which adds mutation methods. When mutation is not required, users
  should prefer the {@link Graph} interface.
 
+ <p>To create an instance, use {@link GraphBuilder} (for example, {@code
+ GraphBuilder.directed().build()}) or {@link Graphs#copyOf(Graph)}.
+
  @author James Sexton
  @author Joshua O'Madadhain
  @param <N> Node parameter type
@@ -41443,6 +41541,9 @@
     <doc>
     <![CDATA[A subinterface of {@link Network} which adds mutation methods. When mutation is not required,
  users should prefer the {@link Network} interface.
+
+ <p>To create an instance, use {@link NetworkBuilder} (for example, {@code
+ NetworkBuilder.directed().build()}) or {@link Graphs#copyOf(Network)}.
 
  @author James Sexton
  @author Joshua O'Madadhain
@@ -41565,6 +41666,9 @@
     <doc>
     <![CDATA[A subinterface of {@link ValueGraph} which adds mutation methods. When mutation is not required,
  users should prefer the {@link ValueGraph} interface.
+
+ <p>To create an instance, use {@link ValueGraphBuilder} (for example, {@code
+ ValueGraphBuilder.directed().build()}) or {@link Graphs#copyOf(ValueGraph)}.
 
  @author James Sexton
  @param <N> Node parameter type
@@ -44149,6 +44253,9 @@
  translate all multibyte values ({@link #putInt(int)}, {@link #putLong(long)}, etc) to bytes in
  little-endian order.
 
+ <p>To create an instance, use {@link HashFunction#newHasher()} or {@link
+ HashFunction#newHasher(int)}.
+
  <p><b>Warning:</b> The result of calling any methods after calling {@link #hash} is undefined.
 
  <p><b>Warning:</b> Using a specific character encoding when hashing a {@link CharSequence} with
@@ -44332,7 +44439,7 @@
     </method>
     <doc>
     <![CDATA[A hash function is a collision-averse pure function that maps an arbitrary block of data to a
- number called a <i>hash code</i>.
+ number called a <i>hash code</i>. Common implementations are available from {@link Hashing}.
 
  <h2>Definition</h2>
 
@@ -45324,6 +45431,9 @@
     <doc>
     <![CDATA[An object which can receive a stream of primitive values.
 
+ <p>For hashing, see the {@link Hasher} subinterface (obtained from {@link
+ HashFunction#newHasher()}) and {@link Funnel}.
+
  @author Kevin Bourrillion
  @since 12.0 (in 11.0 as {@code Sink})]]>
     </doc>
@@ -46085,6 +46195,9 @@
        typically implemented by opening a stream using one of the methods in the first category,
        doing something and finally closing the stream or channel that was opened.
  </ul>
+
+ <p>Common implementations include {@link Files#asByteSink}, {@link MoreFiles#asByteSink}, and
+ {@link BaseEncoding#encodingSink}.
 
  @since 14.0
  @author Colin Decker]]>
@@ -46870,7 +46983,8 @@
 
  <p>Any {@link ByteSink} may be viewed as a {@code CharSink} with a specific {@linkplain Charset
  character encoding} using {@link ByteSink#asCharSink(Charset)}. Characters written to the
- resulting {@code CharSink} will written to the {@code ByteSink} as encoded bytes.
+ resulting {@code CharSink} will written to the {@code ByteSink} as encoded bytes. Other common
+ implementations include {@link Files#asCharSink} and {@link MoreFiles#asCharSink}.
 
  @since 14.0
  @author Colin Decker]]>
@@ -51729,7 +51843,8 @@
     </method>
     <doc>
     <![CDATA[Describes the point in a fluent API chain where only the scale (i.e. the q in q-quantiles) has
- been specified.
+ been specified. Instances are obtained from {@link Quantiles#scale(int)}, {@link
+ Quantiles#quartiles()}, or {@link Quantiles#percentiles()}.
 
  @since 20.0]]>
     </doc>
@@ -51809,7 +51924,8 @@
     </method>
     <doc>
     <![CDATA[Describes the point in a fluent API chain where the scale and a single quantile index (i.e. the
- q and the k in the kth q-quantile) have been specified.
+ q and the k in the kth q-quantile) have been specified. Instances are obtained from {@link
+ Quantiles#median()} or {@link Scale#index(int)}.
 
  @since 20.0]]>
     </doc>
@@ -51904,7 +52020,8 @@
     </method>
     <doc>
     <![CDATA[Describes the point in a fluent API chain where the scale and a multiple quantile indexes (i.e.
- the q and a set of values for the k in the kth q-quantile) have been specified.
+ the q and a set of values for the k in the kth q-quantile) have been specified. Instances are
+ obtained from {@link Scale#indexes(int...)} or {@link Scale#indexes(Collection)}.
 
  @since 20.0]]>
     </doc>
@@ -64687,7 +64804,9 @@
       deprecated="not deprecated">
     </method>
     <doc>
-    <![CDATA[Represents a class that can be loaded through {@link #load}.
+    <![CDATA[Represents a class that can be loaded through {@link #load}. Instances are obtained from {@link
+ ClassPath#getAllClasses}, {@link ClassPath#getTopLevelClasses()}, or another {@code ClassPath}
+ method.
 
  @since 14.0]]>
     </doc>
@@ -64763,7 +64882,7 @@
     </method>
     <doc>
     <![CDATA[Represents a class path resource that can be either a class file or any other resource file
- loadable from the class path.
+ loadable from the class path. Instances are obtained from {@link ClassPath#getResources}.
 
  @since 14.0]]>
     </doc>
@@ -64906,7 +65025,8 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A builder for creating immutable type-to-instance maps. Example:
+    <![CDATA[A builder for creating immutable type-to-instance maps, obtained using {@link
+ ImmutableTypeToInstanceMap#builder}. Example:
 
  {@snippet :
  static final ImmutableTypeToInstanceMap<Handler<?>> HANDLERS =
@@ -65413,7 +65533,8 @@
       deprecated="not deprecated">
     </method>
     <doc>
-    <![CDATA[Represents a method or constructor parameter.
+    <![CDATA[Represents a method or constructor parameter. Instances are obtained from {@link
+ Invokable#getParameters}.
 
  @author Ben Yu
  @since 14.0]]>
@@ -65669,6 +65790,13 @@
 
  <p>Like any other {@code Map<Class, Object>}, this map may contain entries for primitive types,
  and a primitive type and its corresponding wrapper type may map to different values.
+
+ <h2>Implementations</h2>
+
+ <ul>
+   <li>{@link ImmutableTypeToInstanceMap}
+   <li>{@link MutableTypeToInstanceMap}
+ </ul>
 
  @param <B> the common supertype that all entries must share; often this is simply {@link Object}
  @author Ben Yu
@@ -66112,7 +66240,8 @@
     </method>
     <doc>
     <![CDATA[The set of interfaces and classes that {@code T} is or is a subtype of. {@link Object} is not
- included in the set if this type is an interface.
+ included in the set if this type is an interface. Instances are obtained from {@link
+ TypeToken#getTypes}.
 
  @since 13.0]]>
     </doc>
@@ -69744,7 +69873,8 @@
     </method>
     <doc>
     <![CDATA[An object that can capture objects to be closed later, when a {@link ClosingFuture} pipeline is
- done.]]>
+ done. Instances are passed to callbacks such as {@link ClosingCallable} and {@link
+ ClosingFunction} by {@link ClosingFuture}.]]>
     </doc>
   </class>
   <!-- end class com.google.common.util.concurrent.ClosingFuture.DeferredCloser -->
@@ -70183,7 +70313,8 @@
  ordering with an {@code Enum} whose values each correspond to a lock type. The order in which
  the values are declared dictates the allowed order of lock acquisition. In other words, locks
  corresponding to smaller values of {@link Enum#ordinal()} should only be acquired before locks
- with larger ordinals. Example:
+ with larger ordinals. To create an instance, use {@link
+ CycleDetectingLockFactory#newInstanceWithExplicitOrdering}. Example:
 
  {@snippet :
  enum MyLockOrder {
@@ -72751,6 +72882,9 @@
     <doc>
     <![CDATA[Helper interface to implement both {@link ListenableFuture} and {@link ScheduledFuture}.
 
+ <p>Instances are typically obtained by scheduling tasks on a {@link
+ ListeningScheduledExecutorService}.
+
  @author Anthony Zana
  @since 15.0]]>
     </doc>
@@ -73598,6 +73732,8 @@
  {@code Monitor}. The monitor may check the guard at arbitrary times from any thread occupying
  the monitor, so code should not be written to rely on how often a guard might or might not be
  checked.
+
+ <p>To create an instance, use {@link Monitor#newGuard} or subclass {@code Guard} directly.
 
  <p>If a {@code Guard} is passed into any method of a {@code Monitor} other than the one it is
  associated with, an {@link IllegalMonitorStateException} is thrown.
@@ -74567,8 +74703,9 @@
  states it cannot ever leave them.
 
  <p>Implementors of this interface are strongly encouraged to extend one of the abstract classes
- in this package which implement this interface and make the threading and state management
- easier.
+ in this package ({@link AbstractExecutionThreadService}, {@link AbstractIdleService}, {@link
+ AbstractScheduledService}, or {@link AbstractService}), which implement this interface and make
+ the threading and state management easier.
 
  @author Jesse Wilson
  @author Luke Sandberg
@@ -75658,6 +75795,9 @@
     </method>
     <doc>
     <![CDATA[Imposes a time limit on method calls.
+
+ <p>See {@link SimpleTimeLimiter} for a production implementation and {@link FakeTimeLimiter} for
+ testing.
 
  @author Kevin Bourrillion
  @author Jens Nyman

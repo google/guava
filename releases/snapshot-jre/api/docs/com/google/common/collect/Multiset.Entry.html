@@ -97,9 +97,10 @@ initTheme();
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public static interface </span><span class="element-name type-name-label">Multiset.Entry&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;</span></div>
 <div class="block">An unmodifiable element-count pair for a multiset. The <a href="Multiset.html#entrySet()"><code>Multiset.entrySet()</code></a> method returns
-a view of the multiset whose elements are of this class. A multiset implementation may return
-Entry instances that are either live "read-through" views to the Multiset, or immutable
-snapshots. Note that this type is unrelated to the similarly-named type <code>Map.Entry</code>.</div>
+a view of the multiset whose elements are of this class; to create a standalone instance, use
+<a href="Multisets.html#immutableEntry(E,int)"><code>Multisets.immutableEntry(E, int)</code></a>. A multiset implementation may return Entry instances that are
+either live "read-through" views to the Multiset, or immutable snapshots. Note that this type
+is unrelated to the similarly-named type <code>Map.Entry</code>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>2.0</dd>

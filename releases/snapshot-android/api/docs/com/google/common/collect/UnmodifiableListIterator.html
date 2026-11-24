@@ -107,7 +107,9 @@ initTheme();
 <span class="extends-implements">extends <a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;E&gt;
 implements <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ListIterator.html" title="interface in java.util" class="external-link">ListIterator</a>&lt;E&gt;</span></div>
 <div class="block">A list iterator that does not support <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Iterator.html#remove()" class="external-link"><code>Iterator.remove()</code></a>, <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ListIterator.html#add(E)" class="external-link"><code>ListIterator.add(E)</code></a>, or
-<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ListIterator.html#set(E)" class="external-link"><code>ListIterator.set(E)</code></a>.</div>
+<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/ListIterator.html#set(E)" class="external-link"><code>ListIterator.set(E)</code></a>.
+
+<p><code>UnmodifiableListIterator</code> is used primarily in conjunction with <a href="ImmutableList.html#listIterator()"><code>ImmutableList.listIterator()</code></a>, or can be subclassed directly.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>7.0</dd>

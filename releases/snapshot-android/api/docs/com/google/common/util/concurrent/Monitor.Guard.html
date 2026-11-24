@@ -107,6 +107,8 @@ initTheme();
 the monitor, so code should not be written to rely on how often a guard might or might not be
 checked.
 
+<p>To create an instance, use <a href="Monitor.html#newGuard(java.util.function.BooleanSupplier)"><code>Monitor.newGuard(BooleanSupplier)</code></a> or subclass <code>Guard</code> directly.
+
 <p>If a <code>Guard</code> is passed into any method of a <code>Monitor</code> other than the one it is
 associated with, an <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/IllegalMonitorStateException.html" title="class in java.lang" class="external-link"><code>IllegalMonitorStateException</code></a> is thrown.</div>
 <dl class="notes">

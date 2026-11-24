@@ -106,6 +106,8 @@ initTheme();
 implements <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/io/Serializable.html" title="interface in java.io" class="external-link">Serializable</a></span></div>
 <div class="block">Wraps an object so that <a href="#equals(java.lang.Object)"><code>equals(Object)</code></a> and <a href="#hashCode()"><code>hashCode()</code></a> delegate to an <a href="Equivalence.html" title="class in com.google.common.base"><code>Equivalence</code></a>.
 
+<p>To create an instance, use <a href="Equivalence.html#wrap(S)"><code>Equivalence.wrap(S)</code></a>.
+
 <p>For example, given an <a href="Equivalence.html" title="class in com.google.common.base"><code>Equivalence</code></a> for <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link"><code>strings</code></a> named <code>equiv</code>
 that tests equivalence using their lengths:
 

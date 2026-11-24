@@ -111,7 +111,7 @@ an application-specified ordering of lock acquisitions. The application defines 
 ordering with an <code>Enum</code> whose values each correspond to a lock type. The order in which
 the values are declared dictates the allowed order of lock acquisition. In other words, locks
 corresponding to smaller values of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Enum.html#ordinal()" class="external-link"><code>Enum.ordinal()</code></a> should only be acquired before locks
-with larger ordinals. Example:
+with larger ordinals. To create an instance, use <a href="CycleDetectingLockFactory.html#newInstanceWithExplicitOrdering(java.lang.Class,com.google.common.util.concurrent.CycleDetectingLockFactory.Policy)"><code>CycleDetectingLockFactory.newInstanceWithExplicitOrdering(Class, CycleDetectingLockFactory.Policy)</code></a>. Example:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
 <pre class="snippet" id="snippet-com.google.common.util.concurrent.CycleDetectingLockFactory.WithExplicitOrdering1"><code class="language-java">enum MyLockOrder {

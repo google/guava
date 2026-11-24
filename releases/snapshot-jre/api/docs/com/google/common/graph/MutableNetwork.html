@@ -113,7 +113,10 @@ initTheme();
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">MutableNetwork&lt;N,<wbr>E&gt;</span><span class="extends-implements">
 extends <a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,<wbr>E&gt;</span></div>
 <div class="block">A subinterface of <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> which adds mutation methods. When mutation is not required,
-users should prefer the <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> interface.</div>
+users should prefer the <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> interface.
+
+<p>To create an instance, use <a href="NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a> (for example, <code>
+NetworkBuilder.directed().build()</code>) or <a href="Graphs.html#copyOf(com.google.common.graph.Network)"><code>Graphs.copyOf(Network)</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>20.0</dd>

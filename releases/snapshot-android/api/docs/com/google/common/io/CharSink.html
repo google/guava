@@ -121,7 +121,8 @@ is an immutable <i>supplier</i> of <code>Writer</code> instances.
 </ul>
 
 <p>Any <a href="ByteSink.html" title="class in com.google.common.io"><code>ByteSink</code></a> may be viewed as a <code>CharSink</code> with a specific <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/nio/charset/Charset.html" title="class in java.nio.charset" class="external-link">character encoding</a> using <a href="ByteSink.html#asCharSink(java.nio.charset.Charset)"><code>ByteSink.asCharSink(Charset)</code></a>. Characters written to the
-resulting <code>CharSink</code> will written to the <code>ByteSink</code> as encoded bytes.</div>
+resulting <code>CharSink</code> will written to the <code>ByteSink</code> as encoded bytes. Other common
+implementations include <a href="Files.html#asCharSink(java.io.File,java.nio.charset.Charset,com.google.common.io.FileWriteMode...)"><code>Files.asCharSink(File, Charset, FileWriteMode...)</code></a> and <a href="MoreFiles.html#asCharSink(java.nio.file.Path,java.nio.charset.Charset,java.nio.file.OpenOption...)"><code>MoreFiles.asCharSink(Path, Charset, OpenOption...)</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>14.0</dd>

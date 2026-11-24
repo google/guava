@@ -112,6 +112,8 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
 translate all multibyte values (<a href="#putInt(int)"><code>putInt(int)</code></a>, <a href="#putLong(long)"><code>putLong(long)</code></a>, etc) to bytes in
 little-endian order.
 
+<p>To create an instance, use <a href="HashFunction.html#newHasher()"><code>HashFunction.newHasher()</code></a> or <a href="HashFunction.html#newHasher(int)"><code>HashFunction.newHasher(int)</code></a>.
+
 <p><b>Warning:</b> The result of calling any methods after calling <a href="#hash()"><code>hash()</code></a> is undefined.
 
 <p><b>Warning:</b> Using a specific character encoding when hashing a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/CharSequence.html" title="interface in java.lang" class="external-link"><code>CharSequence</code></a> with

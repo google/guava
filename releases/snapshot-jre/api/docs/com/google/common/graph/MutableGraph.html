@@ -103,7 +103,10 @@ initTheme();
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">MutableGraph&lt;N&gt;</span><span class="extends-implements">
 extends <a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;</span></div>
 <div class="block">A subinterface of <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> which adds mutation methods. When mutation is not required, users
-should prefer the <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> interface.</div>
+should prefer the <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> interface.
+
+<p>To create an instance, use <a href="GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a> (for example, <code>
+GraphBuilder.directed().build()</code>) or <a href="Graphs.html#copyOf(com.google.common.graph.Graph)"><code>Graphs.copyOf(Graph)</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>20.0</dd>

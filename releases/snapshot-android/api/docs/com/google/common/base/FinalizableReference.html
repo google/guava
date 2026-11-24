@@ -93,7 +93,9 @@ initTheme();
 <div class="type-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html" title="annotation in com.google.errorprone.annotations" class="external-link">@DoNotMock</a>("Use an instance of one of the Finalizable*Reference classes")
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 </span><span class="modifiers">public interface </span><span class="element-name type-name-label">FinalizableReference</span></div>
-<div class="block">Implemented by references that have code to run after garbage collection of their referents.</div>
+<div class="block">Implemented by references that have code to run after garbage collection of their referents.
+
+<p>To create an instance, extend <a href="FinalizablePhantomReference.html" title="class in com.google.common.base"><code>FinalizablePhantomReference</code></a>, <a href="FinalizableSoftReference.html" title="class in com.google.common.base"><code>FinalizableSoftReference</code></a>, or <a href="FinalizableWeakReference.html" title="class in com.google.common.base"><code>FinalizableWeakReference</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>2.0</dd>

@@ -127,7 +127,9 @@ initTheme();
 backing sets do. Contains methods to copy the data into a new set which will then remain
 stable. There is usually no reason to retain a reference of type <code>SetView</code>; typically,
 you either use it as a plain <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Set.html" title="interface in java.util" class="external-link"><code>Set</code></a>, or immediately invoke <a href="#immutableCopy()"><code>immutableCopy()</code></a> or
-<a href="#copyInto(S)"><code>copyInto(S)</code></a> and forget the <code>SetView</code> itself.</div>
+<a href="#copyInto(S)"><code>copyInto(S)</code></a> and forget the <code>SetView</code> itself.
+
+<p>Instances are returned by <a href="Sets.html#union(java.util.Set,java.util.Set)"><code>Sets.union(Set, Set)</code></a>, <a href="Sets.html#intersection(java.util.Set,java.util.Set)"><code>Sets.intersection(Set, Set)</code></a>, <a href="Sets.html#difference(java.util.Set,java.util.Set)"><code>Sets.difference(Set, Set)</code></a>, and <a href="Sets.html#symmetricDifference(java.util.Set,java.util.Set)"><code>Sets.symmetricDifference(Set, Set)</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>2.0</dd>

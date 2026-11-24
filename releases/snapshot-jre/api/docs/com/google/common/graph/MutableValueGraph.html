@@ -104,7 +104,10 @@ initTheme();
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">MutableValueGraph&lt;N,<wbr>V&gt;</span><span class="extends-implements">
 extends <a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,<wbr>V&gt;</span></div>
 <div class="block">A subinterface of <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> which adds mutation methods. When mutation is not required,
-users should prefer the <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> interface.</div>
+users should prefer the <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> interface.
+
+<p>To create an instance, use <a href="ValueGraphBuilder.html" title="class in com.google.common.graph"><code>ValueGraphBuilder</code></a> (for example, <code>
+ValueGraphBuilder.directed().build()</code>) or <a href="Graphs.html#copyOf(com.google.common.graph.ValueGraph)"><code>Graphs.copyOf(ValueGraph)</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>20.0</dd>

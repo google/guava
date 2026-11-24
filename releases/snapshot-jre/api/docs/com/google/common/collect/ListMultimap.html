@@ -69,7 +69,11 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled title="Filter contents (type .)" placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#implementations-heading" tabindex="0">Implementations</a></li>
+</ol>
+</li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
@@ -107,6 +111,16 @@ to all multimaps.
 
 <p>The <a href="#get(K)"><code>get(K)</code></a>, <a href="#removeAll(java.lang.Object)"><code>removeAll(Object)</code></a>, and <a href="#replaceValues(K,java.lang.Iterable)"><code>replaceValues(K, Iterable)</code></a> methods each return a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/List.html" title="interface in java.util" class="external-link"><code>List</code></a> of values. Though the method signature doesn't say so explicitly, the map returned by
 <a href="#asMap()"><code>asMap()</code></a> has <code>List</code> values.
+
+<h2 id="implementations-heading">Implementations</h2>
+
+<ul>
+  <li><a href="ImmutableListMultimap.html" title="class in com.google.common.collect"><code>ImmutableListMultimap</code></a>
+  <li>Configure your own mutable <code>ListMultimap</code> with <a href="MultimapBuilder.html" title="class in com.google.common.collect"><code>MultimapBuilder</code></a>
+  <li><a href="LinkedListMultimap.html" title="class in com.google.common.collect"><code>LinkedListMultimap</code></a> (for one unusual kind of mutable <code>ListMultimap</code>)
+</ul>
+
+<p>Guava also contains <a href="ArrayListMultimap.html" title="class in com.google.common.collect"><code>ArrayListMultimap</code></a>, though in new code we recommend using <a href="MultimapBuilder.html" title="class in com.google.common.collect"><code>MultimapBuilder</code></a> instead: It provides better control of how keys and values are stored.
 
 <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"><code>Multimap</code></a>.</div>
 <dl class="notes">

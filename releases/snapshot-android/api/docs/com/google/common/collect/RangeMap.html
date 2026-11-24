@@ -69,7 +69,11 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled title="Filter contents (type .)" placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#implementations-heading" tabindex="0">Implementations</a></li>
+</ol>
+</li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
@@ -109,7 +113,14 @@ initTheme();
 <div class="block">A mapping from disjoint nonempty ranges to non-null values. Queries look up the value associated
 with the range (if any) that contains a specified key.
 
-<p>In contrast to <a href="RangeSet.html" title="interface in com.google.common.collect"><code>RangeSet</code></a>, no "coalescing" is done of <a href="Range.html#isConnected(com.google.common.collect.Range)">connected</a> ranges, even if they are mapped to the same value.</div>
+<p>In contrast to <a href="RangeSet.html" title="interface in com.google.common.collect"><code>RangeSet</code></a>, no "coalescing" is done of <a href="Range.html#isConnected(com.google.common.collect.Range)">connected</a> ranges, even if they are mapped to the same value.
+
+<h2 id="implementations-heading">Implementations</h2>
+
+<ul>
+  <li><a href="ImmutableRangeMap.html" title="class in com.google.common.collect"><code>ImmutableRangeMap</code></a>
+  <li><a href="TreeRangeMap.html" title="class in com.google.common.collect"><code>TreeRangeMap</code></a>
+</ul></div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>14.0</dd>
