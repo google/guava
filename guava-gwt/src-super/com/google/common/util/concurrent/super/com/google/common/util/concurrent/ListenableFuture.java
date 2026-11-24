@@ -34,8 +34,10 @@ public interface ListenableFuture<V extends @Nullable Object> extends Future<V>,
   @JsMethod
   @Override
   default <R extends @Nullable Object> IThenable<R> then(
-      @JsOptional @Nullable IThenOnFulfilledCallbackFn<? super V, ? extends R> onFulfilled,
-      @JsOptional @Nullable IThenOnRejectedCallbackFn<? extends R> onRejected) {
+      // TODO(b/587964621): Change to ? super V once J2CL supports bounds in TS/JS.
+      @JsOptional @Nullable IThenOnFulfilledCallbackFn<V, ? extends R> onFulfilled,
+      // TODO(b/587964621): Change to ? extends R once J2CL supports bounds in TS/JS.
+      @JsOptional @Nullable IThenOnRejectedCallbackFn<?> onRejected) {
     return new Promise<V>(
             (resolve, reject) -> {
               Futures.addCallback(
@@ -64,8 +66,10 @@ public interface ListenableFuture<V extends @Nullable Object> extends Future<V>,
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "IThenable")
 interface IThenable<T extends @Nullable Object> {
   <V extends @Nullable Object> IThenable<V> then(
-      @JsOptional @Nullable IThenOnFulfilledCallbackFn<? super T, ? extends V> onFulfilled,
-      @JsOptional @Nullable IThenOnRejectedCallbackFn<? extends V> onRejected);
+      // TODO(b/587964621): Change to ? super T once J2CL supports bounds in TS/JS.
+      @JsOptional @Nullable IThenOnFulfilledCallbackFn<T, ? extends V> onFulfilled,
+      // TODO(b/587964621): Change to ? extends V once J2CL supports bounds in TS/JS.
+      @JsOptional @Nullable IThenOnRejectedCallbackFn<?> onRejected);
 
   @JsFunction
   interface IThenOnFulfilledCallbackFn<T extends @Nullable Object, V extends @Nullable Object> {
@@ -101,6 +105,8 @@ class Promise<T extends @Nullable Object> implements IThenable<T> {
 
   @Override
   public native <V extends @Nullable Object> Promise<V> then(
-      @JsOptional @Nullable IThenOnFulfilledCallbackFn<? super T, ? extends V> onFulfilled,
-      @JsOptional @Nullable IThenOnRejectedCallbackFn<? extends V> onRejected);
+      // TODO(b/587964621): Change to ? super T once J2CL supports bounds in TS/JS.
+      @JsOptional @Nullable IThenOnFulfilledCallbackFn<T, ? extends V> onFulfilled,
+      // TODO(b/587964621): Change to ? extends V once J2CL supports bounds in TS/JS.
+      @JsOptional @Nullable IThenOnRejectedCallbackFn<?> onRejected);
 }

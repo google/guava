@@ -236,7 +236,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   /** ImmutableMap.ofEntries API that is friendly to use from JavaScript. */
   @SuppressWarnings("unusable-by-js")
   @JsMethod(name = "ofEntries")
-  static <K, V> ImmutableMap<K, V> jsOfEntries(Entry<? extends K, ? extends V>... entries) {
+  // TODO(b/587964621): Change to ? extends K,V once J2CL supports bounds in TS/JS.
+  static <K, V> ImmutableMap<K, V> jsOfEntries(Entry<K, V>... entries) {
     return new RegularImmutableMap<>(entries);
   }
 
