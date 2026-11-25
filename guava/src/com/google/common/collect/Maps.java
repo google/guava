@@ -2920,6 +2920,14 @@ public final class Maps {
     }
 
     @Override
+    public boolean removeIf(java.util.function.Predicate<? super V> filter) {
+      checkNotNull(filter);
+      return unfiltered
+          .entrySet()
+          .removeIf(entry -> predicate.apply(entry) && filter.test(entry.getValue()));
+    }
+
+    @Override
     public @Nullable Object[] toArray() {
       // creating an ArrayList so filtering happens once
       return newArrayList(iterator()).toArray();
@@ -3006,6 +3014,11 @@ public final class Maps {
       // See java.util.Collections.CheckedEntrySet for details on attacks.
 
       @Override
+      public boolean removeIf(java.util.function.Predicate<? super Entry<K, V>> filter) {
+        return filteredEntrySet.removeIf(filter);
+      }
+
+      @Override
       public @Nullable Object[] toArray() {
         // creating an ArrayList so filtering happens once
         return newArrayList(iterator()).toArray();
@@ -3051,6 +3064,15 @@ public final class Maps {
       return result;
     }
 
+    static <K extends @Nullable Object, V extends @Nullable Object> boolean removeKeysIf(
+        Map<K, V> map,
+        Predicate<? super Entry<K, V>> entryPredicate,
+        java.util.function.Predicate<? super K> keyFilter) {
+      checkNotNull(keyFilter);
+      return map.entrySet()
+          .removeIf(entry -> entryPredicate.apply(entry) && keyFilter.test(entry.getKey()));
+    }
+
     class KeySet extends Maps.KeySet<K, V> {
       KeySet() {
         super(FilteredEntryMap.this);
@@ -3073,6 +3095,11 @@ public final class Maps {
       @Override
       public final boolean retainAll(Collection<?> collection) {
         return retainAllKeys(unfiltered, predicate, collection);
+      }
+
+      @Override
+      public final boolean removeIf(java.util.function.Predicate<? super K> filter) {
+        return removeKeysIf(unfiltered, predicate, filter);
       }
 
       @Override
@@ -3222,6 +3249,11 @@ public final class Maps {
         @Override
         public boolean retainAll(Collection<?> collection) {
           return FilteredEntryMap.retainAllKeys(unfiltered, entryPredicate, collection);
+        }
+
+        @Override
+        public boolean removeIf(java.util.function.Predicate<? super K> filter) {
+          return FilteredEntryMap.removeKeysIf(unfiltered, entryPredicate, filter);
         }
       };
     }
