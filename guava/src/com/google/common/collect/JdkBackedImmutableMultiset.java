@@ -24,6 +24,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.primitives.Ints;
 import java.util.Collection;
 import java.util.Map;
+import java.util.function.ObjIntConsumer;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -76,6 +77,15 @@ final class JdkBackedImmutableMultiset<E> extends ImmutableMultiset<E> {
   @Override
   Entry<E> getEntry(int index) {
     return entries.get(index);
+  }
+
+  @Override
+  public void forEachEntry(ObjIntConsumer<? super E> action) {
+    checkNotNull(action);
+    for (int i = 0; i < entries.size(); i++) {
+      Entry<E> entry = entries.get(i);
+      action.accept(entry.getElement(), entry.getCount());
+    }
   }
 
   @Override
