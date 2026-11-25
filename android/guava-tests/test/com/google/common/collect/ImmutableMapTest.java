@@ -48,11 +48,13 @@ import com.google.common.testing.NullPointerTester;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.AbstractCollection;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -893,7 +895,6 @@ public class ImmutableMapTest extends TestCase {
   // TODO: Re-enable this test after moving to new serialization format in ImmutableMap.
   @J2ktIncompatible
   @GwtIncompatible // SerializableTester
-  @SuppressWarnings("unchecked")
   public void ignore_testSerializationNoDuplication_regularImmutableMap() throws Exception {
     // Tests that serializing a map, its keySet, and values only writes the underlying data once.
 
@@ -1016,5 +1017,60 @@ public class ImmutableMapTest extends TestCase {
     assertThat(map).containsExactly("a", "1", "b", "2").inOrder();
     entryList.get(0).setValue("3");
     assertThat(map).containsExactly("a", "1", "b", "2").inOrder();
+  }
+
+  @GwtIncompatible
+  public void testBuildKeepingLastShrinksHashTable() {
+    Builder<Integer, Integer> singleBuilder = ImmutableMap.builder();
+    for (int i = 0; i < 1000; i++) {
+      singleBuilder.put(0, i);
+    }
+    RegularImmutableMap<Integer, Integer> single =
+        (RegularImmutableMap<Integer, Integer>) singleBuilder.buildKeepingLast();
+    assertThat(single).containsExactly(0, 999);
+    assertThat(single.hashTable).isNull();
+
+    Builder<Integer, Integer> smallBuilder = ImmutableMap.builder();
+    for (int i = 0; i < 1000; i++) {
+      smallBuilder.put(i % 5, i);
+    }
+    RegularImmutableMap<Integer, Integer> small =
+        (RegularImmutableMap<Integer, Integer>) smallBuilder.buildKeepingLast();
+    assertThat(small).containsExactly(0, 995, 1, 996, 2, 997, 3, 998, 4, 999).inOrder();
+    assertThat(small.hashTable).isInstanceOf(byte[].class);
+    assertThat((byte[]) small.hashTable).hasLength(ImmutableSet.chooseTableSize(5));
+  }
+
+  public void testBuildOrThrowFailsFastWithoutMutatingBuilder() {
+    Builder<String, Integer> builder =
+        ImmutableMap.<String, Integer>builder().put("a", 1).put("a", 2).put("b", 3).put("a", 4);
+    assertThrows(IllegalArgumentException.class, builder::buildOrThrow);
+    assertThat(builder.buildKeepingLast()).containsExactly("a", 4, "b", 3).inOrder();
+    assertThrows(IllegalArgumentException.class, builder::buildOrThrow);
+  }
+
+  public void testCopyOfCollectionWithUnderreportedSize() {
+    List<Entry<String, Integer>> backing =
+        asList(
+            immutableEntry("a", 1),
+            immutableEntry("b", 2),
+            immutableEntry("c", 3),
+            immutableEntry("d", 4),
+            immutableEntry("e", 5));
+    Collection<Entry<String, Integer>> underreported =
+        new AbstractCollection<Entry<String, Integer>>() {
+          @Override
+          public Iterator<Entry<String, Integer>> iterator() {
+            return backing.iterator();
+          }
+
+          @Override
+          public int size() {
+            return 2;
+          }
+        };
+    assertThat(ImmutableMap.copyOf(underreported))
+        .containsExactly("a", 1, "b", 2, "c", 3, "d", 4, "e", 5)
+        .inOrder();
   }
 }
