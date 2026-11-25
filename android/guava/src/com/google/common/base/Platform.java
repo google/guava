@@ -14,6 +14,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 import java.lang.ref.WeakReference;
 import java.util.Locale;
@@ -27,8 +29,6 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 final class Platform {
-  private static final PatternCompiler patternCompiler = loadPatternCompiler();
-
   private Platform() {}
 
   static CharMatcher precomputeCharMatcher(CharMatcher matcher) {
@@ -88,32 +88,16 @@ final class Platform {
   }
 
   static CommonPattern compilePattern(String pattern) {
-    Preconditions.checkNotNull(pattern);
-    return patternCompiler.compile(pattern);
-  }
-
-  static boolean patternCompilerIsPcreLike() {
-    return patternCompiler.isPcreLike();
-  }
-
-  private static PatternCompiler loadPatternCompiler() {
+    checkNotNull(pattern);
     // We want the JDK Pattern compiler:
-    // - under Android (where it hurts startup performance)
+    // - under Android (where reflective lookup hurts startup performance)
     // - even for the JVM in our open-source release (https://github.com/google/guava/issues/3147)
     // If anyone in our monorepo uses the Android copy of Guava on a JVM, that would be unfortunate.
     // But that is only likely to happen in Robolectric tests, where the risks of JDK regex are low.
-    return new JdkPatternCompiler();
+    return new JdkPattern(Pattern.compile(pattern));
   }
 
-  private static final class JdkPatternCompiler implements PatternCompiler {
-    @Override
-    public CommonPattern compile(String pattern) {
-      return new JdkPattern(Pattern.compile(pattern));
-    }
-
-    @Override
-    public boolean isPcreLike() {
-      return true;
-    }
+  static boolean patternCompilerIsPcreLike() {
+    return true;
   }
 }
