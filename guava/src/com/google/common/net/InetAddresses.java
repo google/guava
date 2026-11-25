@@ -233,8 +233,10 @@ public final class InetAddresses {
       }
       if (percentIndex != -1) {
         String scopeId = ipString.substring(percentIndex + 1);
-        if (SCOPE_ID_DISALLOWED_MATCHER.matchesAnyOf(scopeId)) {
-          return null; // The first pass above stops at '%', so the scope ID is checked here.
+        // The first pass above stops at '%', so the scope ID is checked here. An interface name
+        // or index is never empty, and an empty one would otherwise parse as index 0.
+        if (scopeId.isEmpty() || SCOPE_ID_DISALLOWED_MATCHER.matchesAnyOf(scopeId)) {
+          return null;
         }
         if (scope != null) {
           scope.scope = scopeId;

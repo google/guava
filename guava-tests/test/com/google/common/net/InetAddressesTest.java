@@ -362,6 +362,16 @@ public class InetAddressesTest extends TestCase {
     assertTrue(InetAddresses.isInetAddress("fe80::1%eth9"));
   }
 
+  public void testIPv6AddressWithEmptyScopeId() {
+    // tryParseDecimal() reads an empty scope ID as interface index 0, so without a check for it
+    // forString() returns a scoped address instead of rejecting the literal.
+    assertFalse(InetAddresses.isInetAddress("fe80::1%"));
+    assertFalse(InetAddresses.isUriInetAddress("[fe80::1%]"));
+    assertFalse(InetAddresses.isMappedIPv4Address("::ffff:102:304%"));
+    assertThrows(IllegalArgumentException.class, () -> InetAddresses.forString("fe80::1%"));
+    assertThrows(IllegalArgumentException.class, () -> InetAddresses.forUriString("[fe80::1%]"));
+  }
+
   public void testToAddrStringIPv4() {
     // Don't need to test IPv4 much; it just calls getHostAddress().
     assertThat(InetAddresses.toAddrString(InetAddresses.forString("1.2.3.4"))).isEqualTo("1.2.3.4");
