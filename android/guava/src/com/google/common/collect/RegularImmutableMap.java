@@ -19,535 +19,382 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
+import static com.google.common.collect.SwarTables.STRIDE_16;
+import static com.google.common.collect.SwarTables.STRIDE_24;
+import static com.google.common.collect.SwarTables.STRIDE_32;
+import static com.google.common.collect.SwarTables.TIER2_MAX_SIZE;
+import static com.google.common.collect.SwarTables.TIER3_MAX_SIZE;
+import static com.google.common.collect.SwarTables.broadcastH2Top7;
+import static com.google.common.collect.SwarTables.broadcastTag;
+import static com.google.common.collect.SwarTables.emptyLanes;
+import static com.google.common.collect.SwarTables.firstLane;
+import static com.google.common.collect.SwarTables.groupMaskForStride;
+import static com.google.common.collect.SwarTables.h2Top7;
+import static com.google.common.collect.SwarTables.hasEmptyLane;
+import static com.google.common.collect.SwarTables.matchTags;
+import static com.google.common.collect.SwarTables.read16BitIndex;
+import static com.google.common.collect.SwarTables.read24BitIndex;
+import static com.google.common.collect.SwarTables.read32BitIndex;
+import static com.google.common.collect.SwarTables.readIndexForStride;
+import static com.google.common.collect.SwarTables.strideForSize;
+import static com.google.common.collect.SwarTables.writeSlot;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-import java.util.AbstractMap;
+import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Map.Entry;
+import java.util.Map;
 import org.jspecify.annotations.Nullable;
 
 /**
- * A hash-based implementation of {@link ImmutableMap}.
+ * Implementation of {@link ImmutableMap} used for 0 entries and for 2+ entries. Additional
+ * implementations exist for particular cases, like {@link ImmutableTable} views and hash flooding.
  *
- * @author Louis Wasserman
+ * <p><strong>Single-class layout:</strong> Every non-singleton, non-flooded map uses this single
+ * concrete class with just two instance fields ({@link #alternatingKeysAndValues} and {@link
+ * #hashTable}). Keeping a single concrete class (rather than separate subclasses per table tier)
+ * keeps call sites that mix {@link SingletonImmutableBiMap} and {@code RegularImmutableMap}
+ * bimorphic ({@code TypeProfileWidth == 2}) so HotSpot C2 can inline {@link #get} cleanly, keeps
+ * instances compact (16 bytes under Compact Object Headers), and preserves single-type
+ * compatibility for field-level serializers.
+ *
+ * <p><strong>Flat entry storage:</strong> Entries are stored in insertion order in {@link
+ * #alternatingKeysAndValues} as {@code [k0, v0, k1, v1, ...]}, trimmed to exact length {@code 2 *
+ * size}. This eliminates per-entry {@link ImmutableMapEntry} allocations at construction time;
+ * {@link #entrySet} materializes {@link SimpleImmutableEntry} instances on demand (which HotSpot C2
+ * scalar-replaces in typical iteration loops).
+ *
+ * <p><strong>Two-tier open-addressed hash table:</strong> {@link #hashTable} adapts to map size
+ * {@code n}:
+ *
+ * <ul>
+ *   <li>{@code n == 0}: {@code hashTable == null} and {@code alternatingKeysAndValues ==
+ *       EMPTY_KV_ARRAY}.
+ *   <li><strong>Tier 1 ({@code 1 <= n <= 255}) — linear-probing {@code byte[]}:</strong> Power-of-2
+ *       length ({@code 2..512}) at {@code <= 70%} load factor. Each slot stores a 0-based entry
+ *       index ({@code 0..254}, referencing {@code alternatingKeysAndValues[2 * idx]}) or {@link
+ *       #ABSENT_BYTE} ({@code -1}, unsigned {@code 0xFF}) for empty slots. Storing 0-based indices
+ *       with {@code -1} as the sentinel avoids subtracting 1 on every probe hit and produces
+ *       tighter HotSpot C2 code than 1-based indices with a {@code 0} sentinel.
+ *   <li><strong>Tier 2 ({@code n >= 256}) — interleaved 8-slot SWAR SwissTable in {@code
+ *       long[]}:</strong> Power-of-2 number of 8-slot groups at {@code <= 6/8 = 75%} load factor,
+ *       probed by triangular numbers ({@code g, g+1, g+3, g+6, ...}). Each group places its 8
+ *       control bytes in word 0 ({@code 0x00} = empty, {@code 0x80..0xFF} = full with 7-bit H2 tag)
+ *       immediately followed by its 8 entry indices in the same cache line:
+ *       <ul>
+ *         <li><em>SWAR-16 ({@code 256 <= n <= 65,536}):</em> stride 3 longs/group (1 tag word + 2
+ *             words packing four unsigned 16-bit entry indices each).
+ *         <li><em>SWAR-24 ({@code 65,537 <= n <= 16,777,216}):</em> stride 4 longs/group (1 tag
+ *             word + 3 words packing eight unsigned 24-bit entry indices).
+ *         <li><em>SWAR-32 ({@code n > 16,777,216}):</em> stride 5 longs/group (1 tag word + 4 words
+ *             packing two 32-bit entry indices each).
+ *       </ul>
+ *       The group count is recovered from {@code table.length} (via {@code table.length >>> 2} for
+ *       SWAR-24, or {@link Integer#highestOneBit} in {@link #swarShortGroupMask} and {@link
+ *       #swarIntGroupMask}), avoiding a mask field on the map object.
+ * </ul>
+ *
+ * <p><strong>Hash-flooding protection:</strong> If construction exceeds {@link #maxLinearProbes} in
+ * Tier 1 or {@link #MAX_SWAR_PROBE_GROUPS} probe steps in Tier 2, it aborts with {@link
+ * BucketOverflowException} and {@link #create} falls back to {@link JdkBackedImmutableMap}.
+ *
+ * @author Jesse Wilson
+ * @author Kevin Bourrillion
+ * @author Gregory Kick
  */
 @GwtCompatible
 final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
-  private static final byte ABSENT = -1;
+  private static final Object[] EMPTY_KV_ARRAY = new Object[0];
 
-  // Max size is halved due to indexing into double-sized alternatingKeysAndValues
-  private static final int BYTE_MAX_SIZE = 1 << (Byte.SIZE - 1); // 2^7 = 128
-  private static final int SHORT_MAX_SIZE = 1 << (Short.SIZE - 1); // 2^15 = 32_768
-
-  private static final int BYTE_MASK = (1 << Byte.SIZE) - 1; // 2^8 - 1 = 255
-  private static final int SHORT_MASK = (1 << Short.SIZE) - 1; // 2^16 - 1 = 65_535
-
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(
+      "unchecked") // EMPTY contains no entries, so any <K, V> parameterization is safe
   static final ImmutableMap<Object, Object> EMPTY =
-      new RegularImmutableMap<>(null, new Object[0], 0);
+      new RegularImmutableMap<>(/* hashTable= */ null, EMPTY_KV_ARRAY);
 
-  /*
-   * This is an implementation of ImmutableMap optimized especially for Android, which does not like
-   * objects per entry.  Instead we use an open-addressed hash table.  This design is basically
-   * equivalent to RegularImmutableSet, save that instead of having a hash table containing the
-   * elements directly and null for empty positions, we store indices of the keys in the hash table,
-   * and ABSENT for empty positions.  We then look up the keys in alternatingKeysAndValues.
-   *
-   * (The index actually stored is the index of the key in alternatingKeysAndValues, which is
-   * double the index of the entry in entrySet.asList.)
-   *
-   * The basic data structure is described in https://en.wikipedia.org/wiki/Open_addressing.
-   * The pointer to a key is stored in hashTable[Hashing.smear(key.hashCode()) % table.length],
-   * save that if that location is already full, we try the next index, and the next, until we
-   * find an empty table position.  Since the table has a power-of-two size, we use
-   * & (table.length - 1) instead of % table.length, though.
+  /**
+   * Maximum allowed false positive probability of detecting a hash flooding attack given random
+   * input.
    */
+  @VisibleForTesting static final double HASH_FLOODING_FPP = 0.001;
 
+  /**
+   * Maximum allowed length of a hash table bucket before falling back to a {@code
+   * java.util.HashMap}-based implementation. Still used by {@link RegularImmutableBiMap}.
+   */
+  static final int MAX_HASH_BUCKET_LENGTH = 8;
+
+  /**
+   * Sentinel stored in empty slots of a Tier-1 {@code byte[]} hash table ({@code 0xFF} unsigned).
+   *
+   * <p>Using {@code -1} as the absent sentinel allows occupied slots to hold 0-based entry indices
+   * {@code 0..254}, avoiding a {@code - 1} adjustment before indexing {@link
+   * #alternatingKeysAndValues} on the {@link #get} hot path.
+   */
+  private static final byte ABSENT_BYTE = -1;
+
+  private static final int BYTE_MASK = 0xFF;
+
+  /**
+   * Maximum map size backed by a Tier-1 {@code byte[]} linear-probing table (0-based entry indices
+   * {@code 0..254}, reserving {@code 255}/{@code 0xFF} for {@link #ABSENT_BYTE}). Maps of size
+   * {@code >= 256} use the Tier-2 interleaved SWAR {@code long[]} table.
+   */
+  private static final int LINEAR_MAX_SIZE = 255;
+
+  /**
+   * Maximum triangular-number probe steps after the initial group in SWAR probing (17 groups / 136
+   * slots total) before declaring hash flooding and falling back to {@link JdkBackedImmutableMap}.
+   */
+  private static final int MAX_SWAR_PROBE_GROUPS = 16;
+
+  /**
+   * Fallback power-of-2 SWAR group count if {@code highestOneBit(minGroups - 1) << 1} ever
+   * overflows {@code int} (for {@code size <= MAX_ENTRIES}, {@code numGroups <= 2^28} and {@code 5
+   * * 2^28 < Integer.MAX_VALUE}).
+   */
+  private static final int MAX_SWAR_GROUPS = 1 << 27;
+
+  /**
+   * Flat alternating keys and values in insertion order ({@code [k0, v0, k1, v1, ...]}), with no
+   * {@code null} elements and always trimmed to exact length {@code 2 * size}.
+   */
+  @VisibleForTesting final transient Object[] alternatingKeysAndValues;
+
+  /**
+   * Backing hash table: {@code null} for {@link #EMPTY}, {@code byte[]} for {@code 1 <= n <= 255},
+   * or interleaved SWAR {@code long[]} for {@code n >= 256}.
+   */
   private final transient @Nullable Object hashTable;
-  @VisibleForTesting final transient @Nullable Object[] alternatingKeysAndValues;
-  private final transient int size;
 
-  /*
-   * We have some considerable complexity in these create methods because of
-   * Builder.buildKeepingLast(). The same Builder might be called with buildKeepingLast() and then
-   * buildOrThrow(), or vice versa. So in particular, if we modify alternatingKeysAndValues to
-   * eliminate duplicate keys (for buildKeepingLast()) then we have to ensure that a later call to
-   * buildOrThrow() will still throw as if the duplicates had not been eliminated. And the exception
-   * message must mention two values that were associated with the duplicate key in two different
-   * calls to Builder.put (though we don't really care *which* two values if there were more than
-   * two). These considerations lead us to have a field of type DuplicateKey in the Builder, which
-   * will remember the first duplicate key we encountered. All later calls to buildOrThrow() can
-   * mention that key with its values. Further duplicates might be added in the meantime but since
-   * builders only ever accumulate entries it will always be valid to throw from buildOrThrow() with
-   * the first duplicate.
-   */
-
-  // This entry point is for callers other than ImmutableMap.Builder.
-  static <K, V> RegularImmutableMap<K, V> create(
-      int n, @Nullable Object[] alternatingKeysAndValues) {
-    return create(n, alternatingKeysAndValues, /* builder= */ null);
-  }
-
-  // This entry point is used by the other create method but also directly by
-  // ImmutableMap.Builder, so that it can remember any DuplicateKey encountered and produce an
-  // exception for a later buildOrThrow(). If builder is null that means that a duplicate
-  // key will lead to an immediate exception. If it is not null then a duplicate key will instead be
-  // stored in the builder, which may use it to throw an exception later.
-  static <K, V> RegularImmutableMap<K, V> create(
-      int n, @Nullable Object[] alternatingKeysAndValues, @Nullable Builder<K, V> builder) {
-    if (n == 0) {
-      @SuppressWarnings("unchecked")
-      RegularImmutableMap<K, V> empty = (RegularImmutableMap<K, V>) EMPTY;
-      return empty;
-    } else if (n == 1) {
-      // requireNonNull is safe because the first `2*n` elements have been filled in.
-      checkEntryNotNull(
-          requireNonNull(alternatingKeysAndValues[0]), requireNonNull(alternatingKeysAndValues[1]));
-      return new RegularImmutableMap<K, V>(null, alternatingKeysAndValues, 1);
-    }
-    checkPositionIndex(n, alternatingKeysAndValues.length >> 1);
-    int tableSize = ImmutableSet.chooseTableSize(n);
-    // If there are no duplicate keys, hashTablePlus is the final hashTable value. If there *are*
-    // duplicate keys, hashTablePlus consists of 3 elements: [0] the hashTable; [1] the number of
-    // entries in alternatingKeysAndValues that are still valid after rewriting to remove
-    // duplicates; [2] a Builder.DuplicateKey that records the first duplicate key we encountered
-    // for possible later use in exceptions, perhaps straight away.
-    Object hashTablePlus = createHashTable(alternatingKeysAndValues, n, tableSize, 0);
-    Object hashTable;
-    if (hashTablePlus instanceof Object[]) {
-      Object[] hashTableAndSizeAndDuplicate = (Object[]) hashTablePlus;
-      Builder.DuplicateKey duplicateKey = (Builder.DuplicateKey) hashTableAndSizeAndDuplicate[2];
-      if (builder == null) {
-        throw duplicateKey.exception();
-      }
-      builder.duplicateKey = duplicateKey;
-      hashTable = hashTableAndSizeAndDuplicate[0];
-      n = (Integer) hashTableAndSizeAndDuplicate[1];
-      alternatingKeysAndValues = Arrays.copyOf(alternatingKeysAndValues, n * 2);
-    } else {
-      hashTable = hashTablePlus;
-    }
-    return new RegularImmutableMap<K, V>(hashTable, alternatingKeysAndValues, n);
+  static <K, V> ImmutableMap<K, V> fromEntries(Entry<K, V>... entries) {
+    return fromEntryArray(entries.length, entries, /* throwIfDuplicateKeys= */ true);
   }
 
   /**
-   * Returns a hash table for the specified keys and values, and ensures that neither keys nor
-   * values are null. This method may update {@code alternatingKeysAndValues} if there are duplicate
-   * keys. If so, the return value will indicate how many entries are still valid, and will also
-   * include a {@link Builder.DuplicateKey} in case duplicate keys are not allowed now or will not
-   * be allowed on a later {@link Builder#buildOrThrow()} call.
-   *
-   * @param keyOffset 1 if this is the reverse direction of a BiMap, 0 otherwise.
-   * @return an {@code Object} that is a {@code byte[]}, {@code short[]}, or {@code int[]}, the
-   *     smallest possible to fit {@code tableSize}; or an {@code Object[]} where [0] is one of
-   *     these; [1] indicates how many element pairs in {@code alternatingKeysAndValues} are valid;
-   *     and [2] is a {@link Builder.DuplicateKey} for the first duplicate key encountered.
+   * Creates an {@link ImmutableMap} from the first {@code n} entries in {@code entryArray}, copying
+   * their keys and values into a flat {@code alternatingKeysAndValues} array.
    */
-  private static @Nullable Object createHashTable(
-      @Nullable Object[] alternatingKeysAndValues, int n, int tableSize, int keyOffset) {
-    if (n == 1) {
-      // for n=1 we don't create a hash table, but we need to do the checkEntryNotNull check!
-      // requireNonNull is safe because the first `2*n` elements have been filled in.
-      checkEntryNotNull(
-          requireNonNull(alternatingKeysAndValues[keyOffset]),
-          requireNonNull(alternatingKeysAndValues[keyOffset ^ 1]));
-      return null;
+  static <K, V> ImmutableMap<K, V> fromEntryArray(
+      int n, @Nullable Entry<K, V>[] entryArray, boolean throwIfDuplicateKeys) {
+    checkPositionIndex(n, entryArray.length);
+    if (n == 0) {
+      @SuppressWarnings("unchecked") // EMPTY contains no entries
+      ImmutableMap<K, V> empty = (ImmutableMap<K, V>) EMPTY;
+      return empty;
     }
-    int mask = tableSize - 1;
-    Builder.DuplicateKey duplicateKey = null;
-    if (tableSize <= BYTE_MAX_SIZE) {
-      /*
-       * Use 8 bits per entry. The value is unsigned to allow use up to a size of 2^8.
-       *
-       * The absent indicator of -1 signed becomes 2^8 - 1 unsigned, which reduces the actual max
-       * size to 2^8 - 1. However, due to a load factor < 1 the limit is never approached.
-       */
-      byte[] hashTable = new byte[tableSize];
-      Arrays.fill(hashTable, ABSENT);
-
-      int outI = 0;
-      entries:
-      for (int i = 0; i < n; i++) {
-        int keyIndex = 2 * i + keyOffset;
-        int outKeyIndex = 2 * outI + keyOffset;
-        // requireNonNull is safe because the first `2*n` elements have been filled in.
-        Object key = requireNonNull(alternatingKeysAndValues[keyIndex]);
-        Object value = requireNonNull(alternatingKeysAndValues[keyIndex ^ 1]);
-        checkEntryNotNull(key, value);
-        for (int h = Hashing.smear(key.hashCode()); ; h++) {
-          h &= mask;
-          int previousKeyIndex = hashTable[h] & BYTE_MASK; // unsigned read
-          if (previousKeyIndex == BYTE_MASK) { // -1 signed becomes 255 unsigned
-            hashTable[h] = (byte) outKeyIndex;
-            break;
-          } else if (key.equals(alternatingKeysAndValues[previousKeyIndex])) {
-            duplicateKey =
-                new Builder.DuplicateKey(
-                    key, value, requireNonNull(alternatingKeysAndValues[previousKeyIndex ^ 1]));
-            alternatingKeysAndValues[previousKeyIndex ^ 1] = value;
-            continue entries;
-          }
-        }
-        if (outI < i) { // if outI == i don't bother writing the values back where they came from
-          alternatingKeysAndValues[outKeyIndex] = key;
-          alternatingKeysAndValues[outKeyIndex ^ 1] = value;
-        }
-        outI++;
-      }
-      return outI == n ? hashTable : new Object[] {hashTable, outI, duplicateKey};
-    } else if (tableSize <= SHORT_MAX_SIZE) {
-      /*
-       * Use 16 bits per entry. The value is unsigned to allow use up to a size of 2^16.
-       *
-       * The absent indicator of -1 signed becomes 2^16 - 1 unsigned, which reduces the actual max
-       * size to 2^16 - 1. However, due to a load factor < 1 the limit is never approached.
-       */
-      short[] hashTable = new short[tableSize];
-      Arrays.fill(hashTable, ABSENT);
-
-      int outI = 0;
-      entries:
-      for (int i = 0; i < n; i++) {
-        int keyIndex = 2 * i + keyOffset;
-        int outKeyIndex = 2 * outI + keyOffset;
-        // requireNonNull is safe because the first `2*n` elements have been filled in.
-        Object key = requireNonNull(alternatingKeysAndValues[keyIndex]);
-        Object value = requireNonNull(alternatingKeysAndValues[keyIndex ^ 1]);
-        checkEntryNotNull(key, value);
-        for (int h = Hashing.smear(key.hashCode()); ; h++) {
-          h &= mask;
-          int previousKeyIndex = hashTable[h] & SHORT_MASK; // unsigned read
-          if (previousKeyIndex == SHORT_MASK) { // -1 signed becomes 65_535 unsigned
-            hashTable[h] = (short) outKeyIndex;
-            break;
-          } else if (key.equals(alternatingKeysAndValues[previousKeyIndex])) {
-            duplicateKey =
-                new Builder.DuplicateKey(
-                    key, value, requireNonNull(alternatingKeysAndValues[previousKeyIndex ^ 1]));
-            alternatingKeysAndValues[previousKeyIndex ^ 1] = value;
-            continue entries;
-          }
-        }
-        if (outI < i) { // if outI == i don't bother writing the values back where they came from
-          alternatingKeysAndValues[outKeyIndex] = key;
-          alternatingKeysAndValues[outKeyIndex ^ 1] = value;
-        }
-        outI++;
-      }
-      return outI == n ? hashTable : new Object[] {hashTable, outI, duplicateKey};
-    } else {
-      /*
-       * Use 32 bits per entry.
-       */
-      int[] hashTable = new int[tableSize];
-      Arrays.fill(hashTable, ABSENT);
-
-      int outI = 0;
-      entries:
-      for (int i = 0; i < n; i++) {
-        int keyIndex = 2 * i + keyOffset;
-        int outKeyIndex = 2 * outI + keyOffset;
-        // requireNonNull is safe because the first `2*n` elements have been filled in.
-        Object key = requireNonNull(alternatingKeysAndValues[keyIndex]);
-        Object value = requireNonNull(alternatingKeysAndValues[keyIndex ^ 1]);
-        checkEntryNotNull(key, value);
-        for (int h = Hashing.smear(key.hashCode()); ; h++) {
-          h &= mask;
-          int previousKeyIndex = hashTable[h];
-          if (previousKeyIndex == ABSENT) {
-            hashTable[h] = outKeyIndex;
-            break;
-          } else if (key.equals(alternatingKeysAndValues[previousKeyIndex])) {
-            duplicateKey =
-                new Builder.DuplicateKey(
-                    key, value, requireNonNull(alternatingKeysAndValues[previousKeyIndex ^ 1]));
-            alternatingKeysAndValues[previousKeyIndex ^ 1] = value;
-            continue entries;
-          }
-        }
-        if (outI < i) { // if outI == i don't bother writing the values back where they came from
-          alternatingKeysAndValues[outKeyIndex] = key;
-          alternatingKeysAndValues[outKeyIndex ^ 1] = value;
-        }
-        outI++;
-      }
-      return outI == n ? hashTable : new Object[] {hashTable, outI, duplicateKey};
+    checkMaxEntryCount(n);
+    @Nullable Object[] kv = new @Nullable Object[n * 2];
+    for (int i = 0; i < n; i++) {
+      Entry<K, V> entry = requireNonNull(entryArray[i]);
+      K key = entry.getKey();
+      V value = entry.getValue();
+      checkEntryNotNull(key, value);
+      kv[i << 1] = key;
+      kv[(i << 1) + 1] = value;
     }
+    return create(n, kv, throwIfDuplicateKeys, /* builder= */ null);
   }
 
-  static @Nullable Object createHashTableOrThrow(
-      @Nullable Object[] alternatingKeysAndValues, int n, int tableSize, int keyOffset) {
-    Object hashTablePlus = createHashTable(alternatingKeysAndValues, n, tableSize, keyOffset);
-    if (hashTablePlus instanceof Object[]) {
-      Object[] hashTableAndSizeAndDuplicate = (Object[]) hashTablePlus;
-      Builder.DuplicateKey duplicateKey = (Builder.DuplicateKey) hashTableAndSizeAndDuplicate[2];
-      throw duplicateKey.exception();
-    }
-    return hashTablePlus;
+  /**
+   * Creates an {@link ImmutableMap} from the first {@code n} key-value pairs in {@code
+   * alternatingKeysAndValues}, throwing on duplicate keys.
+   *
+   * <p>The array must have length at least {@code 2 * n} with non-null elements in {@code [0, 2 *
+   * n)}. Takes ownership of {@code alternatingKeysAndValues} without copying when its length is
+   * already {@code 2 * n} and no duplicates are removed.
+   */
+  static <K, V> ImmutableMap<K, V> create(int n, @Nullable Object[] alternatingKeysAndValues) {
+    return create(
+        n, alternatingKeysAndValues, /* throwIfDuplicateKeys= */ true, /* builder= */ null);
   }
 
-  private RegularImmutableMap(
-      @Nullable Object hashTable, @Nullable Object[] alternatingKeysAndValues, int size) {
+  /**
+   * Creates an {@link ImmutableMap} from the first {@code n} key-value pairs in {@code
+   * alternatingKeysAndValues}, falling back to {@link JdkBackedImmutableMap} if hash flooding is
+   * detected.
+   *
+   * <p>When {@code throwIfDuplicateKeys} is {@code false} (for {@link Builder#buildKeepingLast}),
+   * duplicate keys retain their first-inserted position with their last-put value, and the first
+   * duplicate encountered is recorded on {@code builder} (if non-null) so a later {@link
+   * Builder#buildOrThrow} fails immediately. Never mutates {@code alternatingKeysAndValues} in
+   * place if it is shared with a {@link Builder}.
+   */
+  static <K, V> ImmutableMap<K, V> create(
+      int n,
+      @Nullable Object[] alternatingKeysAndValues,
+      boolean throwIfDuplicateKeys,
+      @Nullable Builder<K, V> builder) {
+    checkPositionIndex(n, alternatingKeysAndValues.length >>> 1);
+    if (n == 0) {
+      @SuppressWarnings("unchecked") // EMPTY contains no entries
+      ImmutableMap<K, V> empty = (ImmutableMap<K, V>) EMPTY;
+      return empty;
+    }
+    return createCheckingFlooding(n, alternatingKeysAndValues, throwIfDuplicateKeys, builder);
+  }
+
+  private RegularImmutableMap(@Nullable Object hashTable, Object[] alternatingKeysAndValues) {
     this.hashTable = hashTable;
     this.alternatingKeysAndValues = alternatingKeysAndValues;
-    this.size = size;
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The {@code byte[]} linear-probing fast path is kept inline here (125 bytecodes total) so
+   * HotSpot C2 can inline {@code RegularImmutableMap.get} bimorphically alongside {@link
+   * SingletonImmutableBiMap#get}, while the {@code long[]} SWAR path is outlined into {@link
+   * #getSwar}.
+   */
+  @Override
+  @SuppressWarnings("unchecked") // alternatingKeysAndValues stores K at even indices and V at odd
+  public @Nullable V get(@Nullable Object key) {
+    Object hashTableObject = this.hashTable;
+    if (key == null || hashTableObject == null) {
+      return null;
+    }
+    Object[] kv = this.alternatingKeysAndValues;
+    int smearedHash = Hashing.smear(key.hashCode());
+    if (hashTableObject instanceof byte[]) {
+      byte[] hashTable = (byte[]) hashTableObject;
+      int mask = hashTable.length - 1;
+      for (int slot = smearedHash & mask; ; slot = (slot + 1) & mask) {
+        int entry = hashTable[slot] & BYTE_MASK;
+        if (entry == BYTE_MASK) {
+          return null;
+        }
+        int keyIndex = entry << 1;
+        if (key.equals(kv[keyIndex])) {
+          return (V) kv[keyIndex + 1];
+        }
+      }
+    }
+    return (V) getSwar((long[]) hashTableObject, kv, key, smearedHash);
+  }
+
+  /** Computes the map hash code directly over {@link #alternatingKeysAndValues}. */
+  @Override
+  public int hashCode() {
+    int hash = 0;
+    Object[] kv = this.alternatingKeysAndValues;
+    for (int i = 0; i < kv.length; i += 2) {
+      hash += kv[i].hashCode() ^ kv[i + 1].hashCode();
+    }
+    return hash;
+  }
+
+  /** Scans odd indices of {@link #alternatingKeysAndValues} directly without creating a view. */
+  @Override
+  public boolean containsValue(@Nullable Object value) {
+    if (value == null) {
+      return false;
+    }
+    Object[] kv = this.alternatingKeysAndValues;
+    for (int i = 1; i < kv.length; i += 2) {
+      if (value.equals(kv[i])) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Compares directly against {@code object} by scanning {@link #alternatingKeysAndValues},
+   * avoiding {@link EntrySet} and {@link SimpleImmutableEntry} allocations.
+   */
+  @Override
+  public boolean equals(@Nullable Object object) {
+    if (this == object) {
+      return true;
+    }
+    if (!(object instanceof Map)) {
+      return false;
+    }
+    Map<?, ?> other = (Map<?, ?>) object;
+    Object[] kv = this.alternatingKeysAndValues;
+    if ((kv.length >>> 1) != other.size()) {
+      return false;
+    }
+    try {
+      for (int i = 0; i < kv.length; i += 2) {
+        // Values in this map are always non-null, so a null return from other.get() never matches.
+        if (!kv[i + 1].equals(other.get(kv[i]))) {
+          return false;
+        }
+      }
+    } catch (ClassCastException | NullPointerException unused) {
+      return false;
+    }
+    return true;
   }
 
   @Override
   public int size() {
-    return size;
+    return alternatingKeysAndValues.length >>> 1;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
-  public @Nullable V get(@Nullable Object key) {
-    Object result = get(hashTable, alternatingKeysAndValues, size, 0, key);
-    /*
-     * We can't simply cast the result of `RegularImmutableMap.get` to V because of a bug in our
-     * nullness checker (resulting from https://github.com/jspecify/checker-framework/issues/8).
-     */
-    if (result == null) {
-      return null;
-    } else {
-      return (V) result;
-    }
-  }
-
-  static @Nullable Object get(
-      @Nullable Object hashTableObject,
-      @Nullable Object[] alternatingKeysAndValues,
-      int size,
-      int keyOffset,
-      @Nullable Object key) {
-    if (key == null) {
-      return null;
-    } else if (size == 1) {
-      // requireNonNull is safe because the first 2 elements have been filled in.
-      return requireNonNull(alternatingKeysAndValues[keyOffset]).equals(key)
-          ? requireNonNull(alternatingKeysAndValues[keyOffset ^ 1])
-          : null;
-    } else if (hashTableObject == null) {
-      return null;
-    }
-    if (hashTableObject instanceof byte[]) {
-      byte[] hashTable = (byte[]) hashTableObject;
-      int mask = hashTable.length - 1;
-      for (int h = Hashing.smear(key.hashCode()); ; h++) {
-        h &= mask;
-        int keyIndex = hashTable[h] & BYTE_MASK; // unsigned read
-        if (keyIndex == BYTE_MASK) { // -1 signed becomes 255 unsigned
-          return null;
-        } else if (key.equals(alternatingKeysAndValues[keyIndex])) {
-          return alternatingKeysAndValues[keyIndex ^ 1];
-        }
-      }
-    } else if (hashTableObject instanceof short[]) {
-      short[] hashTable = (short[]) hashTableObject;
-      int mask = hashTable.length - 1;
-      for (int h = Hashing.smear(key.hashCode()); ; h++) {
-        h &= mask;
-        int keyIndex = hashTable[h] & SHORT_MASK; // unsigned read
-        if (keyIndex == SHORT_MASK) { // -1 signed becomes 65_535 unsigned
-          return null;
-        } else if (key.equals(alternatingKeysAndValues[keyIndex])) {
-          return alternatingKeysAndValues[keyIndex ^ 1];
-        }
-      }
-    } else {
-      int[] hashTable = (int[]) hashTableObject;
-      int mask = hashTable.length - 1;
-      for (int h = Hashing.smear(key.hashCode()); ; h++) {
-        h &= mask;
-        int keyIndex = hashTable[h];
-        if (keyIndex == ABSENT) {
-          return null;
-        } else if (key.equals(alternatingKeysAndValues[keyIndex])) {
-          return alternatingKeysAndValues[keyIndex ^ 1];
-        }
-      }
-    }
+  boolean isPartialView() {
+    return false;
   }
 
   @Override
   public ImmutableSet<Entry<K, V>> entrySet() {
-    return new EntrySet<>(this, alternatingKeysAndValues, 0, size);
-  }
-
-  static final class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
-    private final transient ImmutableMap<K, V> map;
-    private final transient @Nullable Object[] alternatingKeysAndValues;
-    private final transient int keyOffset;
-    private final transient int size;
-
-    EntrySet(
-        ImmutableMap<K, V> map,
-        @Nullable Object[] alternatingKeysAndValues,
-        int keyOffset,
-        int size) {
-      this.map = map;
-      this.alternatingKeysAndValues = alternatingKeysAndValues;
-      this.keyOffset = keyOffset;
-      this.size = size;
-    }
-
-    @Override
-    public UnmodifiableIterator<Entry<K, V>> iterator() {
-      return asList().iterator();
-    }
-
-    @Override
-    int copyIntoArray(@Nullable Object[] dst, int offset) {
-      return asList().copyIntoArray(dst, offset);
-    }
-
-    @Override
-    ImmutableList<Entry<K, V>> createAsList() {
-      return new ImmutableList<Entry<K, V>>() {
-        @Override
-        public Entry<K, V> get(int index) {
-          checkElementIndex(index, size);
-          /*
-           * requireNonNull is safe because the first `2*(size+keyOffset)` elements have been filled
-           * in.
-           */
-          @SuppressWarnings("unchecked")
-          K key = (K) requireNonNull(alternatingKeysAndValues[2 * index + keyOffset]);
-          @SuppressWarnings("unchecked")
-          V value = (V) requireNonNull(alternatingKeysAndValues[2 * index + (keyOffset ^ 1)]);
-          return new AbstractMap.SimpleImmutableEntry<K, V>(key, value);
-        }
-
-        @Override
-        public int size() {
-          return size;
-        }
-
-        @Override
-        public boolean isPartialView() {
-          return true;
-        }
-
-        // redeclare to help optimizers with b/310253115
-        @SuppressWarnings("RedundantOverride")
-        @Override
-        @J2ktIncompatible // serialization
-        Object writeReplace() {
-          return super.writeReplace();
-        }
-      };
-    }
-
-    @Override
-    public boolean contains(@Nullable Object object) {
-      if (object instanceof Entry) {
-        Entry<?, ?> entry = (Entry<?, ?>) object;
-        Object k = entry.getKey();
-        Object v = entry.getValue();
-        return v != null && v.equals(map.get(k));
-      }
-      return false;
-    }
-
-    @Override
-    boolean isPartialView() {
-      return true;
-    }
-
-    @Override
-    public int size() {
-      return size;
-    }
-
-    // redeclare to help optimizers with b/310253115
-    @SuppressWarnings("RedundantOverride")
-    @Override
-    @J2ktIncompatible
-    @GwtIncompatible
-        Object writeReplace() {
-      return super.writeReplace();
-    }
+    return hashTable == null
+        ? ImmutableSet.of()
+        : new FlatEntrySet<>(this, alternatingKeysAndValues, 0);
   }
 
   @Override
   public ImmutableSet<K> keySet() {
-    @SuppressWarnings("unchecked")
-    ImmutableList<K> keyList =
-        (ImmutableList<K>) new KeysOrValuesAsList(alternatingKeysAndValues, 0, size);
-    return new KeySet<K>(this, keyList);
+    return hashTable == null
+        ? ImmutableSet.of()
+        : new FlatKeySet<>(this, alternatingKeysAndValues, 0);
   }
 
-  static final class KeysOrValuesAsList extends ImmutableList<Object> {
-    private final transient @Nullable Object[] alternatingKeysAndValues;
-    private final transient int offset;
-    private final transient int size;
-
-    KeysOrValuesAsList(@Nullable Object[] alternatingKeysAndValues, int offset, int size) {
-      this.alternatingKeysAndValues = alternatingKeysAndValues;
-      this.offset = offset;
-      this.size = size;
-    }
-
-    @Override
-    public Object get(int index) {
-      checkElementIndex(index, size);
-      // requireNonNull is safe because the first `2*(size+offset)` elements have been filled in.
-      return requireNonNull(alternatingKeysAndValues[2 * index + offset]);
-    }
-
-    @Override
-    boolean isPartialView() {
-      return true;
-    }
-
-    @Override
-    public int size() {
-      return size;
-    }
-
-    // redeclare to help optimizers with b/310253115
-    @SuppressWarnings("RedundantOverride")
-    @Override
-    Object writeReplace() {
-      return super.writeReplace();
-    }
+  /*
+   * While we *could* declare a return type of ImmutableList on this package-private implementation
+   * type, no user would see it, so all we'd end up with is an extra method in the class file.
+   *
+   * (Arguably it would have been even better not to have returned an ImmutableList in the first
+   * place. It's especially a bit strange given that ImmutableMap.of(k, v).values() (a
+   * SingletonImmutableBiMap) returns an ImmutubleSet. Surely users have already come to depend on
+   * these implementation details, such as through `equals` calls. Maybe we should have returned a
+   * more vanilla ImmutableCollection with a fast asList() method?))
+   */
+  @SuppressWarnings("PreferredInterfaceType")
+  @Override
+  public ImmutableCollection<V> values() {
+    return hashTable == null ? ImmutableList.of() : new Values<>(this);
   }
 
-  static final class KeySet<K> extends ImmutableSet<K> {
-    private final transient ImmutableMap<K, ?> map;
-    private final transient ImmutableList<K> list;
+  /** Values view reading odd indices of {@link RegularImmutableMap#alternatingKeysAndValues}. */
+  private static final class Values<K, V> extends ImmutableList<V> {
+    final RegularImmutableMap<K, V> map;
 
-    KeySet(ImmutableMap<K, ?> map, ImmutableList<K> list) {
+    Values(RegularImmutableMap<K, V> map) {
       this.map = map;
-      this.list = list;
     }
 
     @Override
-    public UnmodifiableIterator<K> iterator() {
-      return asList().iterator();
+    @SuppressWarnings("unchecked") // alternatingKeysAndValues stores V at odd indices
+    public V get(int index) {
+      // Bounds check before shifting to prevent index << 1 wraparound (e.g. 1 << 30).
+      checkElementIndex(index, map.size());
+      return (V) map.alternatingKeysAndValues[(index << 1) + 1];
     }
 
     @Override
+    @GwtIncompatible // not used in GWT
     int copyIntoArray(@Nullable Object[] dst, int offset) {
-      return asList().copyIntoArray(dst, offset);
-    }
-
-    @Override
-    public ImmutableList<K> asList() {
-      return list;
-    }
-
-    @Override
-    public boolean contains(@Nullable Object object) {
-      return map.get(object) != null;
-    }
-
-    @Override
-    boolean isPartialView() {
-      return true;
+      Object[] kv = map.alternatingKeysAndValues;
+      for (int i = 1; i < kv.length; i += 2) {
+        dst[offset++] = kv[i];
+      }
+      return offset;
     }
 
     @Override
@@ -555,6 +402,11 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       return map.size();
     }
 
+    @Override
+    boolean isPartialView() {
+      return true;
+    }
+
     // redeclare to help optimizers with b/310253115
     @SuppressWarnings("RedundantOverride")
     @Override
@@ -563,31 +415,24 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         Object writeReplace() {
       return super.writeReplace();
     }
-  }
 
-  @SuppressWarnings({
-    "unchecked",
-    /*
-     * While we *could* declare a return type of ImmutableList on this package-private
-     * implementation type, no user would see it, so all we'd end up with is an extra method in the
-     * class file.
-     *
-     * (Arguably it would have been even better not to have returned an ImmutableList in the first
-     * place. It's especially a bit strange given that ImmutableMap.of(k, v).values() (a
-     * SingletonImmutableBiMap) returns an ImmutubleSet. Surely users have already come to depend on
-     * these implementation details, such as through `equals` calls. Maybe we should have returned a
-     * more vanilla ImmutableCollection with a fast asList() method?))
-     */
-    "PreferredInterfaceType",
-  })
-  @Override
-  public ImmutableCollection<V> values() {
-    return (ImmutableList<V>) new KeysOrValuesAsList(alternatingKeysAndValues, 1, size);
-  }
+    // No longer used for new writes, but kept so that old data can still be read.
+    @GwtIncompatible
+    @J2ktIncompatible
+    @SuppressWarnings("unused")
+    private static final class SerializedForm<V> implements Serializable {
+      final ImmutableMap<?, V> map;
 
-  @Override
-  boolean isPartialView() {
-    return false;
+      SerializedForm(ImmutableMap<?, V> map) {
+        this.map = map;
+      }
+
+      Object readResolve() {
+        return map.values();
+      }
+
+      private static final long serialVersionUID = 0;
+    }
   }
 
   // redeclare to help optimizers with b/310253115
@@ -602,4 +447,360 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   // This class is never actually serialized directly, but we have to make the
   // warning go away (and suppressing would suppress for all nested classes too)
   @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+
+  // -------------------------------------------------------------------------
+  // Private construction helpers
+  // -------------------------------------------------------------------------
+
+  /**
+   * Trims {@code rawKv} if over-allocated and builds either a Tier-1 {@code byte[]} table ({@code n
+   * <= 255}) or a Tier-2 SWAR {@code long[]} table ({@code n >= 256}).
+   */
+  private static <K, V> ImmutableMap<K, V> createCheckingFlooding(
+      int n,
+      @Nullable Object[] rawKv,
+      boolean throwIfDuplicateKeys,
+      @Nullable Builder<K, V> builder) {
+    // Always trim to exact length 2 * n so the built map never retains over-allocated builder
+    // capacity, and so deduplication knows whether it already owns a private copy of kv.
+    boolean ownsKv = rawKv.length != (n << 1);
+    @SuppressWarnings("nullness") // first 2 * n elements are verified non-null by callers
+    Object[] kv = ownsKv ? Arrays.copyOf(rawKv, n << 1) : (Object[]) rawKv;
+
+    if (n <= LINEAR_MAX_SIZE) {
+      int tableSize = chooseLinearTableSize(n);
+      int mask = tableSize - 1;
+      int maxProbes = maxLinearProbes(tableSize);
+      return createLinearByte(
+          kv, n, tableSize, mask, maxProbes, ownsKv, throwIfDuplicateKeys, builder);
+    } else {
+      int stride = n <= TIER2_MAX_SIZE ? STRIDE_16 : strideForSize(n);
+      return createSwar(kv, n, stride, ownsKv, throwIfDuplicateKeys, builder);
+    }
+  }
+
+  /**
+   * Builds a Tier-1 linear-probing {@code byte[]} map for {@code 1 <= n <= 255}.
+   *
+   * <p>When {@code throwIfDuplicateKeys} is {@code false}, duplicate keys overwrite the value at
+   * their first-inserted slot (cloning {@code kv} first if not already owned) and subsequent unique
+   * entries are compacted left in {@code kv} so stored 0-based indices stay contiguous.
+   */
+  private static <K, V> ImmutableMap<K, V> createLinearByte(
+      Object[] kv,
+      int n,
+      int tableSize,
+      int mask,
+      int maxProbes,
+      boolean ownsKv,
+      boolean throwIfDuplicateKeys,
+      @Nullable Builder<K, V> builder) {
+    byte[] hashTable = new byte[tableSize];
+    Arrays.fill(hashTable, ABSENT_BYTE);
+    Builder.DuplicateKey firstDuplicate = null;
+    int uniqueCount = 0;
+    entries:
+    for (int i = 0; i < n; i++) {
+      int kvIndex = i << 1;
+      Object key = requireNonNull(kv[kvIndex]);
+      Object value = requireNonNull(kv[kvIndex + 1]);
+      int smearedHash = Hashing.smear(key.hashCode());
+      int probes = 0;
+      for (int slot = smearedHash & mask; ; slot = (slot + 1) & mask) {
+        int existingEntryIndex = hashTable[slot] & BYTE_MASK;
+        if (existingEntryIndex == BYTE_MASK) {
+          hashTable[slot] = (byte) uniqueCount;
+          break;
+        }
+        int existingKvIndex = existingEntryIndex << 1;
+        if (key.equals(kv[existingKvIndex])) {
+          Builder.DuplicateKey duplicate =
+              new Builder.DuplicateKey(key, value, kv[existingKvIndex + 1]);
+          if (throwIfDuplicateKeys) {
+            throw duplicate.exception();
+          }
+          if (firstDuplicate == null) {
+            firstDuplicate = duplicate;
+          }
+          if (!ownsKv) {
+            kv = kv.clone();
+            ownsKv = true;
+          }
+          kv[existingKvIndex + 1] = value;
+          continue entries;
+        }
+      }
+      if (uniqueCount < i) {
+        int destKvIndex = uniqueCount << 1;
+        kv[destKvIndex] = key;
+        kv[destKvIndex + 1] = value;
+      }
+      uniqueCount++;
+    }
+    if (firstDuplicate != null) {
+      return finishAfterDeduplication(
+          hashTable,
+          kv,
+          uniqueCount,
+          /* needsRehash= */ chooseLinearTableSize(uniqueCount) != tableSize,
+          firstDuplicate,
+          builder);
+    }
+    return new RegularImmutableMap<>(hashTable, kv);
+  }
+
+  /**
+   * Builds a Tier-2 interleaved SWAR SwissTable map for {@code n >= 256}, using 16-bit ({@link
+   * #SWAR_SHORT_GROUP_STRIDE}), 24-bit ({@link #SWAR_24_GROUP_STRIDE}), or 32-bit ({@link
+   * #SWAR_INT_GROUP_STRIDE}) entry indices according to {@code stride}.
+   *
+   * <p>Groups are probed by triangular numbers ({@code g, g+1, g+3, g+6, ...}), which visit every
+   * group in a power-of-2 table without cycling. Newly allocated {@code long[]} arrays are
+   * zero-filled by the JVM, which already matches the {@code 0x00} empty-lane tag encoding.
+   */
+  private static <K, V> ImmutableMap<K, V> createSwar(
+      Object[] kv,
+      int n,
+      int stride,
+      boolean ownsKv,
+      boolean throwIfDuplicateKeys,
+      @Nullable Builder<K, V> builder) {
+    int numGroups = chooseSwarNumGroups(n);
+    int groupMask = numGroups - 1;
+    long[] table = new long[numGroups * stride];
+    Builder.DuplicateKey firstDuplicate = null;
+    int uniqueCount = 0;
+    entries:
+    for (int i = 0; i < n; i++) {
+      int kvIndex = i << 1;
+      Object key = requireNonNull(kv[kvIndex]);
+      Object value = requireNonNull(kv[kvIndex + 1]);
+      int smearedHash = Hashing.smear(key.hashCode());
+      int tag = h2Top7(smearedHash);
+      long broadcastTag = broadcastTag(tag);
+      int groupIndex = smearedHash & groupMask;
+      int probeStep = 0;
+      while (true) {
+        int groupBase = groupIndex * stride;
+        long groupTags = table[groupBase];
+        for (long matchMask = matchTags(groupTags, broadcastTag);
+            matchMask != 0L;
+            matchMask &= matchMask - 1) {
+          int lane = firstLane(matchMask);
+          int existingEntryIndex = readIndexForStride(table, groupBase, stride, lane);
+          int existingKvIndex = existingEntryIndex << 1;
+          if (key.equals(kv[existingKvIndex])) {
+            Builder.DuplicateKey duplicate =
+                new Builder.DuplicateKey(key, value, kv[existingKvIndex + 1]);
+            if (throwIfDuplicateKeys) {
+              throw duplicate.exception();
+            }
+            if (firstDuplicate == null) {
+              firstDuplicate = duplicate;
+            }
+            if (!ownsKv) {
+              kv = kv.clone();
+              ownsKv = true;
+            }
+            kv[existingKvIndex + 1] = value;
+            continue entries;
+          }
+        }
+        long emptyMask = emptyLanes(groupTags);
+        if (emptyMask != 0L) {
+          writeSlot(table, groupBase, stride, groupTags, tag, firstLane(emptyMask), uniqueCount);
+          break;
+        }
+        ++probeStep;
+        groupIndex = (groupIndex + probeStep) & groupMask;
+      }
+      if (uniqueCount < i) {
+        int destKvIndex = uniqueCount << 1;
+        kv[destKvIndex] = key;
+        kv[destKvIndex + 1] = value;
+      }
+      uniqueCount++;
+    }
+    if (firstDuplicate != null) {
+      int targetStride = uniqueCount <= TIER2_MAX_SIZE ? STRIDE_16 : strideForSize(uniqueCount);
+      boolean needsRehash =
+          uniqueCount <= LINEAR_MAX_SIZE
+              || targetStride != stride
+              || chooseSwarNumGroups(uniqueCount) != numGroups;
+      return finishAfterDeduplication(table, kv, uniqueCount, needsRehash, firstDuplicate, builder);
+    }
+    return new RegularImmutableMap<>(table, kv);
+  }
+
+  /**
+   * Finalizes map construction after {@link Builder#buildKeepingLast} deduplicated one or more
+   * keys.
+   *
+   * <p>Records {@code firstDuplicate} on {@code builder} so any subsequent {@link
+   * Builder#buildOrThrow} fails immediately, trims {@code kv} to exact length {@code 2 *
+   * uniqueCount}, and rehashes when {@code needsRehash} is {@code true} so the map neither retains
+   * an oversized hash table nor violates tier-dispatch invariants (notably, {@link #getSwar}
+   * chooses SWAR-16 vs. SWAR-32 based on {@code kv.length}, so shrinking across {@link
+   * #SWAR_SHORT_MAX_SIZE} must rehash into stride-3 groups).
+   */
+  private static <K, V> ImmutableMap<K, V> finishAfterDeduplication(
+      Object hashTable,
+      Object[] kv,
+      int uniqueCount,
+      boolean needsRehash,
+      Builder.DuplicateKey firstDuplicate,
+      @Nullable Builder<K, V> builder) {
+    if (builder != null) {
+      builder.duplicateKey = firstDuplicate;
+    }
+    Object[] trimmedKv = Arrays.copyOf(kv, uniqueCount << 1);
+    if (needsRehash) {
+      return createCheckingFlooding(
+          uniqueCount, trimmedKv, /* throwIfDuplicateKeys= */ true, /* builder= */ null);
+    }
+    return new RegularImmutableMap<>(hashTable, trimmedKv);
+  }
+
+  /**
+   * Chooses the smallest power-of-2 {@code byte[]} table size {@code >= 2} keeping load factor
+   * {@code <= 70%}.
+   */
+  private static int chooseLinearTableSize(int size) {
+    // Exact integer ceiling of size / 0.7 is (size * 10 + 6) / 7; clamp to >= 2 for size == 1.
+    int minSlots = Math.max((size * 10 + 6) / 7, 2);
+    return Integer.highestOneBit(minSlots - 1) << 1;
+  }
+
+  /**
+   * Returns the maximum linear-probe displacement allowed for a Tier-1 {@code byte[]} table of size
+   * {@code tableSize} before declaring hash flooding.
+   *
+   * <p>Calibrated for {@code <= 70%} load factor so random keys trigger a false positive with
+   * probability {@code <=} {@link #HASH_FLOODING_FPP} ({@code 0.001}), while adversarial hash
+   * collisions abort quickly rather than degrading to quadratic construction time.
+   */
+  private static int maxLinearProbes(int tableSize) {
+    if (tableSize <= 64) {
+      return 32;
+    } else if (tableSize <= 128) {
+      return 48;
+    } else {
+      return 72;
+    }
+  }
+
+  /**
+   * Chooses the smallest power-of-2 number of 8-slot SWAR groups keeping load factor {@code <= 6/8
+   * = 75%}.
+   *
+   * <p>Capping occupancy at 6 of 8 slots per group (rather than 7 of 8) guarantees at least 2 empty
+   * lanes per group on average, keeping triangular-number probe chains short and allowing misses to
+   * terminate in the first group with high probability.
+   */
+  private static int chooseSwarNumGroups(int size) {
+    int minGroups = (size + 5) / 6;
+    if (minGroups <= 1) {
+      return 1;
+    }
+    int numGroups = Integer.highestOneBit(minGroups - 1) << 1;
+    return numGroups > 0 ? numGroups : MAX_SWAR_GROUPS;
+  }
+
+  // -------------------------------------------------------------------------
+  // Private SWAR lookup and bit-manipulation helpers
+  // -------------------------------------------------------------------------
+
+  /**
+   * Probes a Tier-2 interleaved SWAR {@code long[]} hash table for {@code key}, dispatching to
+   * SWAR-16, SWAR-24, or SWAR-32 based on {@code kv.length}.
+   *
+   * <p>Outlined from {@link #get} so {@link #get} stays compact enough for HotSpot C2 bimorphic
+   * inlining alongside {@link SingletonImmutableBiMap#get}.
+   */
+  private static @Nullable Object getSwar(long[] table, Object[] kv, Object key, int smearedHash) {
+    long broadcastTag = broadcastH2Top7(smearedHash);
+    int entryCount = kv.length >>> 1;
+    if (entryCount <= TIER2_MAX_SIZE) {
+      return probeSwarShort(table, kv, key, smearedHash, broadcastTag);
+    } else if (entryCount <= TIER3_MAX_SIZE) {
+      return probeSwar24(table, kv, key, smearedHash, broadcastTag);
+    } else {
+      return probeSwarInt(table, kv, key, smearedHash, broadcastTag);
+    }
+  }
+
+  /** Probes a SWAR-16 table ({@link SwarTables#STRIDE_16} longs/group, 16-bit indices). */
+  private static @Nullable Object probeSwarShort(
+      long[] table, Object[] kv, Object key, int smearedHash, long broadcastTag) {
+    int groupMask = groupMaskForStride(table.length, STRIDE_16);
+    int groupIndex = smearedHash & groupMask;
+    int probeStep = 0;
+    while (true) {
+      int groupBase = groupIndex * STRIDE_16;
+      long groupTags = table[groupBase];
+      for (long matchMask = matchTags(groupTags, broadcastTag);
+          matchMask != 0L;
+          matchMask &= matchMask - 1) {
+        int entryIndex = read16BitIndex(table, groupBase, firstLane(matchMask));
+        int kvIndex = entryIndex << 1;
+        if (key.equals(kv[kvIndex])) {
+          return kv[kvIndex + 1];
+        }
+      }
+      if (hasEmptyLane(groupTags) || ++probeStep > MAX_SWAR_PROBE_GROUPS) {
+        return null;
+      }
+      groupIndex = (groupIndex + probeStep) & groupMask;
+    }
+  }
+
+  /** Probes a SWAR-24 table ({@link SwarTables#STRIDE_24} longs/group, 24-bit indices). */
+  private static @Nullable Object probeSwar24(
+      long[] table, Object[] kv, Object key, int smearedHash, long broadcastTag) {
+    int groupMask = groupMaskForStride(table.length, STRIDE_24);
+    int groupIndex = smearedHash & groupMask;
+    int probeStep = 0;
+    while (true) {
+      int groupBase = groupIndex * STRIDE_24;
+      long groupTags = table[groupBase];
+      for (long matchMask = matchTags(groupTags, broadcastTag);
+          matchMask != 0L;
+          matchMask &= matchMask - 1) {
+        int entryIndex = read24BitIndex(table, groupBase, firstLane(matchMask));
+        int kvIndex = entryIndex << 1;
+        if (key.equals(kv[kvIndex])) {
+          return kv[kvIndex + 1];
+        }
+      }
+      if (hasEmptyLane(groupTags) || ++probeStep > MAX_SWAR_PROBE_GROUPS) {
+        return null;
+      }
+      groupIndex = (groupIndex + probeStep) & groupMask;
+    }
+  }
+
+  /** Probes a SWAR-32 table ({@link SwarTables#STRIDE_32} longs/group, 32-bit indices). */
+  private static @Nullable Object probeSwarInt(
+      long[] table, Object[] kv, Object key, int smearedHash, long broadcastTag) {
+    int groupMask = groupMaskForStride(table.length, STRIDE_32);
+    int groupIndex = smearedHash & groupMask;
+    int probeStep = 0;
+    while (true) {
+      int groupBase = groupIndex * STRIDE_32;
+      long groupTags = table[groupBase];
+      for (long matchMask = matchTags(groupTags, broadcastTag);
+          matchMask != 0L;
+          matchMask &= matchMask - 1) {
+        int entryIndex = read32BitIndex(table, groupBase, firstLane(matchMask));
+        int kvIndex = entryIndex << 1;
+        if (key.equals(kv[kvIndex])) {
+          return kv[kvIndex + 1];
+        }
+      }
+      if (hasEmptyLane(groupTags) || ++probeStep > MAX_SWAR_PROBE_GROUPS) {
+        return null;
+      }
+      groupIndex = (groupIndex + probeStep) & groupMask;
+    }
+  }
 }

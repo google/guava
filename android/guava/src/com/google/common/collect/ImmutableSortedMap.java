@@ -786,41 +786,9 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
         case 0:
           return emptyMap(comparator);
         case 1:
-          // We're careful to put only K and V instances in.
-          // requireNonNull is safe because the first `size` elements have been filled in.
-          ImmutableSortedMap<K, V> result =
-              of(comparator, (K) requireNonNull(keys[0]), (V) requireNonNull(values[0]));
-          return result;
+          return of(comparator, keyAt(0), valueAt(0));
         default:
-          Object[] sortedKeys = Arrays.copyOf(keys, size);
-          // We're careful to put only K instances in.
-          K[] sortedKs = (K[]) sortedKeys;
-          Arrays.sort(sortedKs, comparator);
-          Object[] sortedValues = new Object[size];
-
-          // We might, somehow, be able to reorder values in-place.  But it doesn't seem like
-          // there's a way around creating the separate sortedKeys array, and if we're allocating
-          // one array of size n, we might as well allocate two -- to say nothing of the allocation
-          // done in Arrays.sort.
-          for (int i = 0; i < size; i++) {
-            // We're careful to put only K instances in.
-            if (i > 0 && comparator.compare((K) sortedKeys[i - 1], (K) sortedKeys[i]) == 0) {
-              throw new IllegalArgumentException(
-                  "keys required to be distinct but compared as equal: "
-                      + sortedKeys[i - 1]
-                      + " and "
-                      + sortedKeys[i]);
-            }
-            // requireNonNull is safe because the first `size` elements have been filled in.
-            // We're careful to put only K instances in.
-            int index =
-                Arrays.binarySearch((K[]) sortedKeys, (K) requireNonNull(keys[i]), comparator);
-            sortedValues[index] = requireNonNull(values[i]);
-          }
-          return new ImmutableSortedMap<K, V>(
-              new RegularImmutableSortedSet<K>(
-                  ImmutableList.<K>asImmutableList(sortedKeys), comparator),
-              ImmutableList.<V>asImmutableList(sortedValues));
+          return fromEntries(comparator, false, toEntryArray(alternatingKeysAndValues, size), size);
       }
     }
 
