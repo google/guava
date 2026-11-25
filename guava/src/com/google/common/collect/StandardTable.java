@@ -331,9 +331,13 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     @Nullable Map<C, V> backingRowMap;
 
     final void updateBackingRowMapField() {
-      if (backingRowMap == null || (backingRowMap.isEmpty() && backingMap.containsKey(rowKey))) {
+      if (!isBackingRowMapCurrent()) {
         backingRowMap = computeBackingRowMap();
       }
+    }
+
+    boolean isBackingRowMapCurrent() {
+      return backingRowMap == backingMap.get(rowKey);
     }
 
     @Nullable Map<C, V> computeBackingRowMap() {
@@ -365,6 +369,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     public @Nullable V put(C key, V value) {
       checkNotNull(key);
       checkNotNull(value);
+      updateBackingRowMapField();
       if (backingRowMap != null && !backingRowMap.isEmpty()) {
         return backingRowMap.put(key, value);
       }
