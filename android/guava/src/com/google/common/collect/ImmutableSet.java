@@ -178,24 +178,34 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         // continue below to handle the general case
     }
     int tableSize = chooseTableSize(n);
-    Object[] table = new Object[tableSize];
+    int[] table = new int[tableSize];
     int mask = tableSize - 1;
+    int indexMask = RegularImmutableSet.indexMaskForTableLength(tableSize);
+    int tagShiftMask = ~indexMask;
     int hashCode = 0;
     int uniques = 0;
     for (int i = 0; i < n; i++) {
       Object element = checkElementNotNull(elements[i], i);
-      int hash = element.hashCode();
-      for (int j = Hashing.smear(hash); ; j++) {
-        int index = j & mask;
-        Object value = table[index];
-        if (value == null) {
+      int elemHashCode = element.hashCode();
+      int smeared = Hashing.smear(elemHashCode);
+      int tag = RegularImmutableSet.OCCUPIED_BIT | (smeared & tagShiftMask);
+      for (int j = smeared; ; j++) {
+        int tableIndex = j & mask;
+        int entry = table[tableIndex];
+        if (entry == RegularImmutableSet.ABSENT) {
           // Came to an empty slot. Put the element here.
-          elements[uniques++] = element;
-          table[index] = element;
-          hashCode += hash;
+          int elementIndex = uniques++;
+          elements[elementIndex] = element;
+          table[tableIndex] = tag | elementIndex;
+          hashCode += elemHashCode;
           break;
-        } else if (value.equals(element)) {
-          break;
+        }
+        int index = entry ^ tag;
+        if (index <= indexMask) {
+          Object existing = requireNonNull(elements[index]);
+          if (existing == element || existing.equals(element)) {
+            break;
+          }
         }
       }
     }
@@ -212,7 +222,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     } else {
       @Nullable Object[] uniqueElements =
           shouldTrim(uniques, elements.length) ? Arrays.copyOf(elements, uniques) : elements;
-      return new RegularImmutableSet<E>(uniqueElements, hashCode, table, mask, uniques);
+      return new RegularImmutableSet<E>(uniqueElements, hashCode, table, uniques);
     }
   }
 
@@ -276,6 +286,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       if (!set.isPartialView()) {
         return set;
       }
+    }
+    if (elements.isEmpty()) {
+      return of();
     }
     Object[] array = elements.toArray();
     return construct(array.length, array);
@@ -459,7 +472,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * @since 2.0
    */
   public static class Builder<E> extends ImmutableCollection.ArrayBasedBuilder<E> {
-    @VisibleForTesting @Nullable Object @Nullable [] hashTable;
+    @VisibleForTesting int @Nullable [] hashTable;
     private int hashCode;
 
     /**
@@ -473,7 +486,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     Builder(int capacity, boolean makeHashTable) {
       super(capacity);
       if (makeHashTable) {
-        this.hashTable = new @Nullable Object[chooseTableSize(capacity)];
+        this.hashTable = new int[chooseTableSize(capacity)];
       }
     }
 
@@ -522,19 +535,29 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
 
     private void addDeduping(E element) {
-      requireNonNull(hashTable); // safe because we check for null before calling this method
+      int[] hashTable =
+          requireNonNull(this.hashTable); // safe because we check for null before calling
       int mask = hashTable.length - 1;
+      int indexMask = RegularImmutableSet.indexMaskForTableLength(hashTable.length);
       int hash = element.hashCode();
-      for (int i = Hashing.smear(hash); ; i++) {
-        i &= mask;
-        Object previous = hashTable[i];
-        if (previous == null) {
-          hashTable[i] = element;
-          hashCode += hash;
+      int smeared = Hashing.smear(hash);
+      int tag = RegularImmutableSet.OCCUPIED_BIT | (smeared & ~indexMask);
+      for (int i = smeared; ; i++) {
+        int tableIndex = i & mask;
+        int entry = hashTable[tableIndex];
+        if (entry == RegularImmutableSet.ABSENT) {
+          int elementIndex = size;
           super.add(element);
+          hashTable[tableIndex] = tag | elementIndex;
+          hashCode += hash;
           return;
-        } else if (previous.equals(element)) {
-          return;
+        }
+        int index = entry ^ tag;
+        if (index <= indexMask) {
+          Object previous = requireNonNull(contents[index]);
+          if (previous == element || previous.equals(element)) {
+            return;
+          }
         }
       }
     }
@@ -613,9 +636,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
           if (hashTable != null && chooseTableSize(size) == hashTable.length) {
             @Nullable Object[] uniqueElements =
                 shouldTrim(size, contents.length) ? Arrays.copyOf(contents, size) : contents;
-            result =
-                new RegularImmutableSet<E>(
-                    uniqueElements, hashCode, hashTable, hashTable.length - 1, size);
+            result = new RegularImmutableSet<E>(uniqueElements, hashCode, hashTable, size);
           } else {
             result = construct(size, contents);
             // construct has the side effect of deduping contents, so we update size
