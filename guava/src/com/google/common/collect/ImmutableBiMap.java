@@ -16,8 +16,11 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static java.lang.System.arraycopy;
 import static java.util.Arrays.sort;
 import static java.util.Objects.requireNonNull;
 
@@ -29,7 +32,9 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
+import java.util.AbstractMap;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.function.BinaryOperator;
@@ -90,7 +95,8 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    * @throws IllegalArgumentException if duplicate keys or values are added
    */
   public static <K, V> ImmutableBiMap<K, V> of(K k1, V v1, K k2, V v2) {
-    return RegularImmutableBiMap.fromEntries(entryOf(k1, v1), entryOf(k2, v2));
+    return RegularImmutableBiMap.fromAlternatingKeysAndValues(
+        2, new @Nullable Object[] {k1, v1, k2, v2});
   }
 
   /**
@@ -99,7 +105,8 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    * @throws IllegalArgumentException if duplicate keys or values are added
    */
   public static <K, V> ImmutableBiMap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
-    return RegularImmutableBiMap.fromEntries(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3));
+    return RegularImmutableBiMap.fromAlternatingKeysAndValues(
+        3, new @Nullable Object[] {k1, v1, k2, v2, k3, v3});
   }
 
   /**
@@ -108,8 +115,8 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    * @throws IllegalArgumentException if duplicate keys or values are added
    */
   public static <K, V> ImmutableBiMap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
-    return RegularImmutableBiMap.fromEntries(
-        entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4));
+    return RegularImmutableBiMap.fromAlternatingKeysAndValues(
+        4, new @Nullable Object[] {k1, v1, k2, v2, k3, v3, k4, v4});
   }
 
   /**
@@ -119,8 +126,8 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    */
   public static <K, V> ImmutableBiMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
-    return RegularImmutableBiMap.fromEntries(
-        entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4), entryOf(k5, v5));
+    return RegularImmutableBiMap.fromAlternatingKeysAndValues(
+        5, new @Nullable Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5});
   }
 
   /**
@@ -131,13 +138,8 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    */
   public static <K, V> ImmutableBiMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
-    return RegularImmutableBiMap.fromEntries(
-        entryOf(k1, v1),
-        entryOf(k2, v2),
-        entryOf(k3, v3),
-        entryOf(k4, v4),
-        entryOf(k5, v5),
-        entryOf(k6, v6));
+    return RegularImmutableBiMap.fromAlternatingKeysAndValues(
+        6, new @Nullable Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6});
   }
 
   /**
@@ -148,14 +150,8 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    */
   public static <K, V> ImmutableBiMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
-    return RegularImmutableBiMap.fromEntries(
-        entryOf(k1, v1),
-        entryOf(k2, v2),
-        entryOf(k3, v3),
-        entryOf(k4, v4),
-        entryOf(k5, v5),
-        entryOf(k6, v6),
-        entryOf(k7, v7));
+    return RegularImmutableBiMap.fromAlternatingKeysAndValues(
+        7, new @Nullable Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7});
   }
 
   /**
@@ -181,15 +177,8 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
       V v7,
       K k8,
       V v8) {
-    return RegularImmutableBiMap.fromEntries(
-        entryOf(k1, v1),
-        entryOf(k2, v2),
-        entryOf(k3, v3),
-        entryOf(k4, v4),
-        entryOf(k5, v5),
-        entryOf(k6, v6),
-        entryOf(k7, v7),
-        entryOf(k8, v8));
+    return RegularImmutableBiMap.fromAlternatingKeysAndValues(
+        8, new @Nullable Object[] {k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8});
   }
 
   /**
@@ -217,16 +206,11 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
       V v8,
       K k9,
       V v9) {
-    return RegularImmutableBiMap.fromEntries(
-        entryOf(k1, v1),
-        entryOf(k2, v2),
-        entryOf(k3, v3),
-        entryOf(k4, v4),
-        entryOf(k5, v5),
-        entryOf(k6, v6),
-        entryOf(k7, v7),
-        entryOf(k8, v8),
-        entryOf(k9, v9));
+    return RegularImmutableBiMap.fromAlternatingKeysAndValues(
+        9,
+        new @Nullable Object[] {
+          k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9
+        });
   }
 
   /**
@@ -256,17 +240,11 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
       V v9,
       K k10,
       V v10) {
-    return RegularImmutableBiMap.fromEntries(
-        entryOf(k1, v1),
-        entryOf(k2, v2),
-        entryOf(k3, v3),
-        entryOf(k4, v4),
-        entryOf(k5, v5),
-        entryOf(k6, v6),
-        entryOf(k7, v7),
-        entryOf(k8, v8),
-        entryOf(k9, v9),
-        entryOf(k10, v10));
+    return RegularImmutableBiMap.fromAlternatingKeysAndValues(
+        10,
+        new @Nullable Object[] {
+          k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9, k10, v10
+        });
   }
 
   // looking for of() with > 10 entries? Use the builder or ofEntries instead.
@@ -338,15 +316,39 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    * @since 2.0
    */
   public static final class Builder<K, V> extends ImmutableMap.Builder<K, V> {
+    @VisibleForTesting @Nullable Object[] alternatingKeysAndValues;
 
     /**
      * Creates a new builder. The returned builder is equivalent to the builder generated by {@link
      * ImmutableBiMap#builder}.
      */
-    public Builder() {}
+    public Builder() {
+      this(ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY);
+    }
 
-    Builder(int size) {
-      super(size);
+    Builder(int initialCapacity) {
+      super(/* skipEntriesAllocation= */ true);
+      if (initialCapacity < 0 || initialCapacity > Integer.MAX_VALUE / 2) {
+        throw new IllegalArgumentException(
+            "initialCapacity must be non-negative and <= Integer.MAX_VALUE / 2: "
+                + initialCapacity);
+      }
+      this.alternatingKeysAndValues = new @Nullable Object[2 * initialCapacity];
+    }
+
+    private void ensureCapacity(int minCapacity) {
+      if (minCapacity < 0 || minCapacity > Integer.MAX_VALUE / 2) {
+        throw new IllegalArgumentException(
+            "minCapacity must be non-negative and <= Integer.MAX_VALUE / 2: " + minCapacity);
+      }
+      if (minCapacity * 2 > alternatingKeysAndValues.length) {
+        alternatingKeysAndValues =
+            Arrays.copyOf(
+                alternatingKeysAndValues,
+                ImmutableCollection.Builder.expandedCapacity(
+                    alternatingKeysAndValues.length, minCapacity * 2));
+        entriesUsed = false;
+      }
     }
 
     /**
@@ -356,7 +358,11 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     @CanIgnoreReturnValue
     @Override
     public Builder<K, V> put(K key, V value) {
-      super.put(key, value);
+      ensureCapacity(size + 1);
+      checkEntryNotNull(key, value);
+      alternatingKeysAndValues[2 * size] = key;
+      alternatingKeysAndValues[2 * size + 1] = value;
+      size++;
       return this;
     }
 
@@ -369,8 +375,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     @CanIgnoreReturnValue
     @Override
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
-      super.put(entry);
-      return this;
+      return put(entry.getKey(), entry.getValue());
     }
 
     /**
@@ -382,8 +387,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     @CanIgnoreReturnValue
     @Override
     public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
-      super.putAll(map);
-      return this;
+      return putAll(map.entrySet());
     }
 
     /**
@@ -396,7 +400,12 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     @CanIgnoreReturnValue
     @Override
     public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
-      super.putAll(entries);
+      if (entries instanceof Collection) {
+        ensureCapacity(size + ((Collection<?>) entries).size());
+      }
+      for (Entry<? extends K, ? extends V> entry : entries) {
+        put(entry);
+      }
       return this;
     }
 
@@ -419,8 +428,24 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
 
     @Override
     @CanIgnoreReturnValue
-    Builder<K, V> combine(ImmutableMap.Builder<K, V> builder) {
-      super.combine(builder);
+    Builder<K, V> combine(ImmutableMap.Builder<K, V> other) {
+      checkNotNull(other);
+      if (other instanceof ImmutableBiMap.Builder) {
+        Builder<K, V> otherBiMap = (Builder<K, V>) other;
+        ensureCapacity(this.size + otherBiMap.size);
+        arraycopy(
+            otherBiMap.alternatingKeysAndValues,
+            0,
+            this.alternatingKeysAndValues,
+            this.size * 2,
+            otherBiMap.size * 2);
+        this.size += otherBiMap.size;
+      } else {
+        ensureCapacity(this.size + other.size);
+        for (int i = 0; i < other.size; i++) {
+          put(requireNonNull(other.entries[i]));
+        }
+      }
       return this;
     }
 
@@ -455,29 +480,21 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
         case 0:
           return of();
         case 1:
-          // requireNonNull is safe because the first `size` elements have been filled in.
-          Entry<K, V> onlyEntry = requireNonNull(entries[0]);
-          return of(onlyEntry.getKey(), onlyEntry.getValue());
+          // requireNonNull is safe because the first `2 * size` elements have been filled in.
+          @SuppressWarnings("unchecked")
+          K onlyKey = (K) requireNonNull(alternatingKeysAndValues[0]);
+          @SuppressWarnings("unchecked")
+          V onlyValue = (V) requireNonNull(alternatingKeysAndValues[1]);
+          return of(onlyKey, onlyValue);
         default:
-          /*
-           * If entries is full, or if hash flooding is detected, then this implementation may end
-           * up using the entries array directly and writing over the entry objects with
-           * non-terminal entries, but this is safe; if this Builder is used further, it will grow
-           * the entries array (so it can't affect the original array), and future build() calls
-           * will always copy any entry objects that cannot be safely reused.
-           */
           if (valueComparator != null) {
             if (entriesUsed) {
-              entries = Arrays.copyOf(entries, size);
+              alternatingKeysAndValues = Arrays.copyOf(alternatingKeysAndValues, 2 * size);
             }
-            sort(
-                entries, // Entries up to size are not null
-                0,
-                size,
-                Ordering.from(valueComparator).onResultOf(Entry::getValue));
+            sortEntries(alternatingKeysAndValues, size, valueComparator);
           }
           entriesUsed = true;
-          return RegularImmutableBiMap.fromEntryArray(size, entries);
+          return RegularImmutableBiMap.fromAlternatingKeysAndValues(size, alternatingKeysAndValues);
       }
     }
 
@@ -506,12 +523,35 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
         case 0:
           return of();
         case 1:
-          // requireNonNull is safe because the first `size` elements have been filled in.
-          Entry<K, V> onlyEntry = requireNonNull(entries[0]);
-          return of(onlyEntry.getKey(), onlyEntry.getValue());
+          @SuppressWarnings("unchecked")
+          K onlyKey = (K) requireNonNull(alternatingKeysAndValues[0]);
+          @SuppressWarnings("unchecked")
+          V onlyValue = (V) requireNonNull(alternatingKeysAndValues[1]);
+          return of(onlyKey, onlyValue);
         default:
           entriesUsed = true;
-          return RegularImmutableBiMap.fromEntryArray(size, entries);
+          return JdkBackedImmutableBiMap.createFromAlternatingKeysAndValues(
+              size, alternatingKeysAndValues);
+      }
+    }
+
+    private static <V> void sortEntries(
+        @Nullable Object[] alternatingKeysAndValues,
+        int size,
+        Comparator<? super V> valueComparator) {
+      @SuppressWarnings({"rawtypes", "unchecked"})
+      Entry<Object, V>[] entries = new Entry[size];
+      for (int i = 0; i < size; i++) {
+        // requireNonNull is safe because the first `2 * size` elements have been filled in.
+        Object key = requireNonNull(alternatingKeysAndValues[2 * i]);
+        @SuppressWarnings("unchecked")
+        V value = (V) requireNonNull(alternatingKeysAndValues[2 * i + 1]);
+        entries[i] = new AbstractMap.SimpleImmutableEntry<>(key, value);
+      }
+      sort(entries, 0, size, Ordering.from(valueComparator).onResultOf(Entry::getValue));
+      for (int i = 0; i < size; i++) {
+        alternatingKeysAndValues[2 * i] = entries[i].getKey();
+        alternatingKeysAndValues[2 * i + 1] = entries[i].getValue();
       }
     }
   }
@@ -556,21 +596,14 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    */
   public static <K, V> ImmutableBiMap<K, V> copyOf(
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
-    @SuppressWarnings("unchecked") // we'll only be using getKey and getValue, which are covariant
-    Entry<K, V>[] entryArray = (Entry<K, V>[]) Iterables.toArray(entries, EMPTY_ENTRY_ARRAY);
-    switch (entryArray.length) {
-      case 0:
+    if (entries instanceof Collection) {
+      int size = ((Collection<?>) entries).size();
+      if (size == 0) {
         return of();
-      case 1:
-        Entry<K, V> entry = entryArray[0];
-        return of(entry.getKey(), entry.getValue());
-      default:
-        /*
-         * The current implementation will end up using entryArray directly, though it will write
-         * over the (arbitrary, potentially mutable) Entry objects actually stored in entryArray.
-         */
-        return RegularImmutableBiMap.fromEntries(entryArray);
+      }
+      return new Builder<K, V>(size).putAll(entries).buildOrThrow();
     }
+    return new Builder<K, V>().putAll(entries).buildOrThrow();
   }
 
   ImmutableBiMap() {}

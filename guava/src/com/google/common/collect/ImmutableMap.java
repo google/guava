@@ -440,6 +440,13 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       this.entriesUsed = false;
     }
 
+    @SuppressWarnings("unchecked")
+    Builder(@SuppressWarnings("unused") boolean skipEntriesAllocation) {
+      this.entries = (Entry<K, V>[]) EMPTY_ENTRY_ARRAY;
+      this.size = 0;
+      this.entriesUsed = false;
+    }
+
     private void ensureCapacity(int minCapacity) {
       if (minCapacity > entries.length) {
         entries =
