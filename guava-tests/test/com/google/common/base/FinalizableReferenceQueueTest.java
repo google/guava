@@ -71,8 +71,7 @@ public class FinalizableReferenceQueueTest {
     PhantomReference<Object> stop = new PhantomReference<>(queue, queue);
     ClassLoader contextLoader = new ClassLoader(null) {};
     Thread starter =
-        new Thread(
-            group, () -> Finalizer.startFinalizer(FinalizableReference.class, queue, stop));
+        new Thread(group, () -> Finalizer.startFinalizer(FinalizableReference.class, queue, stop));
     starter.setContextClassLoader(contextLoader);
     starter.setDaemon(true);
     Thread[] threads = new Thread[1];
