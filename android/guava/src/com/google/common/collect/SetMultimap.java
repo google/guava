@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -34,7 +35,7 @@ import org.jspecify.annotations.Nullable;
  * signature doesn't say so explicitly, the map returned by {@link #asMap} has {@code Set} values.
  *
  * <p>If the values corresponding to a single key should be ordered according to a {@link
- * java.util.Comparator} (or the natural order), see the {@link SortedSetMultimap} subinterface.
+ * Comparator} (or the natural order), see the {@link SortedSetMultimap} subinterface.
  *
  * <p>Since the value collections are sets, the behavior of a {@code SetMultimap} is not specified
  * if key <em>or value</em> objects already present in the multimap change in a manner that affects
@@ -43,6 +44,17 @@ import org.jspecify.annotations.Nullable;
  *
  * <p><b>Warning:</b> Do not modify either a key <i>or a value</i> of a {@code SetMultimap} in a way
  * that affects its {@link Object#equals} behavior. Undefined behavior and bugs will result.
+ *
+ * <h2>Implementations</h2>
+ *
+ * <ul>
+ *   <li>{@link ImmutableSetMultimap}
+ *   <li>Configure your own mutable {@code SetMultimap} with {@link MultimapBuilder}
+ * </ul>
+ *
+ * <p>Guava also contains other {@code SetMultimap} implementations, such as {@link HashMultimap},
+ * {@link LinkedHashMultimap}, and {@link TreeMultimap}. In new code, we recommend using {@link
+ * MultimapBuilder} instead: It provides better control of how keys and values are stored.
  *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
@@ -57,8 +69,7 @@ public interface SetMultimap<K extends @Nullable Object, V extends @Nullable Obj
    * {@inheritDoc}
    *
    * <p>Because a {@code SetMultimap} has unique values for a given key, this method returns a
-   * {@link Set}, instead of the {@link java.util.Collection} specified in the {@link Multimap}
-   * interface.
+   * {@link Set}, instead of the {@link Collection} specified in the {@link Multimap} interface.
    */
   @Override
   Set<V> get(@ParametricNullness K key);
@@ -67,8 +78,7 @@ public interface SetMultimap<K extends @Nullable Object, V extends @Nullable Obj
    * {@inheritDoc}
    *
    * <p>Because a {@code SetMultimap} has unique values for a given key, this method returns a
-   * {@link Set}, instead of the {@link java.util.Collection} specified in the {@link Multimap}
-   * interface.
+   * {@link Set}, instead of the {@link Collection} specified in the {@link Multimap} interface.
    */
   @CanIgnoreReturnValue
   @Override
@@ -78,8 +88,7 @@ public interface SetMultimap<K extends @Nullable Object, V extends @Nullable Obj
    * {@inheritDoc}
    *
    * <p>Because a {@code SetMultimap} has unique values for a given key, this method returns a
-   * {@link Set}, instead of the {@link java.util.Collection} specified in the {@link Multimap}
-   * interface.
+   * {@link Set}, instead of the {@link Collection} specified in the {@link Multimap} interface.
    *
    * <p>Any duplicates in {@code values} will be stored in the multimap once.
    */
@@ -91,8 +100,7 @@ public interface SetMultimap<K extends @Nullable Object, V extends @Nullable Obj
    * {@inheritDoc}
    *
    * <p>Because a {@code SetMultimap} has unique values for a given key, this method returns a
-   * {@link Set}, instead of the {@link java.util.Collection} specified in the {@link Multimap}
-   * interface.
+   * {@link Set}, instead of the {@link Collection} specified in the {@link Multimap} interface.
    */
   @Override
   Set<Entry<K, V>> entries();

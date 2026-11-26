@@ -36,6 +36,7 @@ import java.util.stream.Collector;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
+import java.util.stream.Stream;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -203,8 +204,8 @@ public final class Stats implements Serializable {
   }
 
   /**
-   * Returns a {@link Collector} which accumulates statistics from a {@link java.util.stream.Stream}
-   * of any type of boxed {@link Number} into a {@link Stats}. Use by calling {@code
+   * Returns a {@link Collector} which accumulates statistics from a {@link Stream} of any type of
+   * boxed {@link Number} into a {@link Stats}. Use by calling {@code
    * boxedNumericStream.collect(toStats())}. The numbers will be converted to {@code double} values
    * (which may cause loss of precision).
    *

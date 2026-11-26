@@ -42,8 +42,8 @@ import org.jspecify.annotations.Nullable;
  * and pattern-based checks are performed.
  *
  * <p>If you know that a given string represents a numeric IP address, use {@link InetAddresses} to
- * obtain and manipulate a {@link java.net.InetAddress} instance from it rather than using this
- * class. Similarly, if you know that a given string represents a domain name, use {@link
+ * obtain and manipulate a {@link InetAddress} instance from it rather than using this class.
+ * Similarly, if you know that a given string represents a domain name, use {@link
  * InternetDomainName} rather than this class.
  *
  * @author Craig Berry

@@ -224,7 +224,7 @@ public final class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, 
 
     /**
      * Like {@link #rangeContains}, but also accepts a key equal to the (exclusive) upper bound.
-     * Like {@link java.util.TreeMap}, we permit such a key as the {@code toKey} of a nested view.
+     * Like {@link TreeMap}, we permit such a key as the {@code toKey} of a nested view.
      */
     boolean rangeContainsToKey(Object toKey) {
       return (lowerBound == null || compare(lowerBound, toKey) <= 0)

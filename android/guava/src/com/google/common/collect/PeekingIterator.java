@@ -26,6 +26,8 @@ import org.jspecify.annotations.Nullable;
 /**
  * An iterator that supports a one-element lookahead while iterating.
  *
+ * <p>To create an instance, use {@link Iterators#peekingIterator(Iterator)}.
+ *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/CollectionHelpersExplained#peekingiterator">{@code
  * PeekingIterator}</a>.

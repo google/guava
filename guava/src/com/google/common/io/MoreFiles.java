@@ -29,6 +29,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.graph.Traverser;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -60,9 +61,9 @@ import org.jspecify.annotations.Nullable;
 /**
  * Static utilities for use with {@link Path} instances, intended to complement {@link Files}.
  *
- * <p>Many methods provided by Guava's {@code Files} class for {@link java.io.File} instances are
- * now available via the JDK's {@link java.nio.file.Files} class for {@code Path} - check the JDK's
- * class if a sibling method from {@code Files} appears to be missing from this class.
+ * <p>Many methods provided by Guava's {@code Files} class for {@link File} instances are now
+ * available via the JDK's {@link Files} class for {@code Path} - check the JDK's class if a sibling
+ * method from {@code Files} appears to be missing from this class.
  *
  * @since 21.0 (but only since 33.4.0 in the Android flavor)
  * @author Colin Decker
@@ -309,8 +310,8 @@ public final class MoreFiles {
   }
 
   /**
-   * Returns a predicate that returns the result of {@link java.nio.file.Files#isDirectory(Path,
-   * LinkOption...)} on input paths with the given link options.
+   * Returns a predicate that returns the result of {@link Files#isDirectory(Path, LinkOption...)}
+   * on input paths with the given link options.
    */
   public static Predicate<Path> isDirectory(LinkOption... options) {
     LinkOption[] optionsCopy = options.clone();
@@ -337,8 +338,8 @@ public final class MoreFiles {
   }
 
   /**
-   * Returns a predicate that returns the result of {@link java.nio.file.Files#isRegularFile(Path,
-   * LinkOption...)} on input paths with the given link options.
+   * Returns a predicate that returns the result of {@link Files#isRegularFile(Path, LinkOption...)}
+   * on input paths with the given link options.
    */
   public static Predicate<Path> isRegularFile(LinkOption... options) {
     LinkOption[] optionsCopy = options.clone();

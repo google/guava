@@ -178,9 +178,8 @@ final class SortedLists {
      * <p>Note that the return value will be {@code >= 0} if and only if there is an element of the
      * list that compares as equal to the key.
      *
-     * <p>This is equivalent to the behavior of {@link java.util.Collections#binarySearch(List,
-     * Object)} when the key isn't present, since {@code ~insertionIndex} is equal to {@code -1 -
-     * insertionIndex}.
+     * <p>This is equivalent to the behavior of {@link Collections#binarySearch(List, Object)} when
+     * the key isn't present, since {@code ~insertionIndex} is equal to {@code -1 - insertionIndex}.
      */
     INVERTED_INSERTION_INDEX {
       @Override

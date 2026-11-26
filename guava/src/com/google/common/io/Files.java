@@ -630,8 +630,7 @@ public final class Files {
   }
 
   /**
-   * Fully maps a file read-only in to memory as per {@link
-   * FileChannel#map(java.nio.channels.FileChannel.MapMode, long, long)}.
+   * Fully maps a file read-only in to memory as per {@link FileChannel#map(MapMode, long, long)}.
    *
    * <p>Files are mapped from offset 0 to its length.
    *
@@ -650,9 +649,8 @@ public final class Files {
   }
 
   /**
-   * Fully maps a file in to memory as per {@link
-   * FileChannel#map(java.nio.channels.FileChannel.MapMode, long, long)} using the requested {@link
-   * MapMode}.
+   * Fully maps a file in to memory as per {@link FileChannel#map(MapMode, long, long)} using the
+   * requested {@link MapMode}.
    *
    * <p>Files are mapped from offset 0 to its length.
    *
@@ -671,8 +669,8 @@ public final class Files {
   }
 
   /**
-   * Maps a file in to memory as per {@link FileChannel#map(java.nio.channels.FileChannel.MapMode,
-   * long, long)} using the requested {@link MapMode}.
+   * Maps a file in to memory as per {@link FileChannel#map(MapMode, long, long)} using the
+   * requested {@link MapMode}.
    *
    * <p>Files are mapped from offset 0 to {@code size}.
    *

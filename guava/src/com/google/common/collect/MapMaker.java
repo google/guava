@@ -29,6 +29,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.ref.WeakReference;
 import java.util.ConcurrentModificationException;
 import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import org.jspecify.annotations.Nullable;
@@ -78,8 +79,8 @@ import org.jspecify.annotations.Nullable;
  * be quickly garbage-collected before they are ever accessed.
  *
  * <p>{@code new MapMaker().weakKeys().makeMap()} is a recommended replacement for {@link
- * java.util.WeakHashMap}, but note that it compares keys using object identity whereas {@code
- * WeakHashMap} uses {@link Object#equals}.
+ * WeakHashMap}, but note that it compares keys using object identity whereas {@code WeakHashMap}
+ * uses {@link Object#equals}.
  *
  * @author Bob Lee
  * @author Charles Fry

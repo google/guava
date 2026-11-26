@@ -16,10 +16,11 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import java.util.concurrent.TimeoutException;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Unchecked version of {@link java.util.concurrent.TimeoutException}.
+ * Unchecked version of {@link TimeoutException}.
  *
  * @author Kevin Bourrillion
  * @since 1.0

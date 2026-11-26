@@ -28,6 +28,7 @@ import com.google.common.primitives.Ints;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.function.ObjIntConsumer;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -184,6 +185,14 @@ final class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   @Override
   Entry<E> getEntry(int index) {
     return entries[index];
+  }
+
+  @Override
+  public void forEachEntry(ObjIntConsumer<? super E> action) {
+    checkNotNull(action);
+    for (ImmutableEntry<E> entry : entries) {
+      action.accept(entry.getElement(), entry.getCount());
+    }
   }
 
   @Override

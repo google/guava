@@ -64,7 +64,7 @@ abstract class WrappingExecutorService implements ExecutorService {
    * delegates to {@link #wrapTask(Callable)}.
    */
   protected Runnable wrapTask(Runnable command) {
-    Callable<Object> wrapped = wrapTask(callable(command, null));
+    Callable<@Nullable Object> wrapped = wrapTask(callable(command, null));
     return () -> {
       try {
         wrapped.call();

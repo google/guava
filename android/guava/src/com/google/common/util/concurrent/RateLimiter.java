@@ -33,6 +33,7 @@ import com.google.common.util.concurrent.SmoothRateLimiter.SmoothWarmingUp;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.time.Duration;
 import java.util.Locale;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import org.jspecify.annotations.Nullable;
 
@@ -45,10 +46,9 @@ import org.jspecify.annotations.Nullable;
  * all threads. Note, however, that it does not guarantee fairness.
  *
  * <p>Rate limiters are often used to restrict the rate at which some physical or logical resource
- * is accessed. This is in contrast to {@link java.util.concurrent.Semaphore} which restricts the
- * number of concurrent accesses instead of the rate (note though that concurrency and rate are
- * closely related, e.g. see <a href="http://en.wikipedia.org/wiki/Little%27s_law">Little's
- * Law</a>).
+ * is accessed. This is in contrast to {@link Semaphore} which restricts the number of concurrent
+ * accesses instead of the rate (note though that concurrency and rate are closely related, e.g. see
+ * <a href="http://en.wikipedia.org/wiki/Little%27s_law">Little's Law</a>).
  *
  * <p>A {@code RateLimiter} is defined primarily by the rate at which permits are issued. Absent
  * additional configuration, permits will be distributed at a fixed rate, defined in terms of

@@ -32,11 +32,6 @@ import java.util.TreeSet;
 import java.util.stream.Collector;
 import org.jspecify.annotations.Nullable;
 
-/**
- * GWT emulation of {@link com.google.common.collect.ImmutableSortedSet}.
- *
- * @author Hayward Chan
- */
 public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     implements SortedSet<E>, SortedIterable<E> {
   // TODO(cpovirk): split into ImmutableSortedSet/ForwardingImmutableSortedSet?

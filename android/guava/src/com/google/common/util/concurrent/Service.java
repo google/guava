@@ -45,8 +45,9 @@ import java.util.concurrent.TimeoutException;
  * states it cannot ever leave them.
  *
  * <p>Implementors of this interface are strongly encouraged to extend one of the abstract classes
- * in this package which implement this interface and make the threading and state management
- * easier.
+ * in this package ({@link AbstractExecutionThreadService}, {@link AbstractIdleService}, {@link
+ * AbstractScheduledService}, or {@link AbstractService}), which implement this interface and make
+ * the threading and state management easier.
  *
  * @author Jesse Wilson
  * @author Luke Sandberg

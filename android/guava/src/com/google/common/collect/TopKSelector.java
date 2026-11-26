@@ -31,6 +31,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Stream;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -39,8 +41,8 @@ import org.jspecify.annotations.Nullable;
  * create the {@code TopKSelector} instance.
  *
  * <p>If your input data is available as a {@link Stream}, prefer passing {@link Comparators#least}
- * to {@link Stream#collect(java.util.stream.Collector)}. If it is available as an {@link Iterable}
- * or {@link Iterator}, prefer {@link Ordering#leastOf(Iterable, int)}.
+ * to {@link Stream#collect(Collector)}. If it is available as an {@link Iterable} or {@link
+ * Iterator}, prefer {@link Ordering#leastOf(Iterable, int)}.
  *
  * <p>This uses the same efficient implementation as {@link Ordering#leastOf(Iterable, int)},
  * offering expected O(n + k log k) performance (worst case O(n log k)) for n calls to {@link

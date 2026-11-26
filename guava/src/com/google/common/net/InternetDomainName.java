@@ -160,7 +160,7 @@ public final class InternetDomainName {
 
   /**
    * Internal constructor that skips validations when creating an instance from parts of an
-   * already-validated InternetDomainName, as in {@link ancestor}.
+   * already-validated InternetDomainName, as in {@link #ancestor}.
    */
   private InternetDomainName(String name, ImmutableList<String> parts) {
     checkArgument(!parts.isEmpty(), "Cannot create an InternetDomainName with zero parts.");

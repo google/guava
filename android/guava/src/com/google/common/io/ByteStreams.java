@@ -35,6 +35,7 @@ import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.EOFException;
+import java.io.FileInputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -888,7 +889,7 @@ public final class ByteStreams {
   /**
    * Attempts to skip up to {@code n} bytes from the given input stream, but not more than {@code
    * in.available()} bytes. This prevents {@code FileInputStream} from skipping more bytes than
-   * actually remain in the file, something that it {@linkplain java.io.FileInputStream#skip(long)
+   * actually remain in the file, something that it {@linkplain FileInputStream#skip(long)
    * specifies} it can do in its Javadoc despite the fact that it is violating the contract of
    * {@code InputStream.skip()}.
    */

@@ -20,8 +20,7 @@ import java.util.concurrent.Future;
 import org.jspecify.annotations.Nullable;
 
 /**
- * A callback for accepting the results of a {@link java.util.concurrent.Future} computation
- * asynchronously.
+ * A callback for accepting the results of a {@link Future} computation asynchronously.
  *
  * <p>To attach to a {@link ListenableFuture} use {@link Futures#addCallback}.
  *

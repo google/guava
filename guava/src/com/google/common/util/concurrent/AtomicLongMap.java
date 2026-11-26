@@ -23,6 +23,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.collect.Multiset;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
@@ -50,8 +51,7 @@ import org.jspecify.annotations.Nullable;
  * <p>Instances of this class are serializable if the keys are serializable.
  *
  * <p><b>Note:</b> If your values are always positive and less than 2^31, you may wish to use a
- * {@link com.google.common.collect.Multiset} such as {@link
- * com.google.common.collect.ConcurrentHashMultiset} instead.
+ * {@link Multiset} such as {@link com.google.common.collect.ConcurrentHashMultiset} instead.
  *
  * <p><b>Warning:</b> Unlike {@code Multiset}, entries whose values are zero are not automatically
  * removed from the map. Instead they must be removed manually with {@link #removeAllZeros}.

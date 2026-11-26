@@ -54,11 +54,10 @@ import org.jspecify.annotations.Nullable;
  *   <li>enqueuing weak references to unreachable referents in their reference queue
  * </ul>
  *
- * <p>This class uses (possibly repeated) invocations of {@link java.lang.System#gc()} to cause
- * finalization to happen. However, a call to {@code System.gc()} is specified to be no more than a
- * hint, so this technique may fail at the whim of the JDK implementation, for example if a user
- * specified the JVM flag {@code -XX:+DisableExplicitGC}. But in practice, it works very well for
- * ordinary tests.
+ * <p>This class uses (possibly repeated) invocations of {@link System#gc()} to cause finalization
+ * to happen. However, a call to {@code System.gc()} is specified to be no more than a hint, so this
+ * technique may fail at the whim of the JDK implementation, for example if a user specified the JVM
+ * flag {@code -XX:+DisableExplicitGC}. But in practice, it works very well for ordinary tests.
  *
  * <p>Failure of the expected event to occur within an implementation-defined "reasonable" time
  * period or an interrupt while waiting for the expected event will result in a {@link
@@ -283,9 +282,9 @@ public final class GcFinalization {
    * returns. This method may be useful when testing the garbage collection mechanism itself, or
    * inhibiting a spontaneous GC initiation in subsequent code.
    *
-   * <p>In contrast, a plain call to {@link java.lang.System#gc()} does not ensure finalization
-   * processing and may run concurrently, for example, if the JVM flag {@code
-   * -XX:+ExplicitGCInvokesConcurrent} is used.
+   * <p>In contrast, a plain call to {@link System#gc()} does not ensure finalization processing and
+   * may run concurrently, for example, if the JVM flag {@code -XX:+ExplicitGCInvokesConcurrent} is
+   * used.
    *
    * <p>Whenever possible, it is preferable to test directly for some observable change resulting
    * from GC, as with {@link #awaitClear}. Because there are no guarantees for the order of GC

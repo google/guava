@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import org.jspecify.annotations.Nullable;
@@ -98,7 +99,7 @@ public interface BiMap<K extends @Nullable Object, V extends @Nullable Object> e
    * {@inheritDoc}
    *
    * <p>Because a bimap has unique values, this method returns a {@link Set}, instead of the {@link
-   * java.util.Collection} specified in the {@link Map} interface.
+   * Collection} specified in the {@link Map} interface.
    */
   @Override
   Set<V> values();

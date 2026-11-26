@@ -27,6 +27,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -559,8 +560,8 @@ public final class TypeResolver {
 
   /**
    * Wraps around {@code TypeVariable<?>} to ensure that any two type variables are equal as long as
-   * they are declared by the same {@link java.lang.reflect.GenericDeclaration} and have the same
-   * name, even if their bounds differ.
+   * they are declared by the same {@link GenericDeclaration} and have the same name, even if their
+   * bounds differ.
    *
    * <p>While resolving a type variable from a {@code var -> type} map, we don't care whether the
    * type variable's bound has been partially resolved. As long as the type variable "identity"

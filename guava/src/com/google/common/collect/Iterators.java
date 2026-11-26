@@ -50,6 +50,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.RandomAccess;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -589,7 +590,7 @@ public final class Iterators {
    * partition size of 3 yields {@code [[a, b, c], [d, e]]} -- an outer iterator containing two
    * inner lists of three and two elements, all in the original order.
    *
-   * <p>The returned lists implement {@link java.util.RandomAccess}.
+   * <p>The returned lists implement {@link RandomAccess}.
    *
    * <p><b>Note:</b> The current implementation eagerly allocates storage for {@code size} elements.
    * As a consequence, passing values like {@code Integer.MAX_VALUE} can lead to {@link
@@ -615,7 +616,7 @@ public final class Iterators {
    * c, d, e]} with a partition size of 3 yields {@code [[a, b, c], [d, e, null]]} -- an outer
    * iterator containing two inner lists of three elements each, all in the original order.
    *
-   * <p>The returned lists implement {@link java.util.RandomAccess}.
+   * <p>The returned lists implement {@link RandomAccess}.
    *
    * @param iterator the iterator to return a partitioned view of
    * @param size the desired size of each partition
@@ -628,18 +629,18 @@ public final class Iterators {
     return partitionImpl(iterator, size, true);
   }
 
-  private static <T extends @Nullable Object> UnmodifiableIterator<List<@Nullable T>> partitionImpl(
-      Iterator<T> iterator, int size, boolean pad) {
+  private static <T extends @Nullable Object> UnmodifiableIterator<List<T>> partitionImpl(
+      Iterator<? extends T> iterator, int size, boolean pad) {
     checkNotNull(iterator);
     checkArgument(size > 0);
-    return new UnmodifiableIterator<List<@Nullable T>>() {
+    return new UnmodifiableIterator<List<T>>() {
       @Override
       public boolean hasNext() {
         return iterator.hasNext();
       }
 
       @Override
-      public List<@Nullable T> next() {
+      public List<T> next() {
         if (!hasNext()) {
           throw new NoSuchElementException();
         }
@@ -653,7 +654,13 @@ public final class Iterators {
           array[i] = null; // for GWT
         }
 
-        List<@Nullable T> list = unmodifiableList(asList(array));
+        /*
+         * Our array is of type `@Nullable T[]`, since it sometimes contains trailing nulls for the
+         * final partition. But those nulls are exposed only in the resulting List only when `pad`
+         * is `true`, which happens only when `T` is `@Nullable`.
+         */
+        @SuppressWarnings("nullness")
+        List<T> list = unmodifiableList(asList(array));
         // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.
         if (pad || count == size) {
           return list;

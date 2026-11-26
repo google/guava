@@ -334,7 +334,8 @@ public class CycleDetectingLockFactory {
    * ordering with an {@code Enum} whose values each correspond to a lock type. The order in which
    * the values are declared dictates the allowed order of lock acquisition. In other words, locks
    * corresponding to smaller values of {@link Enum#ordinal()} should only be acquired before locks
-   * with larger ordinals. Example:
+   * with larger ordinals. To create an instance, use {@link
+   * CycleDetectingLockFactory#newInstanceWithExplicitOrdering}. Example:
    *
    * {@snippet :
    * enum MyLockOrder {

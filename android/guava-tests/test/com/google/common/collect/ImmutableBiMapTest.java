@@ -629,6 +629,25 @@ public class ImmutableBiMapTest extends TestCase {
     assertThat(map).containsExactlyEntriesIn(expected).inOrder();
   }
 
+  @GwtIncompatible
+  public void testHashTableTierBoundaries() {
+    for (int size : new int[] {255, 256}) {
+      ImmutableBiMap.Builder<Integer, Integer> builder =
+          ImmutableBiMap.builderWithExpectedSize(size);
+      for (int i = 0; i < size; i++) {
+        builder.put(i, -i - 1);
+      }
+      ImmutableBiMap<Integer, Integer> bimap = builder.buildOrThrow();
+      assertThat(bimap).hasSize(size);
+      for (int i = 0; i < size; i++) {
+        assertThat(bimap.get(i)).isEqualTo(-i - 1);
+        assertThat(bimap.inverse().get(-i - 1)).isEqualTo(i);
+      }
+      assertThat(bimap.get(size)).isNull();
+      assertThat(bimap.inverse().get(0)).isNull();
+    }
+  }
+
   /** No-op test so that the class has at least one method, making Maven's test runner happy. */
   public void testNoop() {}
 }
