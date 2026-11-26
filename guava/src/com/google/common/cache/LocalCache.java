@@ -2253,9 +2253,6 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
                   RemovalCause.EXPIRED);
             }
 
-            // immediately reuse invalid entries
-            writeQueue.remove(e);
-            accessQueue.remove(e);
             createNewEntry = false;
             break;
           }
@@ -2274,11 +2271,16 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
           e.setValueReference(computingValueReference);
           table.set(index, e);
         } else {
+          // Preserve expiration and eviction metadata if the computation throws.
+          writeQueue.remove(e);
+          accessQueue.remove(e);
           e.setValueReference(computingValueReference);
         }
 
         if (newValue != null) {
-          if (valueReference != null && newValue == valueReference.get()) {
+          if (valueReference != null
+              && newValue == valueReference.get()
+              && getEntry(key, hash) == e) {
             computingValueReference.set(newValue);
             e.setValueReference(valueReference);
             recordWrite(e, 0, now); // no change in weight
