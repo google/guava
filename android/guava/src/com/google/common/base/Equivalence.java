@@ -187,6 +187,8 @@ public abstract class Equivalence<T> {
    * Wraps an object so that {@link #equals(Object)} and {@link #hashCode()} delegate to an {@link
    * Equivalence}.
    *
+   * <p>To create an instance, use {@link Equivalence#wrap}.
+   *
    * <p>For example, given an {@link Equivalence} for {@link String strings} named {@code equiv}
    * that tests equivalence using their lengths:
    *

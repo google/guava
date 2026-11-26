@@ -194,7 +194,7 @@ public final class Queues {
     return queue;
   }
 
-  // LinkedList: see {@link com.google.common.collect.Lists}
+  // LinkedList: see Lists
 
   // PriorityBlockingQueue
 

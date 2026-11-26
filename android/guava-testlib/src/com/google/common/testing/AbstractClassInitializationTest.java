@@ -18,6 +18,7 @@ package com.google.common.testing;
 
 import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_VERSION;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.reflect.Reflection.getPackageName;
 import static com.google.common.reflect.Reflection.initialize;
 import static com.google.common.testing.ClassPathUtil.getClassPathUrls;
 
@@ -64,7 +65,7 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public abstract class AbstractClassInitializationTest extends TestCase {
   public final void testClassesInitialize() throws Exception {
-    String packageName = getPackageName();
+    String packageName = getPackageName(getClass());
     ImmutableList<ClassInfo> classes = findClassesInPackage(packageName);
     assertFalse("No classes found in package " + packageName, classes.isEmpty());
     for (ClassInfo classInfo : classes) {
@@ -78,10 +79,6 @@ public abstract class AbstractClassInitializationTest extends TestCase {
         throw new AssertionError("Failed to initialize " + classInfo, t);
       }
     }
-  }
-
-  private String getPackageName() {
-    return getClass().getPackage().getName();
   }
 
   private static boolean isIgnored(ClassInfo classInfo) {

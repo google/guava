@@ -25,6 +25,9 @@ import org.jspecify.annotations.Nullable;
  * translate all multibyte values ({@link #putInt(int)}, {@link #putLong(long)}, etc) to bytes in
  * little-endian order.
  *
+ * <p>To create an instance, use {@link HashFunction#newHasher()} or {@link
+ * HashFunction#newHasher(int)}.
+ *
  * <p><b>Warning:</b> The result of calling any methods after calling {@link #hash} is undefined.
  *
  * <p><b>Warning:</b> Using a specific character encoding when hashing a {@link CharSequence} with

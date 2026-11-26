@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * Tests {@link java.util.Map#equals}.
+ * Tests {@link Map#equals}.
  *
  * @author George van den Driessche
  * @author Chris Povirk

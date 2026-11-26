@@ -33,7 +33,7 @@ import java.util.function.Consumer;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Implementation of {@link ImmutableSet} backed by a non-empty {@link java.util.EnumSet}.
+ * Implementation of {@link ImmutableSet} backed by a non-empty {@link EnumSet}.
  *
  * @author Jared Levy
  */

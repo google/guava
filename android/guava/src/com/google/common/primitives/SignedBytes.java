@@ -21,6 +21,7 @@ import static com.google.common.primitives.Bytes.reverse;
 import static java.util.Arrays.sort;
 
 import com.google.common.annotations.GwtCompatible;
+import java.util.Arrays;
 import java.util.Comparator;
 
 /**
@@ -163,8 +164,8 @@ public final class SignedBytes {
    * signed.
    *
    * <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
-   * support only identity equality), but it is consistent with {@link
-   * java.util.Arrays#equals(byte[], byte[])}.
+   * support only identity equality), but it is consistent with {@link Arrays#equals(byte[],
+   * byte[])}.
    *
    * @since 2.0
    */

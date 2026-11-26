@@ -27,8 +27,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -171,8 +173,7 @@ public final class TreeMultimap<K extends @Nullable Object, V extends @Nullable 
    * {@inheritDoc}
    *
    * <p>Because a {@code TreeMultimap} has unique sorted keys, this method returns a {@link
-   * NavigableSet}, instead of the {@link java.util.Set} specified in the {@link Multimap}
-   * interface.
+   * NavigableSet}, instead of the {@link Set} specified in the {@link Multimap} interface.
    *
    * @since 14.0 (present with return type {@code SortedSet} since 2.0)
    */
@@ -185,8 +186,7 @@ public final class TreeMultimap<K extends @Nullable Object, V extends @Nullable 
    * {@inheritDoc}
    *
    * <p>Because a {@code TreeMultimap} has unique sorted keys, this method returns a {@link
-   * NavigableMap}, instead of the {@link java.util.Map} specified in the {@link Multimap}
-   * interface.
+   * NavigableMap}, instead of the {@link Map} specified in the {@link Multimap} interface.
    *
    * @since 14.0 (present with return type {@code SortedMap} since 2.0)
    */

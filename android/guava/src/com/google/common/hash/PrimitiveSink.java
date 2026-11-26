@@ -22,6 +22,9 @@ import java.nio.charset.Charset;
 /**
  * An object which can receive a stream of primitive values.
  *
+ * <p>For hashing, see the {@link Hasher} subinterface (obtained from {@link
+ * HashFunction#newHasher()}) and {@link Funnel}.
+ *
  * @author Kevin Bourrillion
  * @since 12.0 (in 11.0 as {@code Sink})
  */

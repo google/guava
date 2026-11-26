@@ -16,12 +16,13 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.base.Function;
+import java.util.concurrent.Executor;
 
 /**
  * Hidden superclass of {@link Futures} that provides us a place to declare special GWT versions of
- * the {@link Futures#catching(ListenableFuture, Class, com.google.common.base.Function,
- * java.util.concurrent.Executor) Futures.catching} family of methods. Those versions have slightly
- * different signatures.
+ * the {@link Futures#catching(ListenableFuture, Class, Function, Executor) Futures.catching} family
+ * of methods. Those versions have slightly different signatures.
  */
 @GwtCompatible
 @J2ktIncompatible // Super-sourced

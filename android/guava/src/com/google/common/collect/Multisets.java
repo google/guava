@@ -375,12 +375,14 @@ public final class Multisets {
 
   /**
    * Returns the expected number of distinct elements given the specified elements. The number of
-   * distinct elements is only computed if {@code elements} is an instance of {@code Multiset};
-   * otherwise the default value of 11 is returned.
+   * distinct elements is only computed if {@code elements} is an instance of {@code Multiset} or
+   * {@code Set}; otherwise the default value of 11 is returned.
    */
   static int inferDistinctElements(Iterable<?> elements) {
     if (elements instanceof Multiset) {
       return ((Multiset<?>) elements).elementSet().size();
+    } else if (elements instanceof Set) {
+      return ((Set<?>) elements).size();
     }
     return 11; // initial capacity will be rounded up to 16
   }

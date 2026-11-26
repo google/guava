@@ -256,8 +256,7 @@ public final class ClassSanityTester {
    *   <li>Equality test is not performed on method return values unless the method is a non-private
    *       static factory method whose return type is {@code cls} or {@code cls}'s subtype.
    *   <li>Inequality check is not performed against state mutation methods such as {@link
-   *       List#add}, or functional update methods such as {@link
-   *       com.google.common.base.Joiner#skipNulls}.
+   *       List#add}, or functional update methods such as {@link Joiner#skipNulls}.
    * </ul>
    *
    * <p>Note that constructors taking a builder object cannot be tested effectively because
@@ -418,7 +417,10 @@ public final class ClassSanityTester {
     return new FactoryMethodReturnValueTester(cls, builder.build(), "public static methods");
   }
 
-  /** Runs sanity tests against return values of static factory methods declared by a class. */
+  /**
+   * Runs sanity tests against return values of static factory methods declared by a class.
+   * Instances are obtained from {@link ClassSanityTester#forAllPublicStaticMethods}.
+   */
   public final class FactoryMethodReturnValueTester {
     private final Set<String> packagesToTest = new HashSet<>();
     private final Class<?> declaringClass;

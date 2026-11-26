@@ -23,6 +23,7 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.SortedSet;
@@ -85,7 +86,7 @@ public enum CollectionFeature implements Feature<Collection> {
   /**
    * Features supported by general-purpose collections - everything but {@link #RESTRICTS_ELEMENTS}.
    *
-   * @see java.util.Collection the definition of general-purpose collections.
+   * @see Collection the definition of general-purpose collections
    */
   GENERAL_PURPOSE(SUPPORTS_ADD, SUPPORTS_REMOVE, SUPPORTS_ITERATOR_REMOVE),
 
@@ -100,7 +101,7 @@ public enum CollectionFeature implements Feature<Collection> {
 
   /**
    * For documenting collections that support no optional features, such as {@link
-   * java.util.Collections#emptySet}
+   * Collections#emptySet}
    */
   NONE;
 

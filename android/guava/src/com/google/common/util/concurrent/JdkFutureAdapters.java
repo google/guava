@@ -23,6 +23,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.util.concurrent.ForwardingFuture.SimpleForwardingFuture;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -51,9 +52,9 @@ public final class JdkFutureAdapters {
    * future is {@linkplain Future#isDone() done}.
    *
    * <p>Prefer to create {@code ListenableFuture} instances with {@link SettableFuture}, {@link
-   * MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)}, {@link
-   * ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain {@code
-   * Future} instances to be upgraded to {@code ListenableFuture} after the fact.
+   * MoreExecutors#listeningDecorator(ExecutorService)}, {@link ListenableFutureTask}, {@link
+   * AbstractFuture}, and other utilities over creating plain {@code Future} instances to be
+   * upgraded to {@code ListenableFuture} after the fact.
    */
   public static <V extends @Nullable Object> ListenableFuture<V> listenInPoolThread(
       Future<V> future) {
@@ -77,9 +78,9 @@ public final class JdkFutureAdapters {
    * deadlocks.
    *
    * <p>Prefer to create {@code ListenableFuture} instances with {@link SettableFuture}, {@link
-   * MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)}, {@link
-   * ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain {@code
-   * Future} instances to be upgraded to {@code ListenableFuture} after the fact.
+   * MoreExecutors#listeningDecorator(ExecutorService)}, {@link ListenableFutureTask}, {@link
+   * AbstractFuture}, and other utilities over creating plain {@code Future} instances to be
+   * upgraded to {@code ListenableFuture} after the fact.
    *
    * @since 12.0
    */

@@ -32,12 +32,6 @@ import java.util.function.Function;
 import java.util.stream.Collector;
 import org.jspecify.annotations.Nullable;
 
-/**
- * GWT emulated version of {@link com.google.common.collect.ImmutableSortedMap}. It's a thin wrapper
- * around a {@link java.util.TreeMap}.
- *
- * @author Hayward Chan
- */
 public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     implements SortedMap<K, V> {
 

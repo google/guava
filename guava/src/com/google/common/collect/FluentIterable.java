@@ -34,6 +34,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.RandomAccess;
 import java.util.SortedSet;
 import java.util.stream.Stream;
 import org.jspecify.annotations.NonNull;
@@ -156,8 +157,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *
    * <p>The returned iterable is an unmodifiable view of the input array.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#of(Object[])
-   * Stream.of(T...)}.
+   * <p><b>{@code Stream} equivalent:</b> {@link Stream#of(Object[]) Stream.of(T...)}.
    *
    * @since 20.0 (since 18.0 as an overload of {@code of})
    */
@@ -320,8 +320,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
   /**
    * Returns a fluent iterable containing the specified elements in order.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#of(Object[])
-   * Stream.of(T...)}.
+   * <p><b>{@code Stream} equivalent:</b> {@link Stream#of(Object[]) Stream.of(T...)}.
    *
    * @since 20.0
    */
@@ -522,8 +521,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
   /**
    * Returns an {@link Optional} containing the last element in this fluent iterable. If the
    * iterable is empty, {@code Optional.absent()} is returned. If the underlying {@code iterable} is
-   * a {@link List} with {@link java.util.RandomAccess} support, then this operation is guaranteed
-   * to be {@code O(1)}.
+   * a {@link List} with {@link RandomAccess} support, then this operation is guaranteed to be
+   * {@code O(1)}.
    *
    * <p><b>{@code Stream} equivalent:</b> {@code stream.reduce((a, b) -> b)}.
    *

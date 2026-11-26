@@ -19,7 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.lang.reflect.Method;
 
 /**
- * Context for an exception thrown by a subscriber.
+ * Context for an exception thrown by a subscriber, passed to {@link
+ * SubscriberExceptionHandler#handleException} by {@link EventBus}.
  *
  * @since 16.0
  */

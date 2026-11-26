@@ -21,6 +21,7 @@ import static java.util.Collections.disjoint;
 import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.lang.annotation.Annotation;
@@ -303,9 +304,9 @@ public final class FeatureUtil {
   }
 
   /**
-   * Construct a new {@link java.util.Set} that is the intersection of the given sets.
+   * Construct a new {@link Set} that is the intersection of the given sets.
    *
-   * @deprecated Use {@link com.google.common.collect.Sets#intersection(Set, Set)} instead.
+   * @deprecated Use {@link Sets#intersection(Set, Set)} instead.
    */
   @Deprecated
   public static <T> Set<T> intersection(Set<? extends T> set1, Set<? extends T> set2) {

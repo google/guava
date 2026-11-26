@@ -107,7 +107,7 @@ public final class ImmutableGraph<N> extends ForwardingGraph<N> {
 
   /**
    * A builder for creating {@link ImmutableGraph} instances, especially {@code static final}
-   * graphs. Example:
+   * graphs. To create an instance, use {@link GraphBuilder#immutable}. Example:
    *
    * {@snippet :
    * static final ImmutableGraph<Country> COUNTRY_ADJACENCY_GRAPH =

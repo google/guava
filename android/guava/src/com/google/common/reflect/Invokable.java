@@ -25,12 +25,14 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import org.jspecify.annotations.Nullable;
 
@@ -50,11 +52,9 @@ import org.jspecify.annotations.Nullable;
  * assertEquals(new TypeToken<List<String>>() {}, invokable.getOwnerType());
  * }
  *
- * <p><b>Note:</b> earlier versions of this class inherited from {@link
- * java.lang.reflect.AccessibleObject AccessibleObject} and {@link
- * java.lang.reflect.GenericDeclaration GenericDeclaration}. Since version 31.0 that is no longer
- * the case. However, most methods from those types are present with the same signature in this
- * class.
+ * <p><b>Note:</b> earlier versions of this class inherited from {@link AccessibleObject} and {@link
+ * GenericDeclaration}. Since version 31.0 that is no longer the case. However, most methods from
+ * those types are present with the same signature in this class.
  *
  * @param <T> the type that owns this method or constructor.
  * @param <R> the return type of (or supertype thereof) the method or the declaring type of the
@@ -107,15 +107,15 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
   // That would give us this method declaration. But for some reason, implementing
   // GenericDeclaration leads to weird errors in Android tests:
   // IncompatibleClassChangeError: interface not implemented
-  /** See {@link java.lang.reflect.GenericDeclaration#getTypeParameters()}. */
+  /** See {@link GenericDeclaration#getTypeParameters()}. */
   public abstract TypeVariable<?>[] getTypeParameters();
 
-  /** See {@link java.lang.reflect.AccessibleObject#setAccessible(boolean)}. */
+  /** See {@link AccessibleObject#setAccessible(boolean)}. */
   public final void setAccessible(boolean flag) {
     accessibleObject.setAccessible(flag);
   }
 
-  /** See {@link java.lang.reflect.AccessibleObject#trySetAccessible()}. */
+  /** See {@link AccessibleObject#trySetAccessible()}. */
   @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   public final boolean trySetAccessible() {
     // We can't call accessibleObject.trySetAccessible since that was added in Java 9 and this code
@@ -128,7 +128,7 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
     }
   }
 
-  /** See {@link java.lang.reflect.AccessibleObject#isAccessible()}. */
+  /** See {@link AccessibleObject#isAccessible()}. */
   public final boolean isAccessible() {
     return accessibleObject.isAccessible();
   }
@@ -421,8 +421,7 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
     }
 
     /**
-     * If the class is parameterized, such as {@link java.util.ArrayList ArrayList}, this returns
-     * {@code ArrayList<E>}.
+     * If the class is parameterized, such as {@link ArrayList}, this returns {@code ArrayList<E>}.
      */
     @Override
     Type getGenericReturnType() {

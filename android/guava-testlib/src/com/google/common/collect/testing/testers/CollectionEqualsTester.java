@@ -18,9 +18,10 @@ package com.google.common.collect.testing.testers;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
+import java.util.Collection;
 
 /**
- * Tests {@link java.util.Collection#equals}.
+ * Tests {@link Collection#equals}.
  *
  * @author George van den Driessche
  */

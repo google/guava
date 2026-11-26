@@ -205,7 +205,8 @@ public final class ClosingFuture<V extends @Nullable Object> {
 
   /**
    * An object that can capture objects to be closed later, when a {@link ClosingFuture} pipeline is
-   * done.
+   * done. Instances are passed to callbacks such as {@link ClosingCallable} and {@link
+   * ClosingFunction} by {@link ClosingFuture}.
    */
   public static final class DeferredCloser {
     @RetainedWith private final CloseableList list;
