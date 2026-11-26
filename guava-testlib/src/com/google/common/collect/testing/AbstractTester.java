@@ -69,7 +69,11 @@ public class AbstractTester<G> extends TestCase {
         if (generator != null) {
           failure.addSuppressed(new TestFailureContext(suiteName, generator.getClass().getName()));
         }
-      } catch (RuntimeException | AssertionError | LinkageError contextFailure) {
+      } catch (RuntimeException | Error contextFailure) {
+        if (contextFailure instanceof VirtualMachineError
+            || contextFailure instanceof ThreadDeath) {
+          throw contextFailure;
+        }
         if (contextFailure != failure) {
           failure.addSuppressed(contextFailure);
         }

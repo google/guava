@@ -24,6 +24,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ServiceConfigurationError;
 import junit.framework.TestCase;
 import org.jspecify.annotations.Nullable;
 
@@ -102,6 +103,32 @@ public final class AbstractTesterTest extends TestCase {
     tester.init(generator, "suite");
     assertSame(original, assertThrows(AssertionError.class, tester::runBare));
     assertSame(generator.errorOnUnwrap, original.getSuppressed()[0]);
+  }
+
+  public void testDiagnosticErrorDoesNotMaskOriginal() {
+    AssertionError original = new AssertionError("original failure");
+    FailingTester tester = new FailingTester(original);
+    WrappedGenerator generator = new WrappedGenerator(null);
+    generator.errorOnUnwrap = new ServiceConfigurationError("bad provider");
+    tester.init(generator, "suite");
+    assertSame(original, assertThrows(AssertionError.class, tester::runBare));
+    assertSame(generator.errorOnUnwrap, original.getSuppressed()[0]);
+  }
+
+  public void testDiagnosticVirtualMachineErrorIsPropagated() {
+    FailingTester tester = new FailingTester(new AssertionError("original failure"));
+    WrappedGenerator generator = new WrappedGenerator(null);
+    generator.errorOnUnwrap = new InternalError("VM failure");
+    tester.init(generator, "suite");
+    assertSame(generator.errorOnUnwrap, assertThrows(InternalError.class, tester::runBare));
+  }
+
+  public void testDiagnosticThreadDeathIsPropagated() {
+    FailingTester tester = new FailingTester(new AssertionError("original failure"));
+    WrappedGenerator generator = new WrappedGenerator(null);
+    generator.errorOnUnwrap = new ThreadDeath();
+    tester.init(generator, "suite");
+    assertSame(generator.errorOnUnwrap, assertThrows(ThreadDeath.class, tester::runBare));
   }
 
   public void testDiagnosticCannotSuppressOriginalIntoItself() {
