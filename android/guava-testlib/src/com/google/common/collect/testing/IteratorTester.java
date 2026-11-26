@@ -19,7 +19,9 @@ package com.google.common.collect.testing;
 import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -56,8 +58,8 @@ import org.jspecify.annotations.Nullable;
  * <p>The value you pass to the parameter {@code steps} should be greater than the length of your
  * iterator, so that this class can check that your iterator behaves correctly when it is exhausted.
  *
- * <p>For example, to test {@link java.util.Collections#unmodifiableList(java.util.List)
- * Collections.unmodifiableList}'s iterator:
+ * <p>For example, to test {@link Collections#unmodifiableList(List) Collections.unmodifiableList}'s
+ * iterator:
  *
  * {@snippet :
  * List<String> expectedElements = Arrays.asList("a", "b", "c", "d", "e");

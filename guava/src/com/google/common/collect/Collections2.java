@@ -41,15 +41,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import org.jspecify.annotations.Nullable;
 
 /**
  * Provides static methods for working with {@code Collection} instances.
  *
  * <p><b>Java 8+ users:</b> several common uses for this class are now more comprehensively
- * addressed by the new {@link java.util.stream.Stream} library. Read the method documentation below
- * for comparisons. These methods are not being deprecated, but we gently encourage you to migrate
- * to streams.
+ * addressed by the new {@link Stream} library. Read the method documentation below for comparisons.
+ * These methods are not being deprecated, but we gently encourage you to migrate to streams.
  *
  * @author Chris Povirk
  * @author Mike Bostock
@@ -83,7 +83,7 @@ public final class Collections2 {
    * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals. (See {@link
    * Iterables#filter(Iterable, Class)} for related functionality.)
    *
-   * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#filter Stream.filter}.
+   * <p><b>{@code Stream} equivalent:</b> {@link Stream#filter Stream.filter}.
    */
   public static <E extends @Nullable Object> Collection<E> filter(
       Collection<E> unfiltered, Predicate<? super E> predicate) {
@@ -257,7 +257,7 @@ public final class Collections2 {
    * <p>If the input {@code Collection} is known to be a {@code List}, consider {@link
    * Lists#transform}. If only an {@code Iterable} is available, use {@link Iterables#transform}.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#map Stream.map}.
+   * <p><b>{@code Stream} equivalent:</b> {@link Stream#map Stream.map}.
    */
   public static <F extends @Nullable Object, T extends @Nullable Object> Collection<T> transform(
       Collection<F> fromCollection, Function<? super F, T> function) {

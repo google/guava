@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
+import java.util.Collections;
 
 /**
  * An abstract base class for implementing the <a
@@ -32,7 +33,7 @@ import java.io.Serializable;
  * such custom interfaces directly; they are implemented only in subclasses. Therefore, forwarding
  * {@code equals} would break symmetry, as the forwarding object might consider itself equal to the
  * object being tested, but the reverse could not be true. This behavior is consistent with the
- * JDK's collection wrappers, such as {@link java.util.Collections#unmodifiableCollection}. Use an
+ * JDK's collection wrappers, such as {@link Collections#unmodifiableCollection}. Use an
  * interface-specific subclass of {@code ForwardingObject}, such as {@link ForwardingList}, to
  * preserve equality behavior, or override {@code equals} directly.
  *

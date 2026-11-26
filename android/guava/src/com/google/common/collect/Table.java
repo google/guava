@@ -258,7 +258,9 @@ public interface Table<
   Map<C, Map<R, V>> columnMap();
 
   /**
-   * Row key / column key / value triplet corresponding to a mapping in a table.
+   * Row key / column key / value triplet corresponding to a mapping in a table. The {@link
+   * Table#cellSet} method returns a view of the table whose elements are of this type; to create a
+   * standalone instance, use {@link Tables#immutableCell}.
    *
    * @since 7.0
    */

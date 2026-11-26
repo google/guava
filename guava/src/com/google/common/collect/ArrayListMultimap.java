@@ -30,6 +30,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.RandomAccess;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -47,7 +48,7 @@ import org.jspecify.annotations.Nullable;
  * views are modifiable.
  *
  * <p>The lists returned by {@link #get}, {@link #removeAll}, and {@link #replaceValues} all
- * implement {@link java.util.RandomAccess}.
+ * implement {@link RandomAccess}.
  *
  * <p>This class is not threadsafe when any concurrent operations update the multimap. Concurrent
  * read operations will work correctly. To allow concurrent update operations, wrap your multimap

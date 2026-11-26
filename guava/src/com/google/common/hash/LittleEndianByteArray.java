@@ -17,6 +17,7 @@ package com.google.common.hash;
 import static java.lang.Math.min;
 import static java.lang.invoke.MethodHandles.byteArrayViewVarHandle;
 import static java.nio.ByteOrder.LITTLE_ENDIAN;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Longs;
@@ -239,9 +240,10 @@ final class LittleEndianByteArray {
             };
         try {
           return (Unsafe)
-              Class.forName("java.security.AccessController")
-                  .getMethod("doPrivileged", PrivilegedExceptionAction.class)
-                  .invoke(null, action);
+              requireNonNull(
+                  Class.forName("java.security.AccessController")
+                      .getMethod("doPrivileged", PrivilegedExceptionAction.class)
+                      .invoke(null, action));
         } catch (Exception e) {
           return action.run();
         }

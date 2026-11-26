@@ -31,6 +31,13 @@ import org.jspecify.annotations.Nullable;
  * <p>In contrast to {@link RangeSet}, no "coalescing" is done of {@linkplain
  * Range#isConnected(Range) connected} ranges, even if they are mapped to the same value.
  *
+ * <h2>Implementations</h2>
+ *
+ * <ul>
+ *   <li>{@link ImmutableRangeMap}
+ *   <li>{@link TreeRangeMap}
+ * </ul>
+ *
  * @author Louis Wasserman
  * @since 14.0
  */

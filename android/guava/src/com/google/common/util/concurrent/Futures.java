@@ -1057,8 +1057,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
 
   /**
    * Registers separate success and failure callbacks to be run when the {@code Future}'s
-   * computation is {@linkplain java.util.concurrent.Future#isDone() complete} or, if the
-   * computation is already complete, immediately.
+   * computation is {@linkplain Future#isDone() complete} or, if the computation is already
+   * complete, immediately.
    *
    * <p>The callback is run on {@code executor}. There is no guaranteed ordering of execution of
    * callbacks, but any callback added through this method is guaranteed to be called once the

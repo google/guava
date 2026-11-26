@@ -78,7 +78,7 @@ public final class Escapers {
   }
 
   /**
-   * A builder for simple, fast escapers.
+   * A builder for simple, fast escapers. To create an instance, use {@link Escapers#builder}.
    *
    * <p>Typically an escaper needs to deal with the escaping of high valued characters or code
    * points. In these cases it is necessary to extend either {@link ArrayBasedCharEscaper} or {@link

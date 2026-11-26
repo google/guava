@@ -31,6 +31,7 @@ import com.google.common.base.Ticker;
 import com.google.common.cache.AbstractCache.SimpleStatsCounter;
 import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.cache.LocalCache.Strength;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.lang.ref.SoftReference;
@@ -81,8 +82,8 @@ import org.jspecify.annotations.Nullable;
  * AsyncLoadingCache.get}</a> returns a {@code CompletableFuture}, and implementations of <a
  * href="https://www.javadoc.io/doc/com.github.ben-manes.caffeine/caffeine/latest/com.github.benmanes.caffeine/com/github/benmanes/caffeine/cache/AsyncCacheLoader.html#asyncLoad(K,java.util.concurrent.Executor)">{@code
  * AsyncCacheLoader.asyncLoad}</a> must return a {@code CompletableFuture}. Users of Guava's {@link
- * com.google.common.util.concurrent.ListenableFuture} can adapt between the two {@code Future}
- * types by using <a href="https://github.com/lukas-krecan/future-converter#java8-guava">{@code
+ * ListenableFuture} can adapt between the two {@code Future} types by using <a
+ * href="https://github.com/lukas-krecan/future-converter#java8-guava">{@code
  * net.javacrumbs.futureconverter.java8guava.FutureConverter}</a>.
  *
  * <h2>More on {@code CacheBuilder}</h2>

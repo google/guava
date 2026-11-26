@@ -22,6 +22,9 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * A subinterface of {@link Network} which adds mutation methods. When mutation is not required,
  * users should prefer the {@link Network} interface.
  *
+ * <p>To create an instance, use {@link NetworkBuilder} (for example, {@code
+ * NetworkBuilder.directed().build()}) or {@link Graphs#copyOf(Network)}.
+ *
  * @author James Sexton
  * @author Joshua O'Madadhain
  * @param <N> Node parameter type

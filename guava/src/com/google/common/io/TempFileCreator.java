@@ -108,9 +108,9 @@ abstract class TempFileCreator {
     }
 
     try {
-      int version = (int) Class.forName("android.os.Build$VERSION").getField("SDK_INT").get(null);
+      int version = Class.forName("android.os.Build$VERSION").getField("SDK_INT").getInt(null);
       int jellyBean =
-          (int) Class.forName("android.os.Build$VERSION_CODES").getField("JELLY_BEAN").get(null);
+          Class.forName("android.os.Build$VERSION_CODES").getField("JELLY_BEAN").getInt(null);
       /*
        * I assume that this check can't fail because JELLY_BEAN will be present only if we're
        * running under Jelly Bean or higher. But it seems safest to check.

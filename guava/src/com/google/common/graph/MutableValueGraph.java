@@ -23,6 +23,9 @@ import org.jspecify.annotations.Nullable;
  * A subinterface of {@link ValueGraph} which adds mutation methods. When mutation is not required,
  * users should prefer the {@link ValueGraph} interface.
  *
+ * <p>To create an instance, use {@link ValueGraphBuilder} (for example, {@code
+ * ValueGraphBuilder.directed().build()}) or {@link Graphs#copyOf(ValueGraph)}.
+ *
  * @author James Sexton
  * @param <N> Node parameter type
  * @param <V> Value parameter type

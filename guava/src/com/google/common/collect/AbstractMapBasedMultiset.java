@@ -188,6 +188,11 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   }
 
   @Override
+  public final boolean isEmpty() {
+    return size == 0L;
+  }
+
+  @Override
   public final Iterator<E> iterator() {
     return new MapBasedMultisetIterator();
   }

@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -49,7 +50,7 @@ import org.jspecify.annotations.Nullable;
  *
  * <p><b>Warning:</b> The comparison must be <i>consistent with equals</i> as explained by the
  * {@link Comparable} class specification. Otherwise, the resulting multiset will violate the {@link
- * java.util.Collection} contract, which is specified in terms of {@link Object#equals}.
+ * Collection} contract, which is specified in terms of {@link Object#equals}.
  *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.

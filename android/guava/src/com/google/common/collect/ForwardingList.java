@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.RandomAccess;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -38,8 +39,8 @@ import org.jspecify.annotations.Nullable;
  * more methods to modify the behavior of the backing list as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
- * <p>This class does not implement {@link java.util.RandomAccess}. If the delegate supports random
- * access, the {@code ForwardingList} subclass should implement the {@code RandomAccess} interface.
+ * <p>This class does not implement {@link RandomAccess}. If the delegate supports random access,
+ * the {@code ForwardingList} subclass should implement the {@code RandomAccess} interface.
  *
  * <p><b>Warning:</b> The methods of {@code ForwardingList} forward <b>indiscriminately</b> to the
  * methods of the delegate. For example, overriding {@link #add} alone <b>will not</b> change the

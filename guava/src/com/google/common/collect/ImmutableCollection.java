@@ -402,7 +402,10 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   }
 
   /**
-   * Abstract base class for builders of {@link ImmutableCollection} types.
+   * Abstract base class for builders of {@link ImmutableCollection} types. To create an instance,
+   * use a concrete subtype such as {@link ImmutableList.Builder} (via {@link
+   * ImmutableList#builder}), {@link ImmutableSet.Builder} (via {@link ImmutableSet#builder}), or
+   * {@link ImmutableMultiset.Builder} (via {@link ImmutableMultiset#builder}).
    *
    * @since 10.0
    */

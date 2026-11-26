@@ -22,7 +22,7 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * A hash function is a collision-averse pure function that maps an arbitrary block of data to a
- * number called a <i>hash code</i>.
+ * number called a <i>hash code</i>. Common implementations are available from {@link Hashing}.
  *
  * <h2>Definition</h2>
  *

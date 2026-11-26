@@ -1017,4 +1017,40 @@ public class ImmutableMapTest extends TestCase {
     entryList.get(0).setValue("3");
     assertThat(map).containsExactly("a", "1", "b", "2").inOrder();
   }
+
+  @GwtIncompatible
+  public void testHashTableTierBoundaries() {
+    assertHashTableTier(255, byte[].class);
+    assertHashTableTier(256, short[].class);
+    assertHashTableTier(65_535, short[].class);
+    assertHashTableTier(65_536, int[].class);
+  }
+
+  @GwtIncompatible
+  private static void assertHashTableTier(int size, Class<?> expectedTableClass) {
+    Builder<Integer, Integer> builder = ImmutableMap.builderWithExpectedSize(size);
+    for (int i = 0; i < size; i++) {
+      builder.put(i, -i - 1);
+    }
+    RegularImmutableMap<Integer, Integer> map =
+        (RegularImmutableMap<Integer, Integer>) builder.buildOrThrow();
+    assertThat(map.hashTable).isInstanceOf(expectedTableClass);
+    assertThat(map.get(0)).isEqualTo(-1);
+    assertThat(map.get(size / 2)).isEqualTo(-(size / 2) - 1);
+    assertThat(map.get(size - 1)).isEqualTo(-size);
+    assertThat(map.get(-1)).isNull();
+    assertThat(map.get(size)).isNull();
+  }
+
+  public void testBuildKeepingLastAcrossByteBoundary() {
+    Builder<Integer, Integer> builder = ImmutableMap.builder();
+    for (int i = 0; i < 256; i++) {
+      builder.put(i % 255, i);
+    }
+    ImmutableMap<Integer, Integer> map = builder.buildKeepingLast();
+    assertThat(map).hasSize(255);
+    assertThat(map.get(0)).isEqualTo(255);
+    assertThat(map.get(254)).isEqualTo(254);
+    assertThat(map.get(255)).isNull();
+  }
 }

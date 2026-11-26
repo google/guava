@@ -37,8 +37,8 @@ import org.jspecify.annotations.Nullable;
  * function doing a good job of distributing the elements to the buckets to a distribution not far
  * from uniform), and amortized since some operations can trigger a hash table resize.
  *
- * <p>As compared with {@link java.util.LinkedHashMap}, this structure places significantly reduced
- * load on the garbage collector by only using a constant number of internal objects.
+ * <p>As compared with {@link LinkedHashMap}, this structure places significantly reduced load on
+ * the garbage collector by only using a constant number of internal objects.
  *
  * <p>This class should not be assumed to be universally superior to {@code
  * java.util.LinkedHashMap}. Generally speaking, this class reduces object allocation and memory

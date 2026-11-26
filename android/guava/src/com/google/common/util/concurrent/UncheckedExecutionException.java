@@ -17,12 +17,13 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import java.util.concurrent.ExecutionException;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Unchecked variant of {@link java.util.concurrent.ExecutionException}. As with {@code
- * ExecutionException}, the exception's {@linkplain #getCause() cause} comes from a failed task,
- * possibly run in another thread.
+ * Unchecked variant of {@link ExecutionException}. As with {@code ExecutionException}, the
+ * exception's {@linkplain #getCause() cause} comes from a failed task, possibly run in another
+ * thread.
  *
  * <p>{@code UncheckedExecutionException} is intended as an alternative to {@code
  * ExecutionException} when the exception thrown by a task is an unchecked exception. However, it

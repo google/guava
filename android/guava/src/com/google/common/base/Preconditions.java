@@ -18,6 +18,7 @@ import static com.google.common.base.Strings.lenientFormat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import org.jspecify.annotations.Nullable;
 
@@ -76,7 +77,7 @@ import org.jspecify.annotations.Nullable;
  * <h2>Other types of preconditions</h2>
  *
  * <p>Not every type of precondition failure is supported by these methods. Continue to throw
- * standard JDK exceptions such as {@link java.util.NoSuchElementException} or {@link
+ * standard JDK exceptions such as {@link NoSuchElementException} or {@link
  * UnsupportedOperationException} in the situations they are intended for.
  *
  * <h2>Non-preconditions</h2>

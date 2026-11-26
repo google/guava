@@ -25,7 +25,8 @@ import java.lang.reflect.AnnotatedType;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Represents a method or constructor parameter.
+ * Represents a method or constructor parameter. Instances are obtained from {@link
+ * Invokable#getParameters}.
  *
  * @author Ben Yu
  * @since 14.0

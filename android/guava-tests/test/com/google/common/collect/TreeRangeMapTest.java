@@ -708,6 +708,16 @@ public class TreeRangeMapTest extends TestCase {
         ImmutableMap.of(Range.open(3, 5), 1, Range.closed(12, 16), 3), rangeMap.asMapOfRanges());
   }
 
+  public void testSubRangeMapSpan_emptySubRangeInsideEntry() {
+    RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+    rangeMap.put(Range.closed(0, 10), 1);
+    RangeMap<Integer, Integer> sub = rangeMap.subRangeMap(Range.closedOpen(5, 5));
+    assertThat(sub.asMapOfRanges()).isEmpty();
+    assertThrows(NoSuchElementException.class, () -> sub.span());
+    RangeMap<Integer, Integer> sub2 = rangeMap.subRangeMap(Range.openClosed(5, 5));
+    assertThrows(NoSuchElementException.class, () -> sub2.span());
+  }
+
   public void testCopyOfTreeRangeMap() {
     RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
     rangeMap.put(Range.open(3, 7), 1);

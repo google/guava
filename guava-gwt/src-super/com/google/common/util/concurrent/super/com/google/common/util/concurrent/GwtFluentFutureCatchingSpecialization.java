@@ -18,11 +18,6 @@ import com.google.common.base.Function;
 import java.util.concurrent.Executor;
 import org.jspecify.annotations.Nullable;
 
-/**
- * Hidden superclass of {@link FluentFuture} that provides us a place to declare special GWT
- * versions of the {@link FluentFuture#catching(Class, com.google.common.base.Function)
- * FluentFuture.catching} family of methods. Those versions have slightly different signatures.
- */
 abstract class GwtFluentFutureCatchingSpecialization<V extends @Nullable Object>
     extends AbstractFuture<V> {
   /*

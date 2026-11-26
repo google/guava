@@ -39,10 +39,9 @@ import org.jspecify.annotations.Nullable;
  * evaluation and signaling of conditions. Signaling is entirely <a
  * href="http://en.wikipedia.org/wiki/Monitor_(synchronization)#Implicit_signaling">implicit</a>. By
  * eliminating explicit signaling, this class can guarantee that only one thread is awakened when a
- * condition becomes true (no "signaling storms" due to use of {@link
- * java.util.concurrent.locks.Condition#signalAll Condition.signalAll}) and that no signals are lost
- * (no "hangs" due to incorrect use of {@link java.util.concurrent.locks.Condition#signal
- * Condition.signal}).
+ * condition becomes true (no "signaling storms" due to use of {@link Condition#signalAll
+ * Condition.signalAll}) and that no signals are lost (no "hangs" due to incorrect use of {@link
+ * Condition#signal Condition.signal}).
  *
  * <p>A thread is said to <i>occupy</i> a monitor if it has <i>entered</i> the monitor but not yet
  * <i>left</i>. Only one thread may occupy a given monitor at any moment. A monitor is also
@@ -298,6 +297,8 @@ public final class Monitor {
    * {@code Monitor}. The monitor may check the guard at arbitrary times from any thread occupying
    * the monitor, so code should not be written to rely on how often a guard might or might not be
    * checked.
+   *
+   * <p>To create an instance, use {@link Monitor#newGuard} or subclass {@code Guard} directly.
    *
    * <p>If a {@code Guard} is passed into any method of a {@code Monitor} other than the one it is
    * associated with, an {@link IllegalMonitorStateException} is thrown.

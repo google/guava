@@ -17,12 +17,13 @@ package com.google.common.io;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
  * Package-protected abstract class that implements the line reading algorithm used by {@link
- * LineReader}. Line separators are per {@link java.io.BufferedReader}: line feed, carriage return,
- * or carriage return followed immediately by a linefeed.
+ * LineReader}. Line separators are per {@link BufferedReader}: line feed, carriage return, or
+ * carriage return followed immediately by a linefeed.
  *
  * <p>Subclasses must implement {@link #handleLine}, call {@link #add} to pass character data, and
  * call {@link #finish} at the end of stream.

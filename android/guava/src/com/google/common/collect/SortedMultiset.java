@@ -35,6 +35,13 @@ import org.jspecify.annotations.Nullable;
  * {@link Comparable} class specification. Otherwise, the resulting multiset will violate the {@link
  * Collection} contract, which is specified in terms of {@link Object#equals}.
  *
+ * <h2>Implementations</h2>
+ *
+ * <ul>
+ *   <li>{@link ImmutableSortedMultiset}
+ *   <li>{@link TreeMultiset}
+ * </ul>
+ *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">{@code Multiset}</a>.
  *

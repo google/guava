@@ -24,6 +24,7 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Logger;
 
 /**
  * A semi-persistent mapping from keys to values. Values are automatically loaded by the cache, and
@@ -142,7 +143,7 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    * previous value (if any) will continue to be returned by {@code get(key)} unless it is evicted.
    * If the new value is loaded successfully it will replace the previous value in the cache; if an
    * exception is thrown while refreshing the previous value will remain, <i>and the exception will
-   * be logged (using {@link java.util.logging.Logger}) and swallowed</i>.
+   * be logged (using {@link Logger}) and swallowed</i>.
    *
    * <p>Caches loaded by a {@link CacheLoader} will call {@link CacheLoader#reload} if the cache
    * currently contains a value for {@code key}, and {@link CacheLoader#load} otherwise. Loading is
