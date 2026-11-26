@@ -46,7 +46,8 @@ import java.util.stream.Stream;
  *
  * <p>Any {@link ByteSink} may be viewed as a {@code CharSink} with a specific {@linkplain Charset
  * character encoding} using {@link ByteSink#asCharSink(Charset)}. Characters written to the
- * resulting {@code CharSink} will written to the {@code ByteSink} as encoded bytes.
+ * resulting {@code CharSink} will written to the {@code ByteSink} as encoded bytes. Other common
+ * implementations include {@link Files#asCharSink} and {@link MoreFiles#asCharSink}.
  *
  * @since 14.0
  * @author Colin Decker

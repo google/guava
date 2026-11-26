@@ -38,11 +38,12 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.lang.reflect.Method;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
 /**
- * Tests {@link java.util.Map#entrySet}.
+ * Tests {@link Map#entrySet}.
  *
  * @author Louis Wasserman
  * @param <K> The key type of the map implementation under test.

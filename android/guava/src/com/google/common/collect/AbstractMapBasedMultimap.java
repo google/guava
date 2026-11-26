@@ -50,6 +50,8 @@ import java.util.RandomAccess;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -66,9 +68,9 @@ import org.jspecify.annotations.Nullable;
  * for that key. The subclass should not call {@link #createCollection()} directly, and a new
  * instance should be created every time the method is called.
  *
- * <p>For example, the subclass could pass a {@link java.util.TreeMap} during construction, and
- * {@link #createCollection()} could return a {@link java.util.TreeSet}, in which case the
- * multimap's iterators would propagate through the keys and values in sorted order.
+ * <p>For example, the subclass could pass a {@link TreeMap} during construction, and {@link
+ * #createCollection()} could return a {@link TreeSet}, in which case the multimap's iterators would
+ * propagate through the keys and values in sorted order.
  *
  * <p>Keys and values may be null, as long as the underlying collection classes support null
  * elements.

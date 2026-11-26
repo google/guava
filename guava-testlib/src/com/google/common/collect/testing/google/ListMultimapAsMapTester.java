@@ -22,6 +22,7 @@ import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.testing.EqualsTester;
@@ -37,7 +38,7 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Testers for {@link com.google.common.collect.ListMultimap#asMap}.
+ * Testers for {@link ListMultimap#asMap}.
  *
  * @author Louis Wasserman
  * @param <K> The key type of the tested multimap.

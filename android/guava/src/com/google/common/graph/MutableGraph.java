@@ -22,6 +22,9 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * A subinterface of {@link Graph} which adds mutation methods. When mutation is not required, users
  * should prefer the {@link Graph} interface.
  *
+ * <p>To create an instance, use {@link GraphBuilder} (for example, {@code
+ * GraphBuilder.directed().build()}) or {@link Graphs#copyOf(Graph)}.
+ *
  * @author James Sexton
  * @author Joshua O'Madadhain
  * @param <N> Node parameter type

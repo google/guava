@@ -32,11 +32,6 @@ import java.util.stream.Collector;
 import jsinterop.annotations.JsMethod;
 import org.jspecify.annotations.Nullable;
 
-/**
- * GWT emulated version of {@link com.google.common.collect.ImmutableList}. TODO(cpovirk): more doc
- *
- * @author Hayward Chan
- */
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {

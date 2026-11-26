@@ -42,7 +42,8 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   }
 
   /**
-   * A builder for creating immutable type-to-instance maps. Example:
+   * A builder for creating immutable type-to-instance maps, obtained using {@link
+   * ImmutableTypeToInstanceMap#builder}. Example:
    *
    * {@snippet :
    * static final ImmutableTypeToInstanceMap<Handler<?>> HANDLERS =

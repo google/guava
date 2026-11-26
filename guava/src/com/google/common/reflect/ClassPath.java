@@ -204,7 +204,7 @@ public final class ClassPath {
 
   /**
    * Represents a class path resource that can be either a class file or any other resource file
-   * loadable from the class path.
+   * loadable from the class path. Instances are obtained from {@link ClassPath#getResources}.
    *
    * @since 14.0
    */
@@ -299,7 +299,9 @@ public final class ClassPath {
   }
 
   /**
-   * Represents a class that can be loaded through {@link #load}.
+   * Represents a class that can be loaded through {@link #load}. Instances are obtained from {@link
+   * ClassPath#getAllClasses}, {@link ClassPath#getTopLevelClasses()}, or another {@code ClassPath}
+   * method.
    *
    * @since 14.0
    */
@@ -433,7 +435,8 @@ public final class ClassPath {
 
   /**
    * Represents a single location (a directory or a jar file) in the class path and is responsible
-   * for scanning resources from this location.
+   * for scanning resources from this location. Instances are obtained from {@link
+   * ClassPath#locationsFrom}.
    */
   static final class LocationInfo {
     final File home;

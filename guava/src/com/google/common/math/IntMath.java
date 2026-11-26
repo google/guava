@@ -42,7 +42,7 @@ import java.math.RoundingMode;
  *
  * <p>Similar functionality for {@code long} and for {@link BigInteger} can be found in {@link
  * LongMath} and {@link BigIntegerMath} respectively. For other common operations on {@code int}
- * values, see {@link com.google.common.primitives.Ints}.
+ * values, see {@link Ints}.
  *
  * @author Louis Wasserman
  * @since 11.0

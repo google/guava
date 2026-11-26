@@ -30,39 +30,38 @@
  *
  * <dl>
  *   <dt>{@link Multimap}
- *   <dd>A new type, which is similar to {@link java.util.Map}, but may contain multiple entries
- *       with the same key. Some behaviors of {@link Multimap} are left unspecified and are provided
- *       only by the subtypes mentioned below.
+ *   <dd>A new type, which is similar to {@link Map}, but may contain multiple entries with the same
+ *       key. Some behaviors of {@link Multimap} are left unspecified and are provided only by the
+ *       subtypes mentioned below.
  *   <dt>{@link ListMultimap}
  *   <dd>An extension of {@link Multimap} which permits duplicate entries, supports random access of
  *       values for a particular key, and has <i>partially order-dependent equality</i> as defined
  *       by {@link ListMultimap#equals(Object)}. {@code ListMultimap} takes its name from the fact
  *       that the {@linkplain ListMultimap#get collection of values} associated with a given key
- *       fulfills the {@link java.util.List} contract.
+ *       fulfills the {@link List} contract.
  *   <dt>{@link SetMultimap}
  *   <dd>An extension of {@link Multimap} which has order-independent equality and does not allow
  *       duplicate entries; that is, while a key may appear twice in a {@code SetMultimap}, each
  *       must map to a different value. {@code SetMultimap} takes its name from the fact that the
  *       {@linkplain SetMultimap#get collection of values} associated with a given key fulfills the
- *       {@link java.util.Set} contract.
+ *       {@link Set} contract.
  *   <dt>{@link SortedSetMultimap}
  *   <dd>An extension of {@link SetMultimap} for which the {@linkplain SortedSetMultimap#get
- *       collection values} associated with a given key is a {@link java.util.SortedSet}.
+ *       collection values} associated with a given key is a {@link SortedSet}.
  *   <dt>{@link BiMap}
- *   <dd>An extension of {@link java.util.Map} that guarantees the uniqueness of its values as well
- *       as that of its keys. This is sometimes called an "invertible map," since the restriction on
- *       values enables it to support an {@linkplain BiMap#inverse inverse view} -- which is another
+ *   <dd>An extension of {@link Map} that guarantees the uniqueness of its values as well as that of
+ *       its keys. This is sometimes called an "invertible map," since the restriction on values
+ *       enables it to support an {@linkplain BiMap#inverse inverse view} -- which is another
  *       instance of {@code BiMap}.
  *   <dt>{@link Table}
- *   <dd>A new type, which is similar to {@link java.util.Map}, but which indexes its values by an
- *       ordered pair of keys, a row key and column key.
+ *   <dd>A new type, which is similar to {@link Map}, but which indexes its values by an ordered
+ *       pair of keys, a row key and column key.
  *   <dt>{@link Multiset}
- *   <dd>An extension of {@link java.util.Collection} that may contain duplicate values like a
- *       {@link java.util.List}, yet has order-independent equality like a {@link java.util.Set}.
- *       One typical use for a multiset is to represent a histogram.
+ *   <dd>An extension of {@link Collection} that may contain duplicate values like a {@link List},
+ *       yet has order-independent equality like a {@link Set}. One typical use for a multiset is to
+ *       represent a histogram.
  *   <dt>{@link ClassToInstanceMap}
- *   <dd>An extension of {@link java.util.Map} that associates a raw type with an instance of that
- *       type.
+ *   <dd>An extension of {@link Map} that associates a raw type with an instance of that type.
  * </dl>
  *
  * <h2>Ranges</h2>
@@ -124,4 +123,9 @@
 package com.google.common.collect;
 
 import com.google.errorprone.annotations.CheckReturnValue;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
 import org.jspecify.annotations.NullMarked;

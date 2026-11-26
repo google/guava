@@ -37,14 +37,14 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
-  private static final byte ABSENT = -1;
+  private static final int ABSENT = 0;
 
-  // Max size is halved due to indexing into double-sized alternatingKeysAndValues
-  private static final int BYTE_MAX_SIZE = 1 << (Byte.SIZE - 1); // 2^7 = 128
-  private static final int SHORT_MAX_SIZE = 1 << (Short.SIZE - 1); // 2^15 = 32_768
+  // Hash table stores 1-based entry indices (1..n), with 0 representing an absent slot.
+  private static final int BYTE_MAX_ENTRIES = (1 << Byte.SIZE) - 1; // 2^8 - 1 = 255
+  private static final int SHORT_MAX_ENTRIES = (1 << Short.SIZE) - 1; // 2^16 - 1 = 65_535
 
-  private static final int BYTE_MASK = (1 << Byte.SIZE) - 1; // 2^8 - 1 = 255
-  private static final int SHORT_MASK = (1 << Short.SIZE) - 1; // 2^16 - 1 = 65_535
+  private static final int BYTE_MASK = BYTE_MAX_ENTRIES;
+  private static final int SHORT_MASK = SHORT_MAX_ENTRIES;
 
   @SuppressWarnings("unchecked")
   static final ImmutableMap<Object, Object> EMPTY =
@@ -54,11 +54,13 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    * This is an implementation of ImmutableMap optimized especially for Android, which does not like
    * objects per entry.  Instead we use an open-addressed hash table.  This design is basically
    * equivalent to RegularImmutableSet, save that instead of having a hash table containing the
-   * elements directly and null for empty positions, we store indices of the keys in the hash table,
-   * and ABSENT for empty positions.  We then look up the keys in alternatingKeysAndValues.
+   * elements directly and null for empty positions, we store 1-based entry indices (1..n) in the
+   * hash table, and 0 (ABSENT) for empty positions, avoiding Arrays.fill on table creation. We then
+   * decode entryIndex to ((entryIndex - 1) << 1) + keyOffset to look up keys in
+   * alternatingKeysAndValues.
    *
-   * (The index actually stored is the index of the key in alternatingKeysAndValues, which is
-   * double the index of the entry in entrySet.asList.)
+   * Storing entry indices rather than doubled alternating-array indices allows byte[] tables up to
+   * 255 entries and short[] tables up to 65_535 entries.
    *
    * The basic data structure is described in https://en.wikipedia.org/wiki/Open_addressing.
    * The pointer to a key is stored in hashTable[Hashing.smear(key.hashCode()) % table.length],
@@ -67,7 +69,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    * & (table.length - 1) instead of % table.length, though.
    */
 
-  private final transient @Nullable Object hashTable;
+  @VisibleForTesting final transient @Nullable Object hashTable;
   @VisibleForTesting final transient @Nullable Object[] alternatingKeysAndValues;
   private final transient int size;
 
@@ -143,9 +145,10 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    *
    * @param keyOffset 1 if this is the reverse direction of a BiMap, 0 otherwise.
    * @return an {@code Object} that is a {@code byte[]}, {@code short[]}, or {@code int[]}, the
-   *     smallest possible to fit {@code tableSize}; or an {@code Object[]} where [0] is one of
-   *     these; [1] indicates how many element pairs in {@code alternatingKeysAndValues} are valid;
-   *     and [2] is a {@link Builder.DuplicateKey} for the first duplicate key encountered.
+   *     smallest possible to fit 1-based entry indices up to {@code n}; or an {@code Object[]}
+   *     where [0] is one of these; [1] indicates how many element pairs in {@code
+   *     alternatingKeysAndValues} are valid; and [2] is a {@link Builder.DuplicateKey} for the
+   *     first duplicate key encountered.
    */
   private static @Nullable Object createHashTable(
       @Nullable Object[] alternatingKeysAndValues, int n, int tableSize, int keyOffset) {
@@ -159,15 +162,11 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
     int mask = tableSize - 1;
     Builder.DuplicateKey duplicateKey = null;
-    if (tableSize <= BYTE_MAX_SIZE) {
+    if (n <= BYTE_MAX_ENTRIES) {
       /*
-       * Use 8 bits per entry. The value is unsigned to allow use up to a size of 2^8.
-       *
-       * The absent indicator of -1 signed becomes 2^8 - 1 unsigned, which reduces the actual max
-       * size to 2^8 - 1. However, due to a load factor < 1 the limit is never approached.
+       * Use 8 bits per slot storing 1-based entry indices (1..255), with 0 = ABSENT.
        */
       byte[] hashTable = new byte[tableSize];
-      Arrays.fill(hashTable, ABSENT);
 
       int outI = 0;
       entries:
@@ -180,11 +179,13 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         checkEntryNotNull(key, value);
         for (int h = Hashing.smear(key.hashCode()); ; h++) {
           h &= mask;
-          int previousKeyIndex = hashTable[h] & BYTE_MASK; // unsigned read
-          if (previousKeyIndex == BYTE_MASK) { // -1 signed becomes 255 unsigned
-            hashTable[h] = (byte) outKeyIndex;
+          int previousEntryIndex = hashTable[h] & BYTE_MASK; // unsigned read
+          if (previousEntryIndex == ABSENT) {
+            hashTable[h] = (byte) (outI + 1);
             break;
-          } else if (key.equals(alternatingKeysAndValues[previousKeyIndex])) {
+          }
+          int previousKeyIndex = ((previousEntryIndex - 1) << 1) + keyOffset;
+          if (key.equals(alternatingKeysAndValues[previousKeyIndex])) {
             duplicateKey =
                 new Builder.DuplicateKey(
                     key, value, requireNonNull(alternatingKeysAndValues[previousKeyIndex ^ 1]));
@@ -199,15 +200,11 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         outI++;
       }
       return outI == n ? hashTable : new Object[] {hashTable, outI, duplicateKey};
-    } else if (tableSize <= SHORT_MAX_SIZE) {
+    } else if (n <= SHORT_MAX_ENTRIES) {
       /*
-       * Use 16 bits per entry. The value is unsigned to allow use up to a size of 2^16.
-       *
-       * The absent indicator of -1 signed becomes 2^16 - 1 unsigned, which reduces the actual max
-       * size to 2^16 - 1. However, due to a load factor < 1 the limit is never approached.
+       * Use 16 bits per slot storing 1-based entry indices (1..65_535), with 0 = ABSENT.
        */
       short[] hashTable = new short[tableSize];
-      Arrays.fill(hashTable, ABSENT);
 
       int outI = 0;
       entries:
@@ -220,11 +217,13 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         checkEntryNotNull(key, value);
         for (int h = Hashing.smear(key.hashCode()); ; h++) {
           h &= mask;
-          int previousKeyIndex = hashTable[h] & SHORT_MASK; // unsigned read
-          if (previousKeyIndex == SHORT_MASK) { // -1 signed becomes 65_535 unsigned
-            hashTable[h] = (short) outKeyIndex;
+          int previousEntryIndex = hashTable[h] & SHORT_MASK; // unsigned read
+          if (previousEntryIndex == ABSENT) {
+            hashTable[h] = (short) (outI + 1);
             break;
-          } else if (key.equals(alternatingKeysAndValues[previousKeyIndex])) {
+          }
+          int previousKeyIndex = ((previousEntryIndex - 1) << 1) + keyOffset;
+          if (key.equals(alternatingKeysAndValues[previousKeyIndex])) {
             duplicateKey =
                 new Builder.DuplicateKey(
                     key, value, requireNonNull(alternatingKeysAndValues[previousKeyIndex ^ 1]));
@@ -241,10 +240,9 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       return outI == n ? hashTable : new Object[] {hashTable, outI, duplicateKey};
     } else {
       /*
-       * Use 32 bits per entry.
+       * Use 32 bits per slot storing 1-based entry indices, with 0 = ABSENT.
        */
       int[] hashTable = new int[tableSize];
-      Arrays.fill(hashTable, ABSENT);
 
       int outI = 0;
       entries:
@@ -257,11 +255,13 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         checkEntryNotNull(key, value);
         for (int h = Hashing.smear(key.hashCode()); ; h++) {
           h &= mask;
-          int previousKeyIndex = hashTable[h];
-          if (previousKeyIndex == ABSENT) {
-            hashTable[h] = outKeyIndex;
+          int previousEntryIndex = hashTable[h];
+          if (previousEntryIndex == ABSENT) {
+            hashTable[h] = outI + 1;
             break;
-          } else if (key.equals(alternatingKeysAndValues[previousKeyIndex])) {
+          }
+          int previousKeyIndex = ((previousEntryIndex - 1) << 1) + keyOffset;
+          if (key.equals(alternatingKeysAndValues[previousKeyIndex])) {
             duplicateKey =
                 new Builder.DuplicateKey(
                     key, value, requireNonNull(alternatingKeysAndValues[previousKeyIndex ^ 1]));
@@ -338,10 +338,12 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       int mask = hashTable.length - 1;
       for (int h = Hashing.smear(key.hashCode()); ; h++) {
         h &= mask;
-        int keyIndex = hashTable[h] & BYTE_MASK; // unsigned read
-        if (keyIndex == BYTE_MASK) { // -1 signed becomes 255 unsigned
+        int entryIndex = hashTable[h] & BYTE_MASK; // unsigned read
+        if (entryIndex == ABSENT) {
           return null;
-        } else if (key.equals(alternatingKeysAndValues[keyIndex])) {
+        }
+        int keyIndex = ((entryIndex - 1) << 1) + keyOffset;
+        if (key.equals(alternatingKeysAndValues[keyIndex])) {
           return alternatingKeysAndValues[keyIndex ^ 1];
         }
       }
@@ -350,10 +352,12 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       int mask = hashTable.length - 1;
       for (int h = Hashing.smear(key.hashCode()); ; h++) {
         h &= mask;
-        int keyIndex = hashTable[h] & SHORT_MASK; // unsigned read
-        if (keyIndex == SHORT_MASK) { // -1 signed becomes 65_535 unsigned
+        int entryIndex = hashTable[h] & SHORT_MASK; // unsigned read
+        if (entryIndex == ABSENT) {
           return null;
-        } else if (key.equals(alternatingKeysAndValues[keyIndex])) {
+        }
+        int keyIndex = ((entryIndex - 1) << 1) + keyOffset;
+        if (key.equals(alternatingKeysAndValues[keyIndex])) {
           return alternatingKeysAndValues[keyIndex ^ 1];
         }
       }
@@ -362,10 +366,12 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       int mask = hashTable.length - 1;
       for (int h = Hashing.smear(key.hashCode()); ; h++) {
         h &= mask;
-        int keyIndex = hashTable[h];
-        if (keyIndex == ABSENT) {
+        int entryIndex = hashTable[h];
+        if (entryIndex == ABSENT) {
           return null;
-        } else if (key.equals(alternatingKeysAndValues[keyIndex])) {
+        }
+        int keyIndex = ((entryIndex - 1) << 1) + keyOffset;
+        if (key.equals(alternatingKeysAndValues[keyIndex])) {
           return alternatingKeysAndValues[keyIndex ^ 1];
         }
       }

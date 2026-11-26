@@ -27,6 +27,9 @@ import org.jspecify.annotations.Nullable;
 /**
  * Imposes a time limit on method calls.
  *
+ * <p>See {@link SimpleTimeLimiter} for a production implementation and {@link FakeTimeLimiter} for
+ * testing.
+ *
  * @author Kevin Bourrillion
  * @author Jens Nyman
  * @since 1.0

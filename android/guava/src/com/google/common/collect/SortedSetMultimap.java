@@ -41,6 +41,15 @@ import org.jspecify.annotations.Nullable;
  * of a {@code SortedSetMultimap} in a way that affects its {@link Object#equals} behavior (or its
  * position in the order of the values). Undefined behavior and bugs will result.
  *
+ * <h2>Implementations</h2>
+ *
+ * <ul>
+ *   <li>Configure a mutable {@code SortedSetMultimap} with {@link MultimapBuilder} (using {@link
+ *       MultimapBuilder.MultimapBuilderWithKeys#treeSetValues()})
+ *   <li>{@link TreeMultimap} (when keys should also be sorted; in new code, consider {@link
+ *       MultimapBuilder} instead)
+ * </ul>
+ *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">{@code Multimap}</a>.
  *
@@ -59,8 +68,8 @@ public interface SortedSetMultimap<K extends @Nullable Object, V extends @Nullab
    * <p>Changes to the returned collection will update the underlying multimap, and vice versa.
    *
    * <p>Because a {@code SortedSetMultimap} has unique sorted values for a given key, this method
-   * returns a {@link SortedSet}, instead of the {@link java.util.Collection} specified in the
-   * {@link Multimap} interface.
+   * returns a {@link SortedSet}, instead of the {@link Collection} specified in the {@link
+   * Multimap} interface.
    */
   @Override
   SortedSet<V> get(@ParametricNullness K key);
@@ -69,8 +78,8 @@ public interface SortedSetMultimap<K extends @Nullable Object, V extends @Nullab
    * Removes all values associated with a given key.
    *
    * <p>Because a {@code SortedSetMultimap} has unique sorted values for a given key, this method
-   * returns a {@link SortedSet}, instead of the {@link java.util.Collection} specified in the
-   * {@link Multimap} interface.
+   * returns a {@link SortedSet}, instead of the {@link Collection} specified in the {@link
+   * Multimap} interface.
    */
   @CanIgnoreReturnValue
   @Override
@@ -80,8 +89,8 @@ public interface SortedSetMultimap<K extends @Nullable Object, V extends @Nullab
    * Stores a collection of values with the same key, replacing any existing values for that key.
    *
    * <p>Because a {@code SortedSetMultimap} has unique sorted values for a given key, this method
-   * returns a {@link SortedSet}, instead of the {@link java.util.Collection} specified in the
-   * {@link Multimap} interface.
+   * returns a {@link SortedSet}, instead of the {@link Collection} specified in the {@link
+   * Multimap} interface.
    *
    * <p>Any duplicates in {@code values} will be stored in the multimap once.
    */

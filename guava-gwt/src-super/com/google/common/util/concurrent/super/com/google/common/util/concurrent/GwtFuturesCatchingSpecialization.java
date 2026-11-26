@@ -18,11 +18,6 @@ import com.google.common.base.Function;
 import java.util.concurrent.Executor;
 import org.jspecify.annotations.Nullable;
 
-/**
- * Hidden superclass of {@link Futures} that provides us a place to declare special GWT versions of
- * the {@link Futures#catching(ListenableFuture, Class, com.google.common.base.Function)
- * Futures.catching} family of methods. Those versions have slightly different signatures.
- */
 abstract class GwtFuturesCatchingSpecialization {
   /*
    * In the GWT versions of the methods (below), every exceptionType parameter is required to be

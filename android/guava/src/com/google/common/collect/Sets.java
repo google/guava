@@ -53,6 +53,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
@@ -63,10 +64,12 @@ import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.stream.Collector;
+import java.util.stream.Stream;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -558,8 +561,7 @@ public final class Sets {
    * concurrency, and performance characteristics as the backing map. In essence, this factory
    * method provides a {@link Set} implementation corresponding to any {@link Map} implementation.
    * There is no need to use this method on a {@link Map} implementation that already has a
-   * corresponding {@link Set} implementation (such as {@link java.util.HashMap} or {@link
-   * java.util.TreeMap}).
+   * corresponding {@link Set} implementation (such as {@link HashMap} or {@link TreeMap}).
    *
    * <p>Each method invocation on the set returned by this method results in exactly one method
    * invocation on the backing map or its {@code keySet} view, with one exception. The {@code
@@ -594,6 +596,9 @@ public final class Sets {
    * stable. There is usually no reason to retain a reference of type {@code SetView}; typically,
    * you either use it as a plain {@link Set}, or immediately invoke {@link #immutableCopy} or
    * {@link #copyInto} and forget the {@code SetView} itself.
+   *
+   * <p>Instances are returned by {@link Sets#union}, {@link Sets#intersection}, {@link
+   * Sets#difference}, and {@link Sets#symmetricDifference}.
    *
    * @since 2.0
    */
@@ -1146,10 +1151,9 @@ public final class Sets {
    * Iterables#filter(Iterable, Class)} for related functionality.)
    *
    * <p><b>Java 8+ users:</b> many use cases for this method are better addressed by {@link
-   * java.util.stream.Stream#filter}. This method is not being deprecated, but we gently encourage
-   * you to migrate to streams.
+   * Stream#filter}. This method is not being deprecated, but we gently encourage you to migrate to
+   * streams.
    */
-  // TODO(kevinb): how to omit that last sentence when building GWT javadoc?
   public static <E extends @Nullable Object> Set<E> filter(
       Set<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof SortedSet) {

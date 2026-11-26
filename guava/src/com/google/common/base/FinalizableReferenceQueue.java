@@ -27,6 +27,7 @@ import java.lang.ref.PhantomReference;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.reflect.Method;
+import java.net.ServerSocket;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.logging.Level;
@@ -43,10 +44,10 @@ import org.jspecify.annotations.Nullable;
  * finalizeReferent()} on the remaining references.
  *
  * <p>As an example of how this is used, imagine you have a class {@code MyServer} that creates a
- * {@link java.net.ServerSocket ServerSocket}, and you would like to ensure that the {@code
- * ServerSocket} is closed even if the {@code MyServer} object is garbage-collected without calling
- * its {@code close} method. You <em>could</em> use a finalizer to accomplish this, but that has a
- * number of well-known problems. Here is how you might use this class instead:
+ * {@link ServerSocket}, and you would like to ensure that the {@code ServerSocket} is closed even
+ * if the {@code MyServer} object is garbage-collected without calling its {@code close} method. You
+ * <em>could</em> use a finalizer to accomplish this, but that has a number of well-known problems.
+ * Here is how you might use this class instead:
  *
  * {@snippet :
  * public class MyServer implements Closeable {

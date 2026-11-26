@@ -43,6 +43,9 @@ import java.nio.charset.Charset;
  *       doing something and finally closing the stream or channel that was opened.
  * </ul>
  *
+ * <p>Common implementations include {@link Files#asByteSink}, {@link MoreFiles#asByteSink}, and
+ * {@link BaseEncoding#encodingSink}.
+ *
  * @since 14.0
  * @author Colin Decker
  */

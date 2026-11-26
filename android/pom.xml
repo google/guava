@@ -315,9 +315,11 @@
             <encoding>UTF-8</encoding>
             <docencoding>UTF-8</docencoding>
             <charset>UTF-8</charset>
+            <doclint>all,-missing</doclint>
+            <failOnWarnings>true</failOnWarnings>
             <additionalOptions>
               <additionalOption>-XDignore.symbol.file</additionalOption>
-              <additionalOption>-Xdoclint:-html</additionalOption>
+              <additionalOption>--link-modularity-mismatch=info</additionalOption>
             </additionalOptions>
             <source>8</source>
           </configuration>

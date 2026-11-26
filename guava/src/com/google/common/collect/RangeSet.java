@@ -41,6 +41,13 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>For a {@link Set} whose contents are specified by a {@link Range}, see {@link ContiguousSet}.
  *
+ * <h2>Implementations</h2>
+ *
+ * <ul>
+ *   <li>{@link ImmutableRangeSet}
+ *   <li>{@link TreeRangeSet}
+ * </ul>
+ *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#rangeset">RangeSets</a>.
  *

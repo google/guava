@@ -269,8 +269,8 @@ public final class UnsignedBytes {
    * unsigned.
    *
    * <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
-   * support only identity equality), but it is consistent with {@link
-   * java.util.Arrays#equals(byte[], byte[])}.
+   * support only identity equality), but it is consistent with {@link Arrays#equals(byte[],
+   * byte[])}.
    *
    * <p><b>Java 9+ users:</b> Use {@link Arrays#compareUnsigned(byte[], byte[])
    * Arrays::compareUnsigned}.

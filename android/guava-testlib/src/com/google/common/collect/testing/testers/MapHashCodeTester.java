@@ -24,10 +24,11 @@ import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * Tests {@link java.util.Map#hashCode}.
+ * Tests {@link Map#hashCode}.
  *
  * @author George van den Driessche
  * @author Chris Povirk

@@ -436,7 +436,7 @@ public final class Throwables {
   private static Object invokeAccessibleNonThrowingMethod(
       Method method, Object receiver, Object... params) {
     try {
-      return method.invoke(receiver, params);
+      return requireNonNull(method.invoke(receiver, params));
     } catch (IllegalAccessException e) {
       throw new RuntimeException(e);
     } catch (InvocationTargetException e) {

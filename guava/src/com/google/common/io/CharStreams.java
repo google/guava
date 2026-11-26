@@ -23,12 +23,14 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.EOFException;
+import java.io.Flushable;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -221,8 +223,8 @@ public final class CharStreams {
    * if the processor stops processing early.
    *
    * <p><b>Users who can use {@code Stream}:</b> If your input is a {@link Reader}, consider
-   * wrapping it with a {@link BufferedReader} and operating on the {@link java.util.stream.Stream}
-   * of lines returned by {@link BufferedReader#lines()}.
+   * wrapping it with a {@link BufferedReader} and operating on the {@link Stream} of lines returned
+   * by {@link BufferedReader#lines()}.
    *
    * @throws IOException if an I/O error occurs
    * @since 14.0
@@ -354,7 +356,7 @@ public final class CharStreams {
   /**
    * Returns a Writer that sends all output to the given {@link Appendable} target. Closing the
    * writer will close the target if it is {@link Closeable}, and flushing the writer will flush the
-   * target if it is {@link java.io.Flushable}.
+   * target if it is {@link Flushable}.
    *
    * @param target the object to which output will be sent
    * @return a new Writer object, unless target is a Writer, in which case the target is returned

@@ -28,6 +28,7 @@ import com.google.errorprone.annotations.InlineMe;
 import java.time.Duration;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -387,8 +388,8 @@ public abstract class FluentFuture<V extends @Nullable Object>
 
   /**
    * Registers separate success and failure callbacks to be run when this {@code Future}'s
-   * computation is {@linkplain java.util.concurrent.Future#isDone() complete} or, if the
-   * computation is already complete, immediately.
+   * computation is {@linkplain Future#isDone() complete} or, if the computation is already
+   * complete, immediately.
    *
    * <p>The callback is run on {@code executor}. There is no guaranteed ordering of execution of
    * callbacks, but any callback added through this method is guaranteed to be called once the

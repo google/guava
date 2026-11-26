@@ -22,9 +22,10 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
- * Tests {@link java.util.List#hashCode}.
+ * Tests {@link List#hashCode}.
  *
  * @author George van den Driessche
  */

@@ -27,7 +27,7 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * Tests {@link java.util.Set#equals}.
+ * Tests {@link Set#equals}.
  *
  * @author George van den Driessche
  */

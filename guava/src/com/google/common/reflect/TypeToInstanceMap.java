@@ -35,6 +35,13 @@ import org.jspecify.annotations.Nullable;
  * <p>Like any other {@code Map<Class, Object>}, this map may contain entries for primitive types,
  * and a primitive type and its corresponding wrapper type may map to different values.
  *
+ * <h2>Implementations</h2>
+ *
+ * <ul>
+ *   <li>{@link ImmutableTypeToInstanceMap}
+ *   <li>{@link MutableTypeToInstanceMap}
+ * </ul>
+ *
  * @param <B> the common supertype that all entries must share; often this is simply {@link Object}
  * @author Ben Yu
  * @since 13.0

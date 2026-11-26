@@ -42,8 +42,12 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
+import java.util.function.DoubleFunction;
+import java.util.function.Function;
 import java.util.function.IntConsumer;
+import java.util.function.IntFunction;
 import java.util.function.LongConsumer;
+import java.util.function.LongFunction;
 import java.util.stream.BaseStream;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -747,7 +751,7 @@ public final class Streams {
   }
 
   /**
-   * An analogue of {@link java.util.function.Function} also accepting an index.
+   * An analogue of {@link Function} also accepting an index.
    *
    * <p>This interface is only intended for use by callers of {@link #mapWithIndex(Stream,
    * FunctionWithIndex)}.
@@ -807,7 +811,7 @@ public final class Streams {
   }
 
   /**
-   * An analogue of {@link java.util.function.IntFunction} also accepting an index.
+   * An analogue of {@link IntFunction} also accepting an index.
    *
    * <p>This interface is only intended for use by callers of {@link #mapWithIndex(IntStream,
    * IntFunctionWithIndex)}.
@@ -821,7 +825,7 @@ public final class Streams {
   }
 
   /**
-   * An analogue of {@link java.util.function.LongFunction} also accepting an index.
+   * An analogue of {@link LongFunction} also accepting an index.
    *
    * <p>This interface is only intended for use by callers of {@link #mapWithIndex(LongStream,
    * LongFunctionWithIndex)}.
@@ -835,7 +839,7 @@ public final class Streams {
   }
 
   /**
-   * An analogue of {@link java.util.function.DoubleFunction} also accepting an index.
+   * An analogue of {@link DoubleFunction} also accepting an index.
    *
    * <p>This interface is only intended for use by callers of {@link #mapWithIndex(DoubleStream,
    * DoubleFunctionWithIndex)}.

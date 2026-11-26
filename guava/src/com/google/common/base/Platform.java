@@ -14,6 +14,7 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.lang.ref.WeakReference;
@@ -28,8 +29,6 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 final class Platform {
-  private static final PatternCompiler patternCompiler = loadPatternCompiler();
-
   private Platform() {}
 
   static CharMatcher precomputeCharMatcher(CharMatcher matcher) {
@@ -89,27 +88,11 @@ final class Platform {
   }
 
   static CommonPattern compilePattern(String pattern) {
-    Preconditions.checkNotNull(pattern);
-    return patternCompiler.compile(pattern);
+    checkNotNull(pattern);
+    return new JdkPattern(Pattern.compile(pattern));
   }
 
   static boolean patternCompilerIsPcreLike() {
-    return patternCompiler.isPcreLike();
-  }
-
-  private static PatternCompiler loadPatternCompiler() {
-    return new JdkPatternCompiler();
-  }
-
-  private static final class JdkPatternCompiler implements PatternCompiler {
-    @Override
-    public CommonPattern compile(String pattern) {
-      return new JdkPattern(Pattern.compile(pattern));
-    }
-
-    @Override
-    public boolean isPcreLike() {
-      return true;
-    }
+    return true;
   }
 }

@@ -45,6 +45,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -643,9 +644,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      *
      * <p>In the current implementation, all values associated with a given key are stored in the
      * {@code Builder} object, even though only one of them will be used in the built map. If there
-     * can be many repeated keys, it may be more space-efficient to use a {@link
-     * java.util.LinkedHashMap LinkedHashMap} and {@link ImmutableMap#copyOf(Map)} rather than
-     * {@code ImmutableMap.Builder}.
+     * can be many repeated keys, it may be more space-efficient to use a {@link LinkedHashMap} and
+     * {@link ImmutableMap#copyOf(Map)} rather than {@code ImmutableMap.Builder}.
      *
      * @since 31.1
      */

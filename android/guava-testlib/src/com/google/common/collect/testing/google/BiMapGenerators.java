@@ -28,7 +28,7 @@ import java.util.Map.Entry;
 import org.jspecify.annotations.NullMarked;
 
 /**
- * Generators of various {@link com.google.common.collect.BiMap}s and derived collections.
+ * Generators of various {@link BiMap}s and derived collections.
  *
  * @author Jared Levy
  * @author Hayward Chan

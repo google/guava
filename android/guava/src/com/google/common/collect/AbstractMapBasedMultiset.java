@@ -250,6 +250,11 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
     return Ints.saturatedCast(size);
   }
 
+  @Override
+  public final boolean isEmpty() {
+    return size == 0L;
+  }
+
   /**
    * @serialData the number of distinct elements, the first element, its count, the second element,
    *     its count, and so on

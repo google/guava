@@ -20,6 +20,7 @@ import static com.google.common.io.CharStreams.createBuffer;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.CharBuffer;
@@ -29,8 +30,8 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * A class for reading lines of text. Provides the same functionality as {@link
- * java.io.BufferedReader#readLine()} but for all {@link Readable} objects, not just instances of
- * {@link Reader}.
+ * BufferedReader#readLine()} but for all {@link Readable} objects, not just instances of {@link
+ * Reader}.
  *
  * @author Chris Nokleberg
  * @since 1.0
