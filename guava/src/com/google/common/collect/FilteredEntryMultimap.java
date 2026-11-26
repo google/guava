@@ -162,6 +162,11 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
     // See java.util.Collections.CheckedEntrySet for details on attacks.
 
     @Override
+    public final boolean removeIf(java.util.function.Predicate<? super Entry<K, V>> filter) {
+      return delegate().removeIf(filter);
+    }
+
+    @Override
     public final @Nullable Object[] toArray() {
       // creating an ArrayList so filtering happens once
       return newArrayList(iterator()).toArray();
@@ -281,6 +286,12 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
         }
 
         @Override
+        public boolean removeIf(java.util.function.Predicate<? super K> filter) {
+          checkNotNull(filter);
+          return removeEntriesIf(entry -> filter.test(entry.getKey()));
+        }
+
+        @Override
         public boolean remove(@Nullable Object o) {
           return AsMap.this.remove(o) != null;
         }
@@ -326,6 +337,13 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
         @Override
         public boolean retainAll(Collection<?> c) {
           return removeEntriesIf(not(in(c)));
+        }
+
+        @Override
+        public boolean removeIf(
+            java.util.function.Predicate<? super Entry<K, Collection<V>>> filter) {
+          checkNotNull(filter);
+          return removeEntriesIf(filter::test);
         }
 
         @Override
@@ -380,6 +398,12 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
         @Override
         public boolean retainAll(Collection<?> c) {
           return removeEntriesIf(valuePredicateOnEntries(not(in(c))));
+        }
+
+        @Override
+        public boolean removeIf(java.util.function.Predicate<? super Collection<V>> filter) {
+          checkNotNull(filter);
+          return removeEntriesIf(entry -> filter.test(entry.getValue()));
         }
       }
       return new ValuesImpl();
@@ -456,7 +480,19 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
         public boolean retainAll(Collection<?> c) {
           return removeEntriesIf(not(in(c)));
         }
+
+        @Override
+        public boolean removeIf(java.util.function.Predicate<? super Multiset.Entry<K>> filter) {
+          checkNotNull(filter);
+          return removeEntriesIf(filter::test);
+        }
       };
+    }
+
+    @Override
+    public boolean removeIf(java.util.function.Predicate<? super K> filter) {
+      checkNotNull(filter);
+      return FilteredEntryMultimap.this.removeEntriesIf(entry -> filter.test(entry.getKey()));
     }
   }
 }
