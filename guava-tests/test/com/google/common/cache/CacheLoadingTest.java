@@ -54,6 +54,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.logging.LogRecord;
@@ -599,6 +600,68 @@ public class CacheLoadingTest extends TestCase {
     Object[] lookupKeys = new Object[] {new Object(), new Object(), new Object()};
     assertThrows(InvalidCacheLoadException.class, () -> cache.getAll(asList(lookupKeys)));
     assertThat(cache.asMap().get(extraKey)).isSameInstanceAs(extraValue);
+  }
+
+  public void testLoad_weigherThrows() {
+    AtomicBoolean weigherThrows = new AtomicBoolean(true);
+    CountingLoader loader = new CountingLoader();
+    LoadingCache<Object, Object> cache =
+        CacheBuilder.newBuilder()
+            .maximumWeight(10)
+            .weigher(
+                (key, value) -> {
+                  if (weigherThrows.get()) {
+                    throw new IllegalStateException();
+                  }
+                  return 1;
+                })
+            .build(loader);
+    Object key = new Object();
+
+    assertThrows(IllegalStateException.class, () -> cache.getUnchecked(key));
+    assertThat(loader.getCount()).isEqualTo(1);
+    // The failed load must not leave the entry behind, stuck in a loading state.
+    assertThat(cache.getIfPresent(key)).isNull();
+    assertThat(cache.size()).isEqualTo(0);
+
+    weigherThrows.set(false);
+    Object value = cache.getUnchecked(key);
+    assertThat(loader.getCount()).isEqualTo(2);
+    assertThat(cache.getIfPresent(key)).isSameInstanceAs(value);
+  }
+
+  public void testRefresh_weigherThrows() {
+    AtomicBoolean weigherThrows = new AtomicBoolean(false);
+    CountingLoader loader = new CountingLoader();
+    CountingRemovalListener<Object, Object> removalListener = countingRemovalListener();
+    LoadingCache<Object, Object> cache =
+        CacheBuilder.newBuilder()
+            .maximumWeight(10)
+            .weigher(
+                (key, value) -> {
+                  if (weigherThrows.get()) {
+                    throw new IllegalStateException();
+                  }
+                  return 1;
+                })
+            .removalListener(removalListener)
+            .build(loader);
+    Object key = new Object();
+    Object oldValue = new Object();
+    cache.put(key, oldValue);
+
+    weigherThrows.set(true);
+    cache.refresh(key);
+    assertThat(loader.getCount()).isEqualTo(1);
+    // The old value must stay in place, and its listener must not be told it was replaced.
+    assertThat(cache.getIfPresent(key)).isSameInstanceAs(oldValue);
+    assertThat(removalListener.getCount()).isEqualTo(0);
+
+    weigherThrows.set(false);
+    cache.refresh(key);
+    assertThat(loader.getCount()).isEqualTo(2);
+    assertThat(cache.getIfPresent(key)).isNotSameInstanceAs(oldValue);
+    assertThat(removalListener.getCount()).isEqualTo(1);
   }
 
   public void testLoadNull() {
