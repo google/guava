@@ -75,6 +75,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
@@ -4401,6 +4403,13 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     public final void clear() {
       LocalCache.this.clear();
     }
+
+    @Override
+    public final Spliterator<T> spliterator() {
+      // CONCURRENT also keeps Spliterators from reporting SIZED, since size() is only an estimate.
+      return Spliterators.spliterator(
+          this, Spliterator.DISTINCT | Spliterator.NONNULL | Spliterator.CONCURRENT);
+    }
   }
 
   final class KeySet extends AbstractCacheSet<K> {
@@ -4440,6 +4449,11 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     @Override
     public Iterator<V> iterator() {
       return new ValueIterator();
+    }
+
+    @Override
+    public Spliterator<V> spliterator() {
+      return Spliterators.spliterator(this, Spliterator.NONNULL | Spliterator.CONCURRENT);
     }
 
     @Override
