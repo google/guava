@@ -71,6 +71,7 @@ public final class UrlEscapers {
    * <p><b>Note:</b> Unlike other escapers, URL escapers produce <a
    * href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.
    *
+   * <p>For example, escaping the form value {@code "C++ guide"} produces {@code "C%2B%2B+guide"}.
    */
   public static Escaper urlFormParameterEscaper() {
     return URL_FORM_PARAMETER_ESCAPER;
@@ -108,6 +109,8 @@ public final class UrlEscapers {
    *
    * <p><b>Note:</b> Unlike other escapers, URL escapers produce <a
    * href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.
+   *
+   * <p>For example, escaping the single segment {@code "a/b c"} produces {@code "a%2Fb%20c"}.
    */
   public static Escaper urlPathSegmentEscaper() {
     return URL_PATH_SEGMENT_ESCAPER;
@@ -139,6 +142,8 @@ public final class UrlEscapers {
    *
    * <p><b>Note:</b> Unlike other escapers, URL escapers produce <a
    * href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.
+   *
+   * <p>For example, escaping the fragment {@code "a/b c"} produces {@code "a/b%20c"}.
    */
   public static Escaper urlFragmentEscaper() {
     return URL_FRAGMENT_ESCAPER;
