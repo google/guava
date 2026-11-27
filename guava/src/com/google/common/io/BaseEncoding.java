@@ -780,6 +780,20 @@ public abstract class BaseEncoding {
           return false;
         }
       }
+      // Any bits of the final character not consumed by a decoded byte must be zero for a
+      // canonical encoding (RFC 4648 section 3.5).
+      int lastChunkChars = chars.length() % alphabet.charsPerChunk;
+      if (lastChunkChars != 0) {
+        int unusedBits = (lastChunkChars * alphabet.bitsPerChar) % 8;
+        try {
+          if ((alphabet.decode(chars.charAt(chars.length() - 1)) & ((1 << unusedBits) - 1)) != 0) {
+            return false;
+          }
+        } catch (DecodingException e) {
+          // Can't happen: the loop above already verified every character is decodable.
+          return false;
+        }
+      }
       return true;
     }
 
@@ -801,8 +815,14 @@ public abstract class BaseEncoding {
           }
         }
         int minOffset = alphabet.bytesPerChunk * 8 - charsProcessed * alphabet.bitsPerChar;
-        for (int offset = (alphabet.bytesPerChunk - 1) * 8; offset >= minOffset; offset -= 8) {
+        int offset = (alphabet.bytesPerChunk - 1) * 8;
+        for (; offset >= minOffset; offset -= 8) {
           target[bytesWritten++] = (byte) ((chunk >>> offset) & 0xFF);
+        }
+        // Any bits of the final character not consumed by an emitted byte must be zero for a
+        // canonical encoding (RFC 4648 section 3.5).
+        if ((chunk & ((1L << (offset + 8)) - 1)) != 0) {
+          throw new DecodingException("Unused bits set in encoded input");
         }
       }
       return bytesWritten;
@@ -833,6 +853,11 @@ public abstract class BaseEncoding {
             if (readChar == -1) {
               if (!hitPadding && !alphabet.isValidPaddingStartPosition(readChars)) {
                 throw new DecodingException("Invalid input length " + readChars);
+              }
+              // Any trailing bits not consumed by an emitted byte must be zero for a canonical
+              // encoding (RFC 4648 section 3.5).
+              if ((bitBuffer & ((1 << bitBufferLength) - 1)) != 0) {
+                throw new DecodingException("Unused bits set in encoded input");
               }
               return -1;
             }
@@ -1079,7 +1104,13 @@ public abstract class BaseEncoding {
           if (i < chars.length()) {
             chunk |= alphabet.decode(chars.charAt(i++));
             target[bytesWritten++] = (byte) (chunk & 0xFF);
+          } else if ((chunk & 0xFF) != 0) {
+            // Unused bits of the third character must be zero (RFC 4648 section 3.5).
+            throw new DecodingException("Unused bits set in encoded input");
           }
+        } else if ((chunk & 0xFFFF) != 0) {
+          // Unused bits of the second character must be zero (RFC 4648 section 3.5).
+          throw new DecodingException("Unused bits set in encoded input");
         }
       }
       return bytesWritten;
