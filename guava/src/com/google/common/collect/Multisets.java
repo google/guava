@@ -474,6 +474,10 @@ public final class Multisets {
    * <p>Results are undefined if {@code multiset1} and {@code multiset2} are based on different
    * equivalence relations (as {@code HashMultiset} and {@code TreeMultiset} are).
    *
+   * <p>Iterating over the returned view visits the distinct elements of {@code multiset1} and looks
+   * up their counts in {@code multiset2}. If count lookups have similar costs in the two multisets,
+   * passing the multiset with fewer distinct elements first can reduce this work.
+   *
    * @since 2.0
    */
   public static <E extends @Nullable Object> Multiset<E> intersection(
