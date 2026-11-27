@@ -92,6 +92,13 @@ public final class Finalizer implements Runnable {
     thread.setDaemon(true);
 
     try {
+      // Don't keep the caller's class loader alive for the lifetime of the finalizer thread.
+      thread.setContextClassLoader(ClassLoader.getSystemClassLoader());
+    } catch (SecurityException e) {
+      logger.log(Level.INFO, "Failed to clear reference finalizer thread context class loader.", e);
+    }
+
+    try {
       if (inheritableThreadLocals != null) {
         inheritableThreadLocals.set(thread, null);
       }
