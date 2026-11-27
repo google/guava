@@ -455,8 +455,8 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
   @Override
   Iterator<Entry<E>> internalEntryIterator() {
     return new Iterator<Entry<E>>() {
-      @Nullable AvlNode<E> current = firstNode();
-      @Nullable Entry<E> prevEntry;
+      private @Nullable AvlNode<E> current = firstNode();
+      private @Nullable Entry<E> prevEntry;
 
       @Override
       public boolean hasNext() {
@@ -498,8 +498,8 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
   @Override
   Iterator<Entry<E>> descendingEntryIterator() {
     return new Iterator<Entry<E>>() {
-      @Nullable AvlNode<E> current = lastNode();
-      @Nullable Entry<E> prevEntry = null;
+      private @Nullable AvlNode<E> current = lastNode();
+      private @Nullable Entry<E> prevEntry = null;
 
       @Override
       public boolean hasNext() {
