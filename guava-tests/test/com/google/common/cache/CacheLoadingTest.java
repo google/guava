@@ -43,6 +43,7 @@ import com.google.common.testing.TestLogHandler;
 import com.google.common.util.concurrent.Callables;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.SettableFuture;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -599,6 +600,54 @@ public class CacheLoadingTest extends TestCase {
     Object[] lookupKeys = new Object[] {new Object(), new Object(), new Object()};
     assertThrows(InvalidCacheLoadException.class, () -> cache.getAll(asList(lookupKeys)));
     assertThat(cache.asMap().get(extraKey)).isSameInstanceAs(extraValue);
+  }
+
+  public void testRefresh_completesAfterInvalidateAllAndNewLoad() {
+    SettableFuture<Object> refreshFuture = SettableFuture.create();
+    Object key = new Object();
+    Object refreshedValue = new Object();
+    AtomicInteger loadCount = new AtomicInteger();
+    CacheLoader<Object, Object> loader =
+        new CacheLoader<Object, Object>() {
+          @Override
+          public Object load(Object k) {
+            if (loadCount.incrementAndGet() == 2) {
+              // Complete the in-flight refresh while this second load is still in progress.
+              refreshFuture.set(refreshedValue);
+            }
+            return new Object();
+          }
+
+          @Override
+          public ListenableFuture<Object> reload(Object k, Object oldValue) {
+            return refreshFuture;
+          }
+        };
+    CountingRemovalListener<Object, Object> removalListener = countingRemovalListener();
+    LoadingCache<Object, Object> cache =
+        CacheBuilder.newBuilder().removalListener(removalListener).build(loader);
+
+    Object originalValue = cache.getUnchecked(key);
+    cache.refresh(key);
+    cache.invalidateAll();
+    assertThat(removalListener.getCount()).isEqualTo(1);
+
+    Object loadedValue = cache.getUnchecked(key);
+    assertThat(loadCount.get()).isEqualTo(2);
+    // The refresh stored its value in the new entry, so the second load's value was discarded.
+    // The original value, which was already removed, must not be reported as removed again, and
+    // the entry must still be counted.
+    assertThat(cache.getIfPresent(key)).isSameInstanceAs(refreshedValue);
+    assertThat(removalListener.getCount()).isEqualTo(2);
+    assertThat(removalListener.getLastEvictedValue()).isSameInstanceAs(loadedValue);
+    assertThat(cache.size()).isEqualTo(1);
+
+    cache.invalidateAll();
+    assertThat(cache.getIfPresent(key)).isNull();
+    assertThat(removalListener.getCount()).isEqualTo(3);
+    assertThat(removalListener.getLastEvictedValue()).isSameInstanceAs(refreshedValue);
+    assertThat(cache.getUnchecked(key)).isNotSameInstanceAs(originalValue);
+    assertThat(loadCount.get()).isEqualTo(3);
   }
 
   public void testLoadNull() {
