@@ -1,0 +1,18 @@
+---
+# Template from https://github.com/jekyll/jekyll-redirect-from/blob/master/lib/jekyll-redirect-from/redirect.html
+---
+{%- capture redirect_to -%}
+  {{ site.baseurl }}/releases/{{ site.latest_release }}-jre/api/docs/
+{%- endcapture -%}
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <meta charset="utf-8">
+  <title>Redirecting&hellip;</title>
+  <link rel="canonical" href="{{ redirect_to }}">
+  <script>location="{{ redirect_to }}"+location.hash</script>
+  <meta http-equiv="refresh" content="0; url={{ redirect_to }}">
+  <meta name="robots" content="noindex">
+  <h1>Redirecting&hellip;</h1>
+  <a href="{{ redirect_to }}">Click here if you are not redirected.</a>
+</html>
